@@ -65,7 +65,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\AppData\Local\Programs\Opera*" -Recurse -F
 ```javascript
 module.exports = function (config) {
   // Set Opera binary path
-  process.env.OPERA_BIN = 'C:\\Users\\marvi\\AppData\\Local\\Programs\\Opera\\120.0.5543.93\\opera.exe';
+  process.env.OPERA_BIN = 'C:\\Users\\$USERNAME\\AppData\\Local\\Programs\\Opera\\120.0.5543.93\\opera.exe';
   
   config.set({
     basePath: '',
