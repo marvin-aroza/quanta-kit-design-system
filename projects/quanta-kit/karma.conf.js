@@ -2,8 +2,8 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
-  // Set Opera binary path
-  process.env.OPERA_BIN = 'C:\\Users\\marvi\\AppData\\Local\\Programs\\Opera\\120.0.5543.93\\opera.exe';
+  // Optionally set Opera binary path via environment variable OPERA_BIN
+  // Example: set OPERA_BIN=C:\Path\To\Opera\opera.exe before running tests
   
   config.set({
     basePath: '',
