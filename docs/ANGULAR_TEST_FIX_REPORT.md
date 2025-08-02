@@ -56,7 +56,7 @@ npm install --save-dev karma-opera-launcher
 Get-ChildItem "C:\Users\$env:USERNAME\AppData\Local\Programs\Opera*" -Recurse -Filter "opera.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
 ```
 
-**Detected Path**: `C:\Users\marvi\AppData\Local\Programs\Opera\120.0.5543.93\opera.exe`
+**Detected Path**: `C:\Users\$USERNAME\AppData\Local\Programs\Opera\120.0.5543.93\opera.exe`
 
 #### 2.3 Create Karma Configuration
 **File Created**: `d:\PROJECTS\FREELANCE\GITHUB\DELL\Portfolio\quanta-kit-angular\projects\quanta-kit\karma.conf.js`
