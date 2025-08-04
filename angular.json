@@ -28,6 +28,36 @@
             "karmaConfig": "projects/quanta-kit/karma.conf.js",
             "main": "projects/quanta-kit/src/test.ts"
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/quanta-kit/.storybook",
+            "browserTarget": "quanta-kit:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/quanta-kit"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/quanta-kit/.storybook",
+            "browserTarget": "quanta-kit:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/quanta-kit"
+            ],
+            "outputDir": "storybook-static"
+          }
         }
       }
     }
