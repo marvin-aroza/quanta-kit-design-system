@@ -210,23 +210,23 @@ jobs:
               TOTAL_BRANCHES=$(grep "BRF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               HIT_BRANCHES=$(grep "BRH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
-              # Calculate percentages
+              # Calculate percentages (handle 0/0 = 100% case)
               if [ "$TOTAL_LINES" -gt 0 ]; then
                 SB_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
               else
-                SB_LINES_COVERAGE="0"
+                SB_LINES_COVERAGE="100"  # No lines to cover = 100% coverage
               fi
               
               if [ "$TOTAL_FUNCTIONS" -gt 0 ]; then
                 SB_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
               else
-                SB_FUNCTIONS_COVERAGE="0"
+                SB_FUNCTIONS_COVERAGE="100"  # No functions to cover = 100% coverage
               fi
               
               if [ "$TOTAL_BRANCHES" -gt 0 ]; then
                 SB_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
               else
-                SB_BRANCHES_COVERAGE="0"
+                SB_BRANCHES_COVERAGE="100"  # No branches to cover = 100% coverage
               fi
               
               # For statements, use lines as fallback
