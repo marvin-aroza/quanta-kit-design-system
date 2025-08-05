@@ -148,6 +148,7 @@ jobs:
     - name: Install additional dependencies for testing
       run: |
         npm install -g http-server wait-on
+        sudo apt-get update && sudo apt-get install -y bc
 
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
@@ -160,6 +161,44 @@ jobs:
         npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage
       env:
         CI: true
+
+    - name: Check unit test coverage threshold
+      run: |
+        # Extract coverage percentages from lcov.info
+        if [ -f "coverage/lcov.info" ]; then
+          echo "Checking unit test coverage..."
+          npx nyc report --reporter=text-summary --temp-dir=coverage
+          
+          # Check if coverage meets 90% threshold
+          LINES_COVERAGE=$(grep -oP 'Lines\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
+          FUNCTIONS_COVERAGE=$(grep -oP 'Functions\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
+          BRANCHES_COVERAGE=$(grep -oP 'Branches\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
+          STATEMENTS_COVERAGE=$(grep -oP 'Statements\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
+          
+          echo "Coverage Summary:"
+          echo "Lines: ${LINES_COVERAGE}%"
+          echo "Functions: ${FUNCTIONS_COVERAGE}%"
+          echo "Branches: ${BRANCHES_COVERAGE}%"
+          echo "Statements: ${STATEMENTS_COVERAGE}%"
+          
+          # Check if all coverage types meet 90% threshold
+          if (( $(echo "$LINES_COVERAGE >= 90" | bc -l) )) && \
+             (( $(echo "$FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
+             (( $(echo "$BRANCHES_COVERAGE >= 90" | bc -l) )) && \
+             (( $(echo "$STATEMENTS_COVERAGE >= 90" | bc -l) )); then
+            echo "✅ All coverage thresholds met (90% minimum)"
+          else
+            echo "❌ Coverage below 90% threshold:"
+            echo "Lines: ${LINES_COVERAGE}% (required: 90%)"
+            echo "Functions: ${FUNCTIONS_COVERAGE}% (required: 90%)"
+            echo "Branches: ${BRANCHES_COVERAGE}% (required: 90%)"
+            echo "Statements: ${STATEMENTS_COVERAGE}% (required: 90%)"
+            exit 1
+          fi
+        else
+          echo "❌ No coverage report found"
+          exit 1
+        fi
 
     - name: Build Storybook for testing
       run: |
@@ -179,6 +218,44 @@ jobs:
         npm run test-storybook
       env:
         CI: true
+
+    - name: Check Storybook test coverage threshold
+      run: |
+        # Check Storybook coverage if it exists
+        if [ -f "coverage/storybook/lcov.info" ]; then
+          echo "Checking Storybook test coverage..."
+          
+          # Extract coverage from Storybook coverage report
+          if [ -f "coverage/storybook/lcov-report/index.html" ]; then
+            SB_LINES_COVERAGE=$(grep -oP 'Lines\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
+            SB_FUNCTIONS_COVERAGE=$(grep -oP 'Functions\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
+            SB_BRANCHES_COVERAGE=$(grep -oP 'Branches\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
+            SB_STATEMENTS_COVERAGE=$(grep -oP 'Statements\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
+            
+            echo "Storybook Coverage Summary:"
+            echo "Lines: ${SB_LINES_COVERAGE}%"
+            echo "Functions: ${SB_FUNCTIONS_COVERAGE}%"
+            echo "Branches: ${SB_BRANCHES_COVERAGE}%"
+            echo "Statements: ${SB_STATEMENTS_COVERAGE}%"
+            
+            # Check if Storybook coverage meets 90% threshold
+            if (( $(echo "$SB_LINES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_BRANCHES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_STATEMENTS_COVERAGE >= 90" | bc -l) )); then
+              echo "✅ Storybook coverage thresholds met (90% minimum)"
+            else
+              echo "❌ Storybook coverage below 90% threshold:"
+              echo "Lines: ${SB_LINES_COVERAGE}% (required: 90%)"
+              echo "Functions: ${SB_FUNCTIONS_COVERAGE}% (required: 90%)"
+              echo "Branches: ${SB_BRANCHES_COVERAGE}% (required: 90%)"
+              echo "Statements: ${SB_STATEMENTS_COVERAGE}% (required: 90%)"
+              exit 1
+            fi
+          fi
+        else
+          echo "⚠️  No Storybook coverage report found, skipping threshold check"
+        fi
         
     - name: Upload coverage reports
       uses: codecov/codecov-action@v4
