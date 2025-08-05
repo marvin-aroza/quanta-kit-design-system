@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   install:
     name: Install Dependencies
@@ -286,39 +291,48 @@ jobs:
       if: github.event_name == 'pull_request'
       uses: actions/github-script@v7
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const fs = require('fs');
           
-          // Read the coverage report
-          const coverageReport = fs.readFileSync('coverage-pr-report.md', 'utf8');
-          
-          // Find existing coverage comment
-          const comments = await github.rest.issues.listComments({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: context.issue.number,
-          });
-          
-          const existingComment = comments.data.find(comment => 
-            comment.body.includes('📊 Code Coverage Report')
-          );
-          
-          if (existingComment) {
-            // Update existing comment
-            await github.rest.issues.updateComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: existingComment.id,
-              body: coverageReport
-            });
-          } else {
-            // Create new comment
-            await github.rest.issues.createComment({
+          try {
+            // Read the coverage report
+            const coverageReport = fs.readFileSync('coverage-pr-report.md', 'utf8');
+            
+            // Find existing coverage comment
+            const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: coverageReport
             });
+            
+            const existingComment = comments.find(comment => 
+              comment.body.includes('📊 Code Coverage Report')
+            );
+            
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: coverageReport
+              });
+              console.log('Updated existing coverage comment');
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: coverageReport
+              });
+              console.log('Created new coverage comment');
+            }
+          } catch (error) {
+            console.error('Failed to post coverage comment:', error.message);
+            // Don't fail the workflow if commenting fails
+            console.log('Continuing workflow despite comment failure...');
           }
         
     - name: Upload coverage reports
