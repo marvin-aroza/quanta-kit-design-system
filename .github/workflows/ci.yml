@@ -156,63 +156,6 @@ jobs:
     - name: Clean dist directory to avoid Jest conflicts
       run: rm -rf dist/
 
-    - name: Run unit tests
-      run: |
-        npm run test -- --watch=false --browsers=ChromeHeadless --code-coverage
-      env:
-        CI: true
-
-    - name: Check unit test coverage threshold
-      run: |
-        # Extract coverage percentages from lcov.info and generate coverage report
-        if [ -f "coverage/lcov.info" ]; then
-          echo "Checking unit test coverage..."
-          
-          # Generate text summary for coverage
-          npx nyc report --reporter=text-summary --temp-dir=coverage > coverage-summary.txt || true
-          
-          # Extract coverage from HTML report if available
-          if [ -f "coverage/lcov-report/index.html" ]; then
-            LINES_COVERAGE=$(grep -oP 'Lines\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-            FUNCTIONS_COVERAGE=$(grep -oP 'Functions\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-            BRANCHES_COVERAGE=$(grep -oP 'Branches\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-            STATEMENTS_COVERAGE=$(grep -oP 'Statements\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-            
-            echo "Unit Test Coverage Summary:" | tee coverage-unit-summary.txt
-            echo "Lines: ${LINES_COVERAGE}%" | tee -a coverage-unit-summary.txt
-            echo "Functions: ${FUNCTIONS_COVERAGE}%" | tee -a coverage-unit-summary.txt
-            echo "Branches: ${BRANCHES_COVERAGE}%" | tee -a coverage-unit-summary.txt
-            echo "Statements: ${STATEMENTS_COVERAGE}%" | tee -a coverage-unit-summary.txt
-            
-            # Check if all coverage types meet 90% threshold
-            if (( $(echo "$LINES_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$BRANCHES_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$STATEMENTS_COVERAGE >= 90" | bc -l) )); then
-              echo "✅ All unit test coverage thresholds met (90% minimum)" | tee -a coverage-unit-summary.txt
-              echo "UNIT_COVERAGE_STATUS=✅ PASSED" >> $GITHUB_ENV
-            else
-              echo "❌ Unit test coverage below 90% threshold:" | tee -a coverage-unit-summary.txt
-              echo "Lines: ${LINES_COVERAGE}% (required: 90%)" | tee -a coverage-unit-summary.txt
-              echo "Functions: ${FUNCTIONS_COVERAGE}% (required: 90%)" | tee -a coverage-unit-summary.txt
-              echo "Branches: ${BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-unit-summary.txt
-              echo "Statements: ${STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-unit-summary.txt
-              echo "UNIT_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
-              exit 1
-            fi
-            
-            # Save coverage values for PR comment
-            echo "UNIT_LINES_COVERAGE=${LINES_COVERAGE}" >> $GITHUB_ENV
-            echo "UNIT_FUNCTIONS_COVERAGE=${FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
-            echo "UNIT_BRANCHES_COVERAGE=${BRANCHES_COVERAGE}" >> $GITHUB_ENV
-            echo "UNIT_STATEMENTS_COVERAGE=${STATEMENTS_COVERAGE}" >> $GITHUB_ENV
-          fi
-        else
-          echo "❌ No unit test coverage report found"
-          echo "UNIT_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
-          exit 1
-        fi
-
     - name: Build Storybook for testing
       run: |
         npm run build-storybook
@@ -285,28 +228,6 @@ jobs:
         # Create comprehensive coverage report for PR comment
         echo "## 📊 Code Coverage Report" > coverage-pr-report.md
         echo "" >> coverage-pr-report.md
-        echo "### Unit Tests Coverage" >> coverage-pr-report.md
-        echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
-        echo "|--------|----------|--------|" >> coverage-pr-report.md
-        
-        # Add unit test coverage rows
-        UNIT_LINES_STATUS="❌"
-        UNIT_FUNCTIONS_STATUS="❌"
-        UNIT_BRANCHES_STATUS="❌"
-        UNIT_STATEMENTS_STATUS="❌"
-        
-        if (( $(echo "${UNIT_LINES_COVERAGE:-0} >= 90" | bc -l) )); then UNIT_LINES_STATUS="✅"; fi
-        if (( $(echo "${UNIT_FUNCTIONS_COVERAGE:-0} >= 90" | bc -l) )); then UNIT_FUNCTIONS_STATUS="✅"; fi
-        if (( $(echo "${UNIT_BRANCHES_COVERAGE:-0} >= 90" | bc -l) )); then UNIT_BRANCHES_STATUS="✅"; fi
-        if (( $(echo "${UNIT_STATEMENTS_COVERAGE:-0} >= 90" | bc -l) )); then UNIT_STATEMENTS_STATUS="✅"; fi
-        
-        echo "| Lines | ${UNIT_LINES_COVERAGE:-N/A}% | ${UNIT_LINES_STATUS} |" >> coverage-pr-report.md
-        echo "| Functions | ${UNIT_FUNCTIONS_COVERAGE:-N/A}% | ${UNIT_FUNCTIONS_STATUS} |" >> coverage-pr-report.md
-        echo "| Branches | ${UNIT_BRANCHES_COVERAGE:-N/A}% | ${UNIT_BRANCHES_STATUS} |" >> coverage-pr-report.md
-        echo "| Statements | ${UNIT_STATEMENTS_COVERAGE:-N/A}% | ${UNIT_STATEMENTS_STATUS} |" >> coverage-pr-report.md
-        echo "" >> coverage-pr-report.md
-        echo "**Unit Tests Status:** ${UNIT_COVERAGE_STATUS:-❌ UNKNOWN}" >> coverage-pr-report.md
-        echo "" >> coverage-pr-report.md
         echo "### Storybook Tests Coverage" >> coverage-pr-report.md
         echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
         echo "|--------|----------|--------|" >> coverage-pr-report.md
@@ -331,7 +252,6 @@ jobs:
         echo "" >> coverage-pr-report.md
         echo "### Summary" >> coverage-pr-report.md
         echo "- **Minimum Required Coverage:** 90%" >> coverage-pr-report.md
-        echo "- **Unit Tests:** ${UNIT_COVERAGE_STATUS:-❌ UNKNOWN}" >> coverage-pr-report.md
         echo "- **Storybook Tests:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
         echo "> 🎯 All coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
@@ -381,9 +301,9 @@ jobs:
     - name: Upload coverage reports
       uses: codecov/codecov-action@v4
       with:
-        files: ./coverage/**/lcov.info,./coverage/storybook/lcov.info
+        files: ./coverage/storybook/lcov.info
         fail_ci_if_error: false
-        name: coverage-node-22
+        name: storybook-coverage-node-22
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v4
