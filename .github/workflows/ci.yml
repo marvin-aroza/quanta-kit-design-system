@@ -116,6 +116,16 @@ jobs:
     - name: Install dependencies (fallback)
       run: npm ci
 
+    - name: Install additional dependencies for testing
+      run: |
+        npm install -g http-server wait-on
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Clean dist directory to avoid Jest conflicts
+      run: rm -rf dist/
+
     - name: Download build artifacts
       uses: actions/download-artifact@v4
       if: matrix.node-version == '20.x'
@@ -128,10 +138,16 @@ jobs:
       env:
         CI: true
 
+    - name: Build Storybook for testing
+      run: |
+        npm run build-storybook
+      env:
+        CI: true
+
     - name: Start Storybook server
       run: |
-        npm run storybook &
-        sleep 30
+        http-server storybook-static --port 6006 --silent &
+        wait-on http://localhost:6006 --timeout 30000
       env:
         CI: true
 
