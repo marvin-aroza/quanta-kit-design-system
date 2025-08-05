@@ -10,19 +10,15 @@ jobs:
   install:
     name: Install Dependencies
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.x
         cache: 'npm'
 
     - name: Install dependencies
@@ -34,36 +30,32 @@ jobs:
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-${{ matrix.node-version }}-
+          ${{ runner.os }}-node-22-
 
   build:
     name: Build Application
     runs-on: ubuntu-latest
     needs: install
-    
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.x
         cache: 'npm'
 
     - name: Restore node modules
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-${{ matrix.node-version }}-
+          ${{ runner.os }}-node-22-
 
     - name: Install dependencies (fallback)
       run: npm ci
@@ -75,7 +67,6 @@ jobs:
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
-      if: matrix.node-version == '20.x'
       with:
         name: build-artifacts
         path: |
@@ -87,19 +78,15 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     needs: [install, build]
-    
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Node.js ${{ matrix.node-version }}
+    - name: Set up Node.js 22.x
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.x
         cache: 'npm'
 
     - name: Install Chrome
@@ -109,9 +96,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-${{ matrix.node-version }}-
+          ${{ runner.os }}-node-22-
 
     - name: Install dependencies (fallback)
       run: npm ci
@@ -153,15 +140,14 @@ jobs:
         
     - name: Upload coverage reports
       uses: codecov/codecov-action@v4
-      if: matrix.node-version == '20.x'
       with:
         files: ./coverage/**/lcov.info,./coverage/storybook/lcov.info
         fail_ci_if_error: false
-        name: coverage-${{ matrix.node-version }}
+        name: coverage-node-22
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v4
-      if: always() && matrix.node-version == '20.x'
+      if: always()
       with:
         name: test-coverage-reports
         path: |
