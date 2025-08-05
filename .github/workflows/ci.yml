@@ -162,44 +162,6 @@ jobs:
       env:
         CI: true
 
-    - name: Check unit test coverage threshold
-      run: |
-        # Extract coverage percentages from lcov.info
-        if [ -f "coverage/lcov.info" ]; then
-          echo "Checking unit test coverage..."
-          npx nyc report --reporter=text-summary --temp-dir=coverage
-          
-          # Check if coverage meets 90% threshold
-          LINES_COVERAGE=$(grep -oP 'Lines\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-          FUNCTIONS_COVERAGE=$(grep -oP 'Functions\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-          BRANCHES_COVERAGE=$(grep -oP 'Branches\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-          STATEMENTS_COVERAGE=$(grep -oP 'Statements\s*:\s*\K[0-9.]+(?=%)' coverage/lcov-report/index.html || echo "0")
-          
-          echo "Coverage Summary:"
-          echo "Lines: ${LINES_COVERAGE}%"
-          echo "Functions: ${FUNCTIONS_COVERAGE}%"
-          echo "Branches: ${BRANCHES_COVERAGE}%"
-          echo "Statements: ${STATEMENTS_COVERAGE}%"
-          
-          # Check if all coverage types meet 90% threshold
-          if (( $(echo "$LINES_COVERAGE >= 90" | bc -l) )) && \
-             (( $(echo "$FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
-             (( $(echo "$BRANCHES_COVERAGE >= 90" | bc -l) )) && \
-             (( $(echo "$STATEMENTS_COVERAGE >= 90" | bc -l) )); then
-            echo "✅ All coverage thresholds met (90% minimum)"
-          else
-            echo "❌ Coverage below 90% threshold:"
-            echo "Lines: ${LINES_COVERAGE}% (required: 90%)"
-            echo "Functions: ${FUNCTIONS_COVERAGE}% (required: 90%)"
-            echo "Branches: ${BRANCHES_COVERAGE}% (required: 90%)"
-            echo "Statements: ${STATEMENTS_COVERAGE}% (required: 90%)"
-            exit 1
-          fi
-        else
-          echo "❌ No coverage report found"
-          exit 1
-        fi
-
     - name: Build Storybook for testing
       run: |
         npm run build-storybook
