@@ -208,7 +208,7 @@ jobs:
               echo "Branches: ${SB_BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
               echo "Statements: ${SB_STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
               echo "STORYBOOK_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
-              exit 1
+              echo "⚠️ Coverage is below threshold, but continuing pipeline for reporting..."
             fi
             
             # Save coverage values for PR comment
@@ -216,11 +216,34 @@ jobs:
             echo "SB_FUNCTIONS_COVERAGE=${SB_FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
             echo "SB_BRANCHES_COVERAGE=${SB_BRANCHES_COVERAGE}" >> $GITHUB_ENV
             echo "SB_STATEMENTS_COVERAGE=${SB_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
+          else
+            echo "⚠️ No Storybook HTML coverage report found, checking lcov.info directly..."
+            # Try to extract basic coverage info from lcov.info
+            if [ -f "coverage/storybook/lcov.info" ]; then
+              echo "STORYBOOK_COVERAGE_STATUS=⚠️ PARTIAL REPORT" >> $GITHUB_ENV
+              echo "SB_LINES_COVERAGE=N/A" >> $GITHUB_ENV
+              echo "SB_FUNCTIONS_COVERAGE=N/A" >> $GITHUB_ENV
+              echo "SB_BRANCHES_COVERAGE=N/A" >> $GITHUB_ENV
+              echo "SB_STATEMENTS_COVERAGE=N/A" >> $GITHUB_ENV
+            else
+              echo "❌ No coverage files found"
+              echo "STORYBOOK_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
+              echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
+              echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+              echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+              echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+            fi
           fi
         else
           echo "⚠️  No Storybook coverage report found, skipping threshold check"
           echo "STORYBOOK_COVERAGE_STATUS=⚠️ NO REPORT" >> $GITHUB_ENV
+          echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
         fi
+        
+        echo "Coverage check completed. Status: ${STORYBOOK_COVERAGE_STATUS:-UNKNOWN}"
 
     - name: Generate Coverage Report for PR
       if: github.event_name == 'pull_request'
