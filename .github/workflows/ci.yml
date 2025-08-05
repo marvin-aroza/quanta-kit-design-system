@@ -186,12 +186,76 @@ jobs:
         if [ -f "coverage/storybook/lcov.info" ]; then
           echo "Checking Storybook test coverage..."
           
-          # Extract coverage from Storybook coverage report
-          if [ -f "coverage/storybook/lcov-report/index.html" ]; then
-            SB_LINES_COVERAGE=$(grep -oP 'Lines\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
-            SB_FUNCTIONS_COVERAGE=$(grep -oP 'Functions\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
-            SB_BRANCHES_COVERAGE=$(grep -oP 'Branches\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
-            SB_STATEMENTS_COVERAGE=$(grep -oP 'Statements\s*:\s*\K[0-9.]+(?=%)' coverage/storybook/lcov-report/index.html || echo "0")
+          # Debug: Show what coverage files exist
+          echo "Coverage files found:"
+          find coverage/ -type f -name "*.html" -o -name "*.info" -o -name "*.json" 2>/dev/null || echo "No coverage files found"
+          
+          # Try to extract coverage from lcov.info directly first
+          echo "Extracting coverage from lcov.info..."
+          
+          # Parse lcov.info for more reliable coverage extraction
+          if [ -f "coverage/storybook/lcov.info" ]; then
+            # Extract lines coverage
+            LF_FOUND=$(grep -c "LF:" coverage/storybook/lcov.info || echo "0")
+            LH_FOUND=$(grep -c "LH:" coverage/storybook/lcov.info || echo "0")
+            
+            if [ "$LF_FOUND" -gt 0 ] && [ "$LH_FOUND" -gt 0 ]; then
+              # Calculate coverage from lcov.info
+              TOTAL_LINES=$(grep "LF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_LINES=$(grep "LH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_FUNCTIONS=$(grep "FNH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_BRANCHES=$(grep "BRF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_BRANCHES=$(grep "BRH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              # Calculate percentages
+              if [ "$TOTAL_LINES" -gt 0 ]; then
+                SB_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
+              else
+                SB_LINES_COVERAGE="0"
+              fi
+              
+              if [ "$TOTAL_FUNCTIONS" -gt 0 ]; then
+                SB_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
+              else
+                SB_FUNCTIONS_COVERAGE="0"
+              fi
+              
+              if [ "$TOTAL_BRANCHES" -gt 0 ]; then
+                SB_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
+              else
+                SB_BRANCHES_COVERAGE="0"
+              fi
+              
+              # For statements, use lines as fallback
+              SB_STATEMENTS_COVERAGE="$SB_LINES_COVERAGE"
+              
+              echo "Calculated coverage from lcov.info:"
+              echo "Lines: $HIT_LINES/$TOTAL_LINES = ${SB_LINES_COVERAGE}%"
+              echo "Functions: $HIT_FUNCTIONS/$TOTAL_FUNCTIONS = ${SB_FUNCTIONS_COVERAGE}%"
+              echo "Branches: $HIT_BRANCHES/$TOTAL_BRANCHES = ${SB_BRANCHES_COVERAGE}%"
+              echo "Statements: ${SB_STATEMENTS_COVERAGE}%"
+              
+            else
+              echo "⚠️ lcov.info exists but appears to be empty or malformed"
+              # Fallback to HTML parsing
+              if [ -f "coverage/storybook/lcov-report/index.html" ]; then
+                echo "Trying HTML parsing as fallback..."
+                cat coverage/storybook/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
+                
+                SB_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+              else
+                SB_LINES_COVERAGE="0"
+                SB_FUNCTIONS_COVERAGE="0"
+                SB_BRANCHES_COVERAGE="0"
+                SB_STATEMENTS_COVERAGE="0"
+              fi
+            fi
             
             echo "Storybook Coverage Summary:" | tee coverage-storybook-summary.txt
             echo "Lines: ${SB_LINES_COVERAGE}%" | tee -a coverage-storybook-summary.txt
@@ -222,22 +286,12 @@ jobs:
             echo "SB_BRANCHES_COVERAGE=${SB_BRANCHES_COVERAGE}" >> $GITHUB_ENV
             echo "SB_STATEMENTS_COVERAGE=${SB_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
           else
-            echo "⚠️ No Storybook HTML coverage report found, checking lcov.info directly..."
-            # Try to extract basic coverage info from lcov.info
-            if [ -f "coverage/storybook/lcov.info" ]; then
-              echo "STORYBOOK_COVERAGE_STATUS=⚠️ PARTIAL REPORT" >> $GITHUB_ENV
-              echo "SB_LINES_COVERAGE=N/A" >> $GITHUB_ENV
-              echo "SB_FUNCTIONS_COVERAGE=N/A" >> $GITHUB_ENV
-              echo "SB_BRANCHES_COVERAGE=N/A" >> $GITHUB_ENV
-              echo "SB_STATEMENTS_COVERAGE=N/A" >> $GITHUB_ENV
-            else
-              echo "❌ No coverage files found"
-              echo "STORYBOOK_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
-              echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
-              echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
-              echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
-              echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
-            fi
+            echo "❌ No lcov.info file found"
+            echo "STORYBOOK_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
+            echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
           fi
         else
           echo "⚠️  No Storybook coverage report found, skipping threshold check"
