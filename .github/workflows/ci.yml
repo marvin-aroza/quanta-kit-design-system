@@ -137,7 +137,7 @@ jobs:
         cache: 'npm'
 
     - name: Install Chrome
-      uses: browser-actions/setup-chrome@v1
+      uses: browser-actions/setup-chrome@v2
 
     - name: Restore node modules
       uses: actions/cache@v4
