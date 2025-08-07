@@ -39,7 +39,7 @@ const Configuration = {
     
     // Scope validation - ticket numbers
     "scope-case": [2, "always", "upper-case"], // For ticket numbers like ABC-123
-    "scope-empty": [1, "never"], // Warning if scope is missing
+    "scope-empty": [2, "never"], // Error if scope is missing
     
     // Subject validation - lowercase
     "subject-case": [2, "always", "lower-case"],
