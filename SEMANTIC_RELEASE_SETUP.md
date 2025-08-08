@@ -7,24 +7,25 @@ This document outlines the complete semantic-release automation setup for the `q
 1. **Angular Library Publishing** - Automated npm package publishing
 2. **Storybook Deployment** - Automated GitHub Pages deployment
 3. **Version Management** - Semantic versioning with changelog generation
-4. **Branch Synchronization** - Automated reverse-merge from main to develop
+4. **Branch Synchronization** - Automated reverse-merge from release-prod to main
 
 ## 🏗️ Architecture
 
 ```mermaid
 graph LR
     A[Developer Commit] --> B[CommitLint Validation]
-    B --> C[Push to main]
+    B --> C[Push to release-prod]
     C --> D[CI Pipeline]
     D --> E[Build & Test]
     E --> F[Semantic Release]
-    F --> G[Build Library]
-    F --> H[Build Storybook]
-    G --> I[Publish to NPM]
-    H --> J[Deploy to GitHub Pages]
-    I --> K[Create GitHub Release]
-    J --> K
-    K --> L[Reverse Merge PR]
+    F --> G[Sync Library Version]
+    G --> H[Build Library]
+    F --> I[Build Storybook]
+    H --> J[Publish to NPM]
+    I --> K[Deploy to GitHub Pages]
+    J --> L[Create GitHub Release]
+    K --> L
+    L --> M[Reverse Merge PR to main]
 ```
 
 ## 🔧 Configuration Files
@@ -35,7 +36,7 @@ graph LR
 {
   "scripts": {
     "build": "npm run sync-version && ng build",
-    "sync-version": "node -e \"const pkg = require('./package.json'); const libPkg = require('./projects/quanta-kit/package.json'); libPkg.version = pkg.version; require('fs').writeFileSync('./projects/quanta-kit/package.json', JSON.stringify(libPkg, null, 2) + '\\n');\"",
+    "sync-version": "node scripts/sync-version.js",
     "build-storybook": "ng run quanta-kit:build-storybook",
     "semantic-release": "semantic-release"
   }
@@ -47,25 +48,70 @@ graph LR
 ```json
 {
   "branches": [
-    "main",
+    "release-prod",
     {
-      "name": "develop",
+      "name": "main",
       "prerelease": "beta"
     }
   ],
   "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    {
-      "plugin": "@semantic-release/npm",
-      "config": {
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "angular",
+        "releaseRules": [
+          { "type": "feat", "release": "minor" },
+          { "type": "fix", "release": "patch" },
+          { "type": "perf", "release": "patch" },
+          { "type": "docs", "scope": "readme", "release": "patch" },
+          { "type": "refactor", "release": "patch" },
+          { "breaking": true, "release": "major" }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "angular"
+      }
+    ],
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "npm run sync-version"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
         "pkgRoot": "dist/quanta-kit",
         "tarballDir": "dist"
       }
-    },
-    "@semantic-release/git",
-    "@semantic-release/github"
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json", "package-lock.json", "projects/quanta-kit/package.json"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/*.tgz",
+            "label": "NPM Package"
+          }
+        ]
+      }
+    ]
   ]
 }
 ```
@@ -76,6 +122,43 @@ Key jobs added:
 - **Release Job**: Builds library, publishes to npm, deploys Storybook
 - **Reverse Merge Job**: Creates PR to sync main → develop
 
+### 4. Version Synchronization Script (`scripts/sync-version.js`)
+
+**Important Fix**: The library's `package.json` version synchronization was implemented to ensure both root and library packages have matching versions during semantic-release.
+
+```javascript
+#!/usr/bin/env node
+
+import { readFileSync, writeFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const rootDir = join(__dirname, '..');
+
+// Read the root package.json
+const rootPackagePath = join(rootDir, 'package.json');
+const rootPackage = JSON.parse(readFileSync(rootPackagePath, 'utf8'));
+
+// Read the library package.json
+const libPackagePath = join(rootDir, 'projects', 'quanta-kit', 'package.json');
+const libPackage = JSON.parse(readFileSync(libPackagePath, 'utf8'));
+
+// Update the library package version
+libPackage.version = rootPackage.version;
+
+// Write the updated library package.json
+writeFileSync(libPackagePath, JSON.stringify(libPackage, null, 2) + '\n');
+
+console.log(`✅ Synced library version to ${rootPackage.version}`);
+```
+
+**Why This Fix Was Needed:**
+- Semantic-release only updates the root `package.json` by default
+- The library's `package.json` in `projects/quanta-kit/` was not being updated
+- NPM publishing would use the outdated library version
+- The `@semantic-release/exec` plugin now runs the sync script at the correct time
+
 ## 🚀 Release Process
 
 ### Automatic Release Flow
@@ -85,9 +168,10 @@ Key jobs added:
    - Determines release type (major/minor/patch)
    - Generates release notes
 
-2. **Version Management**
-   - Updates root `package.json`
-   - Syncs version to library `package.json`
+2. **Version Management** ⚡ FIXED
+   - Updates root `package.json` with new semantic version
+   - **Runs sync script** via `@semantic-release/exec` plugin
+   - **Syncs version to library `package.json`** (Fixed: was not happening before)
    - Creates git tag
 
 3. **Library Publishing**
@@ -121,6 +205,55 @@ Based on conventional commits:
 | `BREAKING CHANGE:` | Major | `feat!: remove deprecated API` |
 | `docs:` | Patch | `docs(readme): update installation guide` |
 | `perf:` | Patch | `perf(TICKET-789): optimize bundle size` |
+
+## ⚡ Version Sync Fix Implementation
+
+### Problem Identified
+During the initial setup, we discovered that semantic-release was only updating the root `package.json` but not the library's `package.json` in `projects/quanta-kit/`. This caused:
+- NPM publishing with incorrect/outdated version numbers
+- Mismatch between root project version and published library version
+- Git commits showing only partial version updates
+
+### Solution Implementation
+
+**1. Added `@semantic-release/exec` Plugin**
+```bash
+npm install --save-dev @semantic-release/exec
+```
+
+**2. Updated `.releaserc.json` Plugin Order**
+The order is crucial for proper execution:
+```json
+"plugins": [
+  "@semantic-release/commit-analyzer",     // 1. Determine version
+  "@semantic-release/release-notes-generator", // 2. Generate notes
+  "@semantic-release/changelog",           // 3. Update changelog
+  "@semantic-release/exec",               // 4. 🔧 Sync library version
+  "@semantic-release/npm",                // 5. Publish with correct version
+  "@semantic-release/git",                // 6. Commit both package.json files
+  "@semantic-release/github"              // 7. Create GitHub release
+]
+```
+
+**3. Created Dedicated Sync Script**
+- Location: `scripts/sync-version.js`
+- ES Module compatible (project uses `"type": "module"`)
+- Robust error handling and logging
+- Copies version from root to library package.json
+
+**4. Verification**
+```bash
+# Test the sync manually
+npm run sync-version
+
+# Check both versions match
+node -e "console.log('Root:', require('./package.json').version); console.log('Lib:', require('./projects/quanta-kit/package.json').version);"
+```
+
+### Timeline
+- **Issue Discovered**: August 8, 2025
+- **Fix Implemented**: August 8, 2025  
+- **Status**: ✅ Resolved and tested
 
 ## 🔑 Required Setup
 
@@ -252,9 +385,12 @@ echo "invalid commit message" | npx commitlint
    - Use conventional commit format
    - Include ticket number in scope
 
-4. **Version Sync Issues**
-   - Check `sync-version` script syntax
-   - Verify both package.json files exist
+4. **Version Sync Issues** ⚡ FIXED
+   - **Problem**: Library package.json version not updating during semantic-release
+   - **Root Cause**: semantic-release only updates root package.json by default
+   - **Solution**: Added `@semantic-release/exec` plugin with `prepareCmd: "npm run sync-version"`
+   - **Verification**: Both root and library package.json should have matching versions after release
+   - **Debug**: Run `npm run sync-version` manually to test the sync script
 
 ### Debug Commands
 
@@ -277,13 +413,15 @@ ls -la storybook-static/
 - ✅ **Consistent versioning** - Semantic versioning enforced
 - ✅ **Automated documentation** - Storybook always up-to-date
 - ✅ **Quality gates** - Tests must pass before release
-- ✅ **Branch synchronization** - Develop branch stays current
+- ✅ **Branch synchronization** - Main branch stays current
+- ✅ **Version consistency** - Root and library versions always match
 
 ### Developer Experience
 - ✅ **Clear commit standards** - Conventional commits enforced
 - ✅ **Automated changelogs** - Generated from commits
 - ✅ **Fast feedback** - CI/CD provides quick validation
 - ✅ **Reliable process** - Consistent release procedure
+- ✅ **Fixed version sync** - No more version mismatches
 
 ## 📚 References
 
@@ -292,9 +430,11 @@ ls -la storybook-static/
 - [Angular Library Guide](https://angular.io/guide/creating-libraries)
 - [Storybook Documentation](https://storybook.js.org/docs)
 - [GitHub Actions](https://docs.github.com/en/actions)
+- [@semantic-release/exec Plugin](https://github.com/semantic-release/exec)
 
 ---
 
-**Last Updated**: August 8, 2025  
-**Setup Version**: 1.0.0  
-**Project**: quanta-kit-angular
+**Last Updated**: August 8, 2025 (Version Sync Fix Added)  
+**Setup Version**: 1.1.0  
+**Project**: quanta-kit-angular  
+**Major Fix**: Library package.json version synchronization

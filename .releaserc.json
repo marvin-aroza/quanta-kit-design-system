@@ -48,6 +48,12 @@
       }
     ],
     [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "npm run sync-version"
+      }
+    ],
+    [
       "@semantic-release/npm",
       {
         "pkgRoot": "dist/quanta-kit",
