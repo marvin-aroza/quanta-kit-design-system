@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.2.1...v1.2.2) (2025-08-08)
+
+
+### Bug Fixes
+
+* **AAP7:** correct plugin order for version sync ([f980f42](https://github.com/marvin-aroza/quanta-kit-angular/commit/f980f4221bd616ded585cfa23b7ed4286dfe0d7c))
+
 ## [1.2.1](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.2.0...v1.2.1) (2025-08-08)
 
 
