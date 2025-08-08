@@ -1,0 +1,8 @@
+# Pre-commit checks
+echo "🔍 Running pre-commit checks..."
+
+# 1. Check TypeScript compilation
+echo "🔧 Checking TypeScript compilation..."
+npm run build
+
+echo "✅ All pre-commit checks passed!"

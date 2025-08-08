@@ -1,0 +1,5 @@
+# Validate commit message with commitlint
+echo "📝 Validating commit message..."
+npx --no-install commitlint --edit $1
+
+echo "✅ Commit message is valid!"

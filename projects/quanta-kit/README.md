@@ -1,17 +1,6 @@
-# quanta-kit-angular
-🚀 Techy &amp; Futuristic QuantaKit delivers quantized UI elements in an Angular-based toolkit built for scale. With atomic design, blazing performance, and WCAG accessibility, it’s your launchpad to consistent, adaptive apps—now and as Web Components in the future.
+# QuantaKit
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.0.
 
 ## Code scaffolding
 
@@ -29,13 +18,27 @@ ng generate --help
 
 ## Building
 
-To build the project run:
+To build the library, run:
 
 ```bash
-ng build
+ng build quanta-kit
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
+
+### Publishing the Library
+
+Once the project is built, you can publish your library by following these steps:
+
+1. Navigate to the `dist` directory:
+   ```bash
+   cd dist/quanta-kit
+   ```
+
+2. Run the `npm publish` command to publish your library to the npm registry:
+   ```bash
+   npm publish
+   ```
 
 ## Running unit tests
 

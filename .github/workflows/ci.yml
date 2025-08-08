@@ -1,0 +1,610 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ release-prod, main, develop ]
+  pull_request:
+    branches: [ release-prod, main, develop ]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  pages: write
+  id-token: write
+  actions: write
+
+jobs:
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm ls || true
+
+    - name: Cache node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Run security audit
+      run: |
+        npm audit
+        
+    - name: Generate audit report
+      run: |
+        npm audit --json > audit-report.json || true
+        
+    - name: Upload audit report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-audit-report
+        path: audit-report.json
+        retention-days: 30
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Build application
+      run: |
+        npm run build
+        npm run build-storybook
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          storybook-static/
+        retention-days: 7
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: [install, build, audit]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v2
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Install additional dependencies for testing
+      run: |
+        npm install -g http-server wait-on
+        sudo apt-get update && sudo apt-get install -y bc
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Clean dist directory to avoid Jest conflicts
+      run: rm -rf dist/
+
+    - name: Build Storybook for testing
+      run: |
+        npm run build-storybook
+      env:
+        CI: true
+
+    - name: Start Storybook server
+      run: |
+        http-server storybook-static --port 6006 --silent &
+        wait-on http://localhost:6006 --timeout 30000
+      env:
+        CI: true
+
+    - name: Run Storybook tests
+      run: |
+        npm run test-storybook
+      env:
+        CI: true
+
+    - name: Check Storybook test coverage threshold
+      run: |
+        # Check Storybook coverage if it exists
+        if [ -f "coverage/storybook/lcov.info" ]; then
+          echo "Checking Storybook test coverage..."
+          
+          # Debug: Show what coverage files exist
+          echo "Coverage files found:"
+          find coverage/ -type f -name "*.html" -o -name "*.info" -o -name "*.json" 2>/dev/null || echo "No coverage files found"
+          
+          # Try to extract coverage from lcov.info directly first
+          echo "Extracting coverage from lcov.info..."
+          
+          # Parse lcov.info for more reliable coverage extraction
+          if [ -f "coverage/storybook/lcov.info" ]; then
+            # Extract lines coverage
+            LF_FOUND=$(grep -c "LF:" coverage/storybook/lcov.info || echo "0")
+            LH_FOUND=$(grep -c "LH:" coverage/storybook/lcov.info || echo "0")
+            
+            if [ "$LF_FOUND" -gt 0 ] && [ "$LH_FOUND" -gt 0 ]; then
+              # Calculate coverage from lcov.info
+              TOTAL_LINES=$(grep "LF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_LINES=$(grep "LH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_FUNCTIONS=$(grep "FNH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_BRANCHES=$(grep "BRF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_BRANCHES=$(grep "BRH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              # Calculate percentages (handle 0/0 = 100% case)
+              if [ "$TOTAL_LINES" -gt 0 ]; then
+                SB_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
+              else
+                SB_LINES_COVERAGE="100"  # No lines to cover = 100% coverage
+              fi
+              
+              if [ "$TOTAL_FUNCTIONS" -gt 0 ]; then
+                SB_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
+              else
+                SB_FUNCTIONS_COVERAGE="100"  # No functions to cover = 100% coverage
+              fi
+              
+              if [ "$TOTAL_BRANCHES" -gt 0 ]; then
+                SB_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
+              else
+                SB_BRANCHES_COVERAGE="100"  # No branches to cover = 100% coverage
+              fi
+              
+              # For statements, use lines as fallback
+              SB_STATEMENTS_COVERAGE="$SB_LINES_COVERAGE"
+              
+              echo "Calculated coverage from lcov.info:"
+              echo "Lines: $HIT_LINES/$TOTAL_LINES = ${SB_LINES_COVERAGE}%"
+              echo "Functions: $HIT_FUNCTIONS/$TOTAL_FUNCTIONS = ${SB_FUNCTIONS_COVERAGE}%"
+              echo "Branches: $HIT_BRANCHES/$TOTAL_BRANCHES = ${SB_BRANCHES_COVERAGE}%"
+              echo "Statements: ${SB_STATEMENTS_COVERAGE}%"
+              
+            else
+              echo "⚠️ lcov.info exists but appears to be empty or malformed"
+              # Fallback to HTML parsing
+              if [ -f "coverage/storybook/lcov-report/index.html" ]; then
+                echo "Trying HTML parsing as fallback..."
+                cat coverage/storybook/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
+                
+                SB_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                SB_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+              else
+                SB_LINES_COVERAGE="0"
+                SB_FUNCTIONS_COVERAGE="0"
+                SB_BRANCHES_COVERAGE="0"
+                SB_STATEMENTS_COVERAGE="0"
+              fi
+            fi
+            
+            echo "Storybook Coverage Summary:" | tee coverage-storybook-summary.txt
+            echo "Lines: ${SB_LINES_COVERAGE}%" | tee -a coverage-storybook-summary.txt
+            echo "Functions: ${SB_FUNCTIONS_COVERAGE}%" | tee -a coverage-storybook-summary.txt
+            echo "Branches: ${SB_BRANCHES_COVERAGE}%" | tee -a coverage-storybook-summary.txt
+            echo "Statements: ${SB_STATEMENTS_COVERAGE}%" | tee -a coverage-storybook-summary.txt
+            
+            # Check if Storybook coverage meets 90% threshold
+            if (( $(echo "$SB_LINES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_BRANCHES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$SB_STATEMENTS_COVERAGE >= 90" | bc -l) )); then
+              echo "✅ Storybook coverage thresholds met (90% minimum)" | tee -a coverage-storybook-summary.txt
+              echo "STORYBOOK_COVERAGE_STATUS=✅ PASSED" >> $GITHUB_ENV
+            else
+              echo "❌ Storybook coverage below 90% threshold:" | tee -a coverage-storybook-summary.txt
+              echo "Lines: ${SB_LINES_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
+              echo "Functions: ${SB_FUNCTIONS_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
+              echo "Branches: ${SB_BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
+              echo "Statements: ${SB_STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
+              echo "STORYBOOK_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
+              echo "⚠️ Coverage is below threshold, but continuing pipeline for reporting..."
+            fi
+            
+            # Save coverage values for PR comment
+            echo "SB_LINES_COVERAGE=${SB_LINES_COVERAGE}" >> $GITHUB_ENV
+            echo "SB_FUNCTIONS_COVERAGE=${SB_FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
+            echo "SB_BRANCHES_COVERAGE=${SB_BRANCHES_COVERAGE}" >> $GITHUB_ENV
+            echo "SB_STATEMENTS_COVERAGE=${SB_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
+          else
+            echo "❌ No lcov.info file found"
+            echo "STORYBOOK_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
+            echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+            echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+          fi
+        else
+          echo "⚠️  No Storybook coverage report found, skipping threshold check"
+          echo "STORYBOOK_COVERAGE_STATUS=⚠️ NO REPORT" >> $GITHUB_ENV
+          echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+          echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+        fi
+        
+        echo "Coverage check completed. Status: ${STORYBOOK_COVERAGE_STATUS:-UNKNOWN}"
+
+    - name: Generate Coverage Report for PR
+      if: github.event_name == 'pull_request'
+      run: |
+        # Create comprehensive coverage report for PR comment
+        echo "## 📊 Code Coverage Report" > coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "### Storybook Tests Coverage" >> coverage-pr-report.md
+        echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
+        echo "|--------|----------|--------|" >> coverage-pr-report.md
+        
+        # Add Storybook coverage rows
+        SB_LINES_STATUS="❌"
+        SB_FUNCTIONS_STATUS="❌"
+        SB_BRANCHES_STATUS="❌"
+        SB_STATEMENTS_STATUS="❌"
+        
+        if (( $(echo "${SB_LINES_COVERAGE:-0} >= 90" | bc -l) )); then SB_LINES_STATUS="✅"; fi
+        if (( $(echo "${SB_FUNCTIONS_COVERAGE:-0} >= 90" | bc -l) )); then SB_FUNCTIONS_STATUS="✅"; fi
+        if (( $(echo "${SB_BRANCHES_COVERAGE:-0} >= 90" | bc -l) )); then SB_BRANCHES_STATUS="✅"; fi
+        if (( $(echo "${SB_STATEMENTS_COVERAGE:-0} >= 90" | bc -l) )); then SB_STATEMENTS_STATUS="✅"; fi
+        
+        echo "| Lines | ${SB_LINES_COVERAGE:-N/A}% | ${SB_LINES_STATUS} |" >> coverage-pr-report.md
+        echo "| Functions | ${SB_FUNCTIONS_COVERAGE:-N/A}% | ${SB_FUNCTIONS_STATUS} |" >> coverage-pr-report.md
+        echo "| Branches | ${SB_BRANCHES_COVERAGE:-N/A}% | ${SB_BRANCHES_STATUS} |" >> coverage-pr-report.md
+        echo "| Statements | ${SB_STATEMENTS_COVERAGE:-N/A}% | ${SB_STATEMENTS_STATUS} |" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "**Storybook Tests Status:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "### Summary" >> coverage-pr-report.md
+        echo "- **Minimum Required Coverage:** 90%" >> coverage-pr-report.md
+        echo "- **Storybook Tests:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "> 🎯 All coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
+        
+        echo "Generated coverage report:"
+        cat coverage-pr-report.md
+
+    - name: Comment Coverage Report on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          
+          try {
+            // Read the coverage report
+            const coverageReport = fs.readFileSync('coverage-pr-report.md', 'utf8');
+            
+            // Find existing coverage comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const existingComment = comments.find(comment => 
+              comment.body.includes('📊 Code Coverage Report')
+            );
+            
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: coverageReport
+              });
+              console.log('Updated existing coverage comment');
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: coverageReport
+              });
+              console.log('Created new coverage comment');
+            }
+          } catch (error) {
+            console.error('Failed to post coverage comment:', error.message);
+            // Don't fail the workflow if commenting fails
+            console.log('Continuing workflow despite comment failure...');
+          }
+        
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./coverage/storybook/lcov.info
+        fail_ci_if_error: false
+        name: storybook-coverage-node-22
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-coverage-reports
+        path: |
+          coverage/
+        retention-days: 7
+
+  release:
+    name: Semantic Release & Deploy
+    runs-on: ubuntu-latest
+    needs: [install, build, audit, test]
+    if: github.ref == 'refs/heads/release-prod' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout release-prod branch
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Build Angular library
+      run: npm run build
+
+    - name: Verify library build output
+      run: |
+        echo "Checking library build output..."
+        ls -la dist/
+        ls -la dist/quanta-kit/ || echo "quanta-kit folder not found"
+        echo "Checking package.json in dist..."
+        cat dist/quanta-kit/package.json | head -10 || echo "package.json not found"
+
+    - name: Build Storybook
+      run: npm run build-storybook
+
+    - name: Verify Storybook build output
+      run: |
+        echo "Checking Storybook build output..."
+        ls -la storybook-static/ || echo "storybook-static folder not found"
+        echo "Checking index.html..."
+        ls -la storybook-static/index.html || echo "Storybook index.html not found"
+
+    - name: Run Semantic Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        HUSKY: 0
+      run: |
+        echo "🚀 Running semantic release..."
+        git config core.hooksPath /dev/null
+        npm run semantic-release
+        git config --unset core.hooksPath
+
+    - name: Pull semantic-release changes
+      run: |
+        echo "📥 Pulling semantic-release commits..."
+        git pull origin release-prod
+
+    - name: Get the new version
+      id: version
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "new_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "📦 New version: $VERSION"
+
+    - name: Deploy Storybook to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./storybook-static
+        publish_branch: gh-pages
+        force_orphan: true
+
+    - name: Create Release Summary
+      run: |
+        echo "🚀 **Release Summary**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Version:** ${{ steps.version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Library Build:** Successful" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Storybook Build:** Successful" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Tests:** Passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Security Audit:** Completed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **NPM Package:** Published to registry" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Semantic Release:** Completed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Storybook Deployment:** GitHub Pages" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📚 **Storybook:** https://marvin-aroza.github.io/quanta-kit-angular/" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **NPM Package:** https://www.npmjs.com/package/quanta-kit" >> $GITHUB_STEP_SUMMARY
+        echo "🏷️ **GitHub Release:** https://github.com/marvin-aroza/quanta-kit-angular/releases/tag/v${{ steps.version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📅 **Deploy Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+
+  reverse-merge:
+    name: Reverse Merge to Main
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: github.ref == 'refs/heads/release-prod' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout release-prod branch
+      uses: actions/checkout@v4
+      with:
+        ref: release-prod
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Create reverse merge branch
+      run: |
+        # Create a new branch for the reverse merge
+        TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+        BRANCH_NAME="reverse-merge/release-prod-to-main-${TIMESTAMP}"
+        
+        echo "🔄 Creating reverse merge branch: $BRANCH_NAME"
+        git checkout -b $BRANCH_NAME
+        
+        echo "📤 Pushing reverse merge branch..."
+        git push origin $BRANCH_NAME
+        
+        echo "MERGE_BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
+
+    - name: Create Pull Request for Reverse Merge
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const branchName = process.env.MERGE_BRANCH;
+          
+          try {
+            const { data: pullRequest } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔄 Reverse Merge: Sync release-prod changes to main',
+              head: branchName,
+              base: 'main',
+              body: `## 🔄 Automatic Reverse Merge
+          
+          This PR automatically syncs the latest release changes from release-prod back to main.
+          
+          ### 📋 Changes Include:
+          - ✅ Updated package.json version
+          - ✅ Updated library package.json version
+          - ✅ Updated CHANGELOG.md  
+          - ✅ Release commit from semantic-release
+          
+          ### 🎯 Purpose:
+          Keep the main branch in sync with the latest released version to ensure:
+          - Consistent version numbers across branches
+          - Up-to-date changelog for future development
+          - Clean git history
+          
+          **This PR can be safely merged automatically.**`,
+              maintainer_can_modify: true
+            });
+            
+            console.log(`Created pull request #${pullRequest.number}`);
+            
+          } catch (error) {
+            console.log('PR creation failed, creating issue instead...');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔄 Manual Action Required: Reverse Merge main to develop',
+              body: `## 🔄 Reverse Merge Required
+          
+          **Branch:** ${branchName}
+          **Action:** Please create a PR manually: https://github.com/${context.repo.owner}/${context.repo.repo}/compare/develop...${branchName}
+          
+          The automated reverse merge failed due to branch protection. Please create and merge the PR manually to sync develop with main.`,
+              labels: ['automation', 'merge-required']
+            });
+          }
+
+    - name: Create Reverse Merge Summary
+      run: |
+        echo "🔄 **Reverse Merge Summary**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Branch Created:** $MERGE_BRANCH" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Pull Request:** Created automatically for main → develop sync" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Version Updates:** Ready to sync to develop" >> $GITHUB_STEP_SUMMARY
+        echo "📝 **Changelog:** Updated and ready to merge" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🎯 **Next Steps:** Review and merge the reverse merge PR" >> $GITHUB_STEP_SUMMARY
+        echo "🔑 **Note:** Using GitHub Actions token for automation" >> $GITHUB_STEP_SUMMARY
