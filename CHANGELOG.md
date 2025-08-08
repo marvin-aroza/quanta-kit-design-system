@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.0.0...v1.1.0) (2025-08-08)
+
+
+### Features
+
+* **AAP7:** package version sync fix ([74c5cff](https://github.com/marvin-aroza/quanta-kit-angular/commit/74c5cff72730a745ecba0002a8526b29382286c3))
+
 # 1.0.0 (2025-08-08)
 
 
