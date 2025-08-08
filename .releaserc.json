@@ -56,6 +56,12 @@
     [
       "@semantic-release/npm",
       {
+        "npmPublish": false
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
         "pkgRoot": "dist/quanta-kit",
         "tarballDir": "dist"
       }
