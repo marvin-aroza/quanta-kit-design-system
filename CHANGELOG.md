@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.2.0...v1.2.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* **AAP7:** ensure semantic-release updates root package.json version ([31e5c1f](https://github.com/marvin-aroza/quanta-kit-angular/commit/31e5c1f7971864b67d45bfbea60b82a4a47643aa))
+
 # [1.2.0](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.1.0...v1.2.0) (2025-08-08)
 
 
