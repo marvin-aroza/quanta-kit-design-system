@@ -1,7 +1,7 @@
 import React from 'react';
 
 type ButtonProps = {
-  label: string;
+  label: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
 };
@@ -9,7 +9,7 @@ type ButtonProps = {
 function Button({ label, onClick, disabled = false }: ButtonProps) {
   return (
     <button onClick={onClick} disabled={disabled}>
-      {label}
+      {label !== undefined ? label : 'Default Label'}
     </button>
   );
 }
