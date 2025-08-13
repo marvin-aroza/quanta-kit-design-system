@@ -1,7 +1,7 @@
 import React from 'react';
 
 type ButtonProps = {
-  label: React.ReactNode;
+  label: string;
   onClick: () => void;
   disabled?: boolean;
 };
