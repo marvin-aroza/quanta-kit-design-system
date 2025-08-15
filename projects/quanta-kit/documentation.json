@@ -11,6 +11,96 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "AllSizes",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;\">\r\n      <qk-button variant=\"primary\" size=\"xs\">Extra Small</qk-button>\r\n      <qk-button variant=\"primary\" size=\"sm\">Small</qk-button>\r\n      <qk-button variant=\"primary\" size=\"md\">Medium</qk-button>\r\n      <qk-button variant=\"primary\" size=\"lg\">Large</qk-button>\r\n      <qk-button variant=\"primary\" size=\"xl\">Extra Large</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Buttons are available in 5 different sizes: xs, sm, md, lg, xl'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "AllVariants",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;\">\r\n      <qk-button variant=\"primary\">Primary</qk-button>\r\n      <qk-button variant=\"secondary\">Secondary</qk-button>\r\n      <qk-button variant=\"success\">Success</qk-button>\r\n      <qk-button variant=\"danger\">Danger</qk-button>\r\n      <qk-button variant=\"warning\">Warning</qk-button>\r\n      <qk-button variant=\"info\">Info</qk-button>\r\n      <qk-button variant=\"light\">Light</qk-button>\r\n      <qk-button variant=\"dark\">Dark</qk-button>\r\n      <qk-button variant=\"outline-primary\">Outline Primary</qk-button>\r\n      <qk-button variant=\"outline-secondary\">Outline Secondary</qk-button>\r\n      <qk-button variant=\"outline-success\">Outline Success</qk-button>\r\n      <qk-button variant=\"outline-danger\">Outline Danger</qk-button>\r\n      <qk-button variant=\"outline-warning\">Outline Warning</qk-button>\r\n      <qk-button variant=\"outline-info\">Outline Info</qk-button>\r\n      <qk-button variant=\"outline-light\">Outline Light</qk-button>\r\n      <qk-button variant=\"outline-dark\">Outline Dark</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'All available button variants including solid and outline styles'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "Danger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'danger',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Danger Button\r\n    </qk-button>`\r\n  })\r\n}"
+            },
+            {
+                "name": "Disabled",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    disabled: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\">\r\n      Disabled Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in disabled state'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "FullWidth",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    fullWidth: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [fullWidth]=\"fullWidth\">\r\n      Full Width Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button that takes the full width of its container'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "IconOnly",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md',\r\n    ariaLabel: 'Delete item'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      style=\"padding: 0.625rem;\">\r\n      <svg width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with only an icon, useful for actions like delete, close, etc. Make sure to provide an aria-label for accessibility.'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "InteractiveStates",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; max-width: 300px;\">\r\n      <qk-button variant=\"primary\">Normal State</qk-button>\r\n      <qk-button variant=\"primary\" [disabled]=\"true\">Disabled State</qk-button>\r\n      <qk-button variant=\"primary\" [loading]=\"true\">Loading State</qk-button>\r\n      <qk-button variant=\"primary\" [loading]=\"true\" [hideTextOnLoading]=\"true\">Loading (Hidden Text)</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Different interactive states of the button component'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "Loading",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    loading: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\">\r\n      Loading Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in loading state with spinner animation'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "LoadingHideText",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    loading: true,\r\n    hideTextOnLoading: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\">\r\n      Processing...\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in loading state with hidden text content'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -19,6 +109,26 @@
                 "deprecationMessage": "",
                 "type": "Meta<QuantaKit>",
                 "defaultValue": "{\r\n  title: 'Example/Starter',\r\n  component: QuantaKit,\r\n  tags: ['autodocs'],\r\n  argTypes: {\r\n    backgroundColor: {\r\n      control: 'color',\r\n    },\r\n  },\r\n  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args\r\n  args: { onClick: fn() },\r\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<ButtonComponent>",
+                "defaultValue": "{\r\n  title: 'Components/Button',\r\n  component: ButtonComponent,\r\n  tags: ['autodocs'],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\r\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\r\n\r\n## Features\r\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\r\n- Various sizes (xs, sm, md, lg, xl)\r\n- Loading state with spinner\r\n- Disabled state\r\n- Full width option\r\n- Rounded and square variations\r\n- Accessibility support with ARIA attributes\r\n- Event emissions for click, focus, and blur\r\n- Icon slot support (left and right)\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\r\n  Click me\r\n</qk-button>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\">\r\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\r\n  Save Changes\r\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\r\n</qk-button>\r\n\\`\\`\\`\r\n        `\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: [\r\n        'primary',\r\n        'secondary',\r\n        'success',\r\n        'danger',\r\n        'warning',\r\n        'info',\r\n        'light',\r\n        'dark',\r\n        'outline-primary',\r\n        'outline-secondary',\r\n        'outline-success',\r\n        'outline-danger',\r\n        'outline-warning',\r\n        'outline-info',\r\n        'outline-light',\r\n        'outline-dark'\r\n      ] as ButtonVariant[],\r\n      description: 'The visual style variant of the button'\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\r\n      description: 'The size of the button'\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['button', 'submit', 'reset'] as ButtonType[],\r\n      description: 'The HTML type attribute of the button'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is disabled'\r\n    },\r\n    loading: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is in loading state'\r\n    },\r\n    hideTextOnLoading: {\r\n      control: 'boolean',\r\n      description: 'Whether to hide text content when loading'\r\n    },\r\n    fullWidth: {\r\n      control: 'boolean',\r\n      description: 'Whether the button should take full width'\r\n    },\r\n    rounded: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has rounded corners'\r\n    },\r\n    square: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has no border radius'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply'\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility'\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes'\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when button is clicked'\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when button receives focus'\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when button loses focus'\r\n    }\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn()\r\n  }\r\n}"
+            },
+            {
+                "name": "Playground",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md',\r\n    disabled: false,\r\n    loading: false,\r\n    hideTextOnLoading: false,\r\n    fullWidth: false,\r\n    rounded: false,\r\n    square: false,\r\n    type: 'button',\r\n    customClass: '',\r\n    ariaLabel: '',\r\n    testId: 'button-playground'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [type]=\"type\"\r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Playground Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Interactive playground to experiment with all button properties and see real-time changes.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
                 "name": "preview",
@@ -39,6 +149,86 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Primary Button\r\n    </qk-button>`\r\n  })\r\n}"
+            },
+            {
+                "name": "Rounded",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    rounded: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [rounded]=\"rounded\">\r\n      Rounded Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with fully rounded corners'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'secondary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Secondary Button\r\n    </qk-button>`\r\n  })\r\n}"
+            },
+            {
+                "name": "Square",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    square: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [square]=\"square\">\r\n      Square Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with no border radius (square corners)'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "Success",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'success',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Success Button\r\n    </qk-button>`\r\n  })\r\n}"
+            },
+            {
+                "name": "WithBothIcons",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z\"/>\r\n      </svg>\r\n      Save Changes\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with icons on both left and right sides'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "WithLeftIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\"/>\r\n      </svg>\r\n      Add Item\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with an icon on the left side'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "WithRightIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      Continue\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with an icon on the right side'\r\n      }\r\n    }\r\n  }\r\n}"
             }
         ],
         "functions": [],
@@ -53,10 +243,213 @@
                 "deprecationMessage": "",
                 "description": "",
                 "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<ButtonComponent>",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
             }
         ],
         "enumerations": [],
         "groupedVariables": {
+            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
+                {
+                    "name": "AllSizes",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;\">\r\n      <qk-button variant=\"primary\" size=\"xs\">Extra Small</qk-button>\r\n      <qk-button variant=\"primary\" size=\"sm\">Small</qk-button>\r\n      <qk-button variant=\"primary\" size=\"md\">Medium</qk-button>\r\n      <qk-button variant=\"primary\" size=\"lg\">Large</qk-button>\r\n      <qk-button variant=\"primary\" size=\"xl\">Extra Large</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Buttons are available in 5 different sizes: xs, sm, md, lg, xl'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "AllVariants",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;\">\r\n      <qk-button variant=\"primary\">Primary</qk-button>\r\n      <qk-button variant=\"secondary\">Secondary</qk-button>\r\n      <qk-button variant=\"success\">Success</qk-button>\r\n      <qk-button variant=\"danger\">Danger</qk-button>\r\n      <qk-button variant=\"warning\">Warning</qk-button>\r\n      <qk-button variant=\"info\">Info</qk-button>\r\n      <qk-button variant=\"light\">Light</qk-button>\r\n      <qk-button variant=\"dark\">Dark</qk-button>\r\n      <qk-button variant=\"outline-primary\">Outline Primary</qk-button>\r\n      <qk-button variant=\"outline-secondary\">Outline Secondary</qk-button>\r\n      <qk-button variant=\"outline-success\">Outline Success</qk-button>\r\n      <qk-button variant=\"outline-danger\">Outline Danger</qk-button>\r\n      <qk-button variant=\"outline-warning\">Outline Warning</qk-button>\r\n      <qk-button variant=\"outline-info\">Outline Info</qk-button>\r\n      <qk-button variant=\"outline-light\">Outline Light</qk-button>\r\n      <qk-button variant=\"outline-dark\">Outline Dark</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'All available button variants including solid and outline styles'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "Danger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'danger',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Danger Button\r\n    </qk-button>`\r\n  })\r\n}"
+                },
+                {
+                    "name": "Disabled",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    disabled: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\">\r\n      Disabled Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in disabled state'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "FullWidth",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    fullWidth: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [fullWidth]=\"fullWidth\">\r\n      Full Width Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button that takes the full width of its container'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "IconOnly",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md',\r\n    ariaLabel: 'Delete item'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      style=\"padding: 0.625rem;\">\r\n      <svg width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with only an icon, useful for actions like delete, close, etc. Make sure to provide an aria-label for accessibility.'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "InteractiveStates",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; max-width: 300px;\">\r\n      <qk-button variant=\"primary\">Normal State</qk-button>\r\n      <qk-button variant=\"primary\" [disabled]=\"true\">Disabled State</qk-button>\r\n      <qk-button variant=\"primary\" [loading]=\"true\">Loading State</qk-button>\r\n      <qk-button variant=\"primary\" [loading]=\"true\" [hideTextOnLoading]=\"true\">Loading (Hidden Text)</qk-button>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Different interactive states of the button component'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "Loading",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    loading: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\">\r\n      Loading Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in loading state with spinner animation'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "LoadingHideText",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    loading: true,\r\n    hideTextOnLoading: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\">\r\n      Processing...\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button in loading state with hidden text content'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<ButtonComponent>",
+                    "defaultValue": "{\r\n  title: 'Components/Button',\r\n  component: ButtonComponent,\r\n  tags: ['autodocs'],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\r\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\r\n\r\n## Features\r\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\r\n- Various sizes (xs, sm, md, lg, xl)\r\n- Loading state with spinner\r\n- Disabled state\r\n- Full width option\r\n- Rounded and square variations\r\n- Accessibility support with ARIA attributes\r\n- Event emissions for click, focus, and blur\r\n- Icon slot support (left and right)\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\r\n  Click me\r\n</qk-button>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\">\r\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\r\n  Save Changes\r\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\r\n</qk-button>\r\n\\`\\`\\`\r\n        `\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: [\r\n        'primary',\r\n        'secondary',\r\n        'success',\r\n        'danger',\r\n        'warning',\r\n        'info',\r\n        'light',\r\n        'dark',\r\n        'outline-primary',\r\n        'outline-secondary',\r\n        'outline-success',\r\n        'outline-danger',\r\n        'outline-warning',\r\n        'outline-info',\r\n        'outline-light',\r\n        'outline-dark'\r\n      ] as ButtonVariant[],\r\n      description: 'The visual style variant of the button'\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\r\n      description: 'The size of the button'\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['button', 'submit', 'reset'] as ButtonType[],\r\n      description: 'The HTML type attribute of the button'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is disabled'\r\n    },\r\n    loading: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is in loading state'\r\n    },\r\n    hideTextOnLoading: {\r\n      control: 'boolean',\r\n      description: 'Whether to hide text content when loading'\r\n    },\r\n    fullWidth: {\r\n      control: 'boolean',\r\n      description: 'Whether the button should take full width'\r\n    },\r\n    rounded: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has rounded corners'\r\n    },\r\n    square: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has no border radius'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply'\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility'\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes'\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when button is clicked'\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when button receives focus'\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when button loses focus'\r\n    }\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn()\r\n  }\r\n}"
+                },
+                {
+                    "name": "Playground",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md',\r\n    disabled: false,\r\n    loading: false,\r\n    hideTextOnLoading: false,\r\n    fullWidth: false,\r\n    rounded: false,\r\n    square: false,\r\n    type: 'button',\r\n    customClass: '',\r\n    ariaLabel: '',\r\n    testId: 'button-playground'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [type]=\"type\"\r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Playground Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Interactive playground to experiment with all button properties and see real-time changes.'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Primary Button\r\n    </qk-button>`\r\n  })\r\n}"
+                },
+                {
+                    "name": "Rounded",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    rounded: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [rounded]=\"rounded\">\r\n      Rounded Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with fully rounded corners'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'secondary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Secondary Button\r\n    </qk-button>`\r\n  })\r\n}"
+                },
+                {
+                    "name": "Square",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    square: true,\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [square]=\"square\">\r\n      Square Button\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with no border radius (square corners)'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "Success",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'success',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Success Button\r\n    </qk-button>`\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithBothIcons",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z\"/>\r\n      </svg>\r\n      Save Changes\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with icons on both left and right sides'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "WithLeftIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\"/>\r\n      </svg>\r\n      Add Item\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with an icon on the left side'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
+                    "name": "WithRightIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    size: 'md'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      Continue\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Button with an icon on the right side'\r\n      }\r\n    }\r\n  }\r\n}"
+                }
+            ],
             "projects/quanta-kit/src/lib/quanta-kit.stories.ts": [
                 {
                     "name": "meta",
@@ -107,6 +500,19 @@
                     "description": "",
                     "kind": 183
                 }
+            ],
+            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<ButtonComponent>",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
             ]
         }
     },
@@ -121,6 +527,206 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "preview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "AllSizes",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "AllVariants",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Danger",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Disabled",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "FullWidth",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "IconOnly",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "InteractiveStates",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Loading",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoadingHideText",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Playground",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Rounded",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Square",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Success",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithBothIcons",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithLeftIcon",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithRightIcon",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
