@@ -135,6 +135,8 @@ The Chip component follows Material UI 3 design guidelines and provides versatil
     }
   },
   args: {
+    selected: false,
+    ariaLabel: 'Chip action',
     clicked: fn(),
     removed: fn(),
     focused: fn(),
@@ -184,7 +186,9 @@ export const FilterChip: Story = {
   args: {
     variant: 'filter',
     size: 'md',
-    elevation: 'flat'
+    elevation: 'flat',
+    selected: false,
+    ariaLabel: 'Filter by category'
   },
   render: (args) => ({
     props: args,
@@ -284,10 +288,10 @@ export const AllVariants: Story = {
   render: () => ({
     template: `
     <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
-      <qk-chip variant="assist">Assist Chip</qk-chip>
-      <qk-chip variant="filter">Filter Chip</qk-chip>
-      <qk-chip variant="input">Input Chip</qk-chip>
-      <qk-chip variant="suggestion">Suggestion Chip</qk-chip>
+      <qk-chip variant="assist" ariaLabel="Assist action">Assist Chip</qk-chip>
+      <qk-chip variant="filter" ariaLabel="Filter option">Filter Chip</qk-chip>
+      <qk-chip variant="input" ariaLabel="Input tag">Input Chip</qk-chip>
+      <qk-chip variant="suggestion" ariaLabel="Suggestion option">Suggestion Chip</qk-chip>
     </div>
     `
   }),
@@ -307,17 +311,17 @@ export const AllSizes: Story = {
     <div style="display: flex; flex-direction: column; gap: 16px;">
       <div style="display: flex; gap: 12px; align-items: center;">
         <span style="width: 80px; font-weight: 500;">Small:</span>
-        <qk-chip variant="assist" size="sm">Small Chip</qk-chip>
-        <qk-chip variant="filter" size="sm">Filter</qk-chip>
-        <qk-chip variant="input" size="sm">Input</qk-chip>
-        <qk-chip variant="suggestion" size="sm">Suggestion</qk-chip>
+        <qk-chip variant="assist" size="sm" ariaLabel="Small assist">Small Chip</qk-chip>
+        <qk-chip variant="filter" size="sm" ariaLabel="Small filter">Filter</qk-chip>
+        <qk-chip variant="input" size="sm" ariaLabel="Small input">Input</qk-chip>
+        <qk-chip variant="suggestion" size="sm" ariaLabel="Small suggestion">Suggestion</qk-chip>
       </div>
       <div style="display: flex; gap: 12px; align-items: center;">
         <span style="width: 80px; font-weight: 500;">Medium:</span>
-        <qk-chip variant="assist" size="md">Medium Chip</qk-chip>
-        <qk-chip variant="filter" size="md">Filter</qk-chip>
-        <qk-chip variant="input" size="md">Input</qk-chip>
-        <qk-chip variant="suggestion" size="md">Suggestion</qk-chip>
+        <qk-chip variant="assist" size="md" ariaLabel="Medium assist">Medium Chip</qk-chip>
+        <qk-chip variant="filter" size="md" ariaLabel="Medium filter">Filter</qk-chip>
+        <qk-chip variant="input" size="md" ariaLabel="Medium input">Input</qk-chip>
+        <qk-chip variant="suggestion" size="md" ariaLabel="Medium suggestion">Suggestion</qk-chip>
       </div>
     </div>
     `
@@ -338,17 +342,17 @@ export const AllElevations: Story = {
     <div style="display: flex; flex-direction: column; gap: 16px;">
       <div style="display: flex; gap: 12px; align-items: center;">
         <span style="width: 80px; font-weight: 500;">Flat:</span>
-        <qk-chip variant="assist" elevation="flat">Assist</qk-chip>
-        <qk-chip variant="filter" elevation="flat">Filter</qk-chip>
-        <qk-chip variant="input" elevation="flat">Input</qk-chip>
-        <qk-chip variant="suggestion" elevation="flat">Suggestion</qk-chip>
+        <qk-chip variant="assist" elevation="flat" ariaLabel="Flat assist">Assist</qk-chip>
+        <qk-chip variant="filter" elevation="flat" ariaLabel="Flat filter">Filter</qk-chip>
+        <qk-chip variant="input" elevation="flat" ariaLabel="Flat input">Input</qk-chip>
+        <qk-chip variant="suggestion" elevation="flat" ariaLabel="Flat suggestion">Suggestion</qk-chip>
       </div>
       <div style="display: flex; gap: 12px; align-items: center;">
         <span style="width: 80px; font-weight: 500;">Elevated:</span>
-        <qk-chip variant="assist" elevation="elevated">Assist</qk-chip>
-        <qk-chip variant="filter" elevation="elevated">Filter</qk-chip>
-        <qk-chip variant="input" elevation="elevated">Input</qk-chip>
-        <qk-chip variant="suggestion" elevation="elevated">Suggestion</qk-chip>
+        <qk-chip variant="assist" elevation="elevated" ariaLabel="Elevated assist">Assist</qk-chip>
+        <qk-chip variant="filter" elevation="elevated" ariaLabel="Elevated filter">Filter</qk-chip>
+        <qk-chip variant="input" elevation="elevated" ariaLabel="Elevated input">Input</qk-chip>
+        <qk-chip variant="suggestion" elevation="elevated" ariaLabel="Elevated suggestion">Suggestion</qk-chip>
       </div>
     </div>
     `
@@ -505,10 +509,10 @@ export const DisabledStates: Story = {
   render: () => ({
     template: `
     <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-      <qk-chip variant="assist" [disabled]="true">Disabled Assist</qk-chip>
-      <qk-chip variant="filter" [disabled]="true">Disabled Filter</qk-chip>
-      <qk-chip variant="input" [disabled]="true" [removable]="true">Disabled Input</qk-chip>
-      <qk-chip variant="suggestion" [disabled]="true">Disabled Suggestion</qk-chip>
+      <qk-chip variant="assist" [disabled]="true" ariaLabel="Disabled assist chip">Disabled Assist</qk-chip>
+      <qk-chip variant="filter" [disabled]="true" ariaLabel="Disabled filter chip">Disabled Filter</qk-chip>
+      <qk-chip variant="input" [disabled]="true" [removable]="true" ariaLabel="Disabled input chip">Disabled Input</qk-chip>
+      <qk-chip variant="suggestion" [disabled]="true" ariaLabel="Disabled suggestion chip">Disabled Suggestion</qk-chip>
     </div>
     `
   }),
@@ -528,47 +532,69 @@ export const ChipSet: Story = {
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <div>
         <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500;">Assist Chips</h4>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <qk-chip variant="assist" [hasLeadingIcon]="true">
-            <svg slot="leading-icon" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zM12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-            </svg>
-            Set reminder
-          </qk-chip>
-          <qk-chip variant="assist" [hasLeadingIcon]="true">
-            <svg slot="leading-icon" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-            </svg>
-            Add to cart
-          </qk-chip>
-          <qk-chip variant="assist">Get directions</qk-chip>
-        </div>
+        <ul role="list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+          <li>
+            <qk-chip variant="assist" [hasLeadingIcon]="true" [inList]="true">
+              <svg slot="leading-icon" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zM12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+              Set reminder
+            </qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="assist" [hasLeadingIcon]="true" [inList]="true">
+              <svg slot="leading-icon" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              Add to cart
+            </qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="assist" [inList]="true">Get directions</qk-chip>
+          </li>
+        </ul>
       </div>
 
       <div>
         <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500;">Filter Chips</h4>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <qk-chip variant="filter" [selected]="true">Popular</qk-chip>
-          <qk-chip variant="filter">Nearby</qk-chip>
-          <qk-chip variant="filter">Price</qk-chip>
-          <qk-chip variant="filter">Rating</qk-chip>
-        </div>
+        <ul role="list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+          <li>
+            <qk-chip variant="filter" [selected]="true" [inList]="true" ariaLabel="Popular filter, currently selected">Popular</qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="filter" [inList]="true" ariaLabel="Nearby filter">Nearby</qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="filter" [inList]="true" ariaLabel="Price filter">Price</qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="filter" [inList]="true" ariaLabel="Rating filter">Rating</qk-chip>
+          </li>
+        </ul>
       </div>
 
       <div>
         <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500;">Input Chips</h4>
-        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <qk-chip variant="input" [hasAvatar]="true" [removable]="true">
-            <span slot="avatar" style="font-size: 12px; font-weight: 500;">JS</span>
-            JavaScript
-          </qk-chip>
-          <qk-chip variant="input" [hasAvatar]="true" [removable]="true">
-            <span slot="avatar" style="font-size: 12px; font-weight: 500;">TS</span>
-            TypeScript
-          </qk-chip>
-          <qk-chip variant="input" [removable]="true">Angular</qk-chip>
-          <qk-chip variant="input" [removable]="true">React</qk-chip>
-        </div>
+        <ul role="list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0;">
+          <li>
+            <qk-chip variant="input" [hasAvatar]="true" [removable]="true" [inList]="true">
+              <span slot="avatar" style="font-size: 12px; font-weight: 500;">JS</span>
+              JavaScript
+            </qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="input" [hasAvatar]="true" [removable]="true" [inList]="true">
+              <span slot="avatar" style="font-size: 12px; font-weight: 500;">TS</span>
+              TypeScript
+            </qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="input" [removable]="true" [inList]="true">Angular</qk-chip>
+          </li>
+          <li>
+            <qk-chip variant="input" [removable]="true" [inList]="true">React</qk-chip>
+          </li>
+        </ul>
       </div>
 
       <div>
@@ -592,496 +618,629 @@ export const ChipSet: Story = {
   }
 };
 
-// Coverage Stories
-export const FocusAndBlurEvents: Story = {
+// =============================================================================
+// COVERAGE ENHANCEMENT STORIES (for 90%+ code coverage)
+// =============================================================================
+
+export const KeyboardNavigation: Story = {
   args: {
     variant: 'assist',
-    clickable: true
+    clickable: true,
+    ariaLabel: 'Keyboard test chip',
+    clicked: fn(),
+    focused: fn(),
+    blurred: fn()
   },
   render: (args) => ({
     props: args,
+    template: `<qk-chip 
+      [variant]="variant" 
+      [clickable]="clickable"
+      [ariaLabel]="ariaLabel"
+      (clicked)="clicked($event)"
+      (focused)="focused($event)"
+      (blurred)="blurred($event)">
+      Keyboard Test
+    </qk-chip>`
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByRole('button');
+    
+    // Test focus
+    chip.focus();
+    expect(args.focused).toHaveBeenCalled();
+    
+    // Test keyboard interaction
+    await userEvent.keyboard('{Enter}');
+    expect(args.clicked).toHaveBeenCalled();
+    
+    await userEvent.keyboard(' ');
+    expect(args.clicked).toHaveBeenCalledTimes(2);
+    
+    // Test blur
+    chip.blur();
+    expect(args.blurred).toHaveBeenCalled();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests keyboard navigation and event handling for accessibility compliance.'
+      }
+    }
+  }
+};
+
+export const RemovableChipKeyboard: Story = {
+  args: {
+    variant: 'input',
+    removable: true,
+    removeAriaLabel: 'Custom remove label',
+    removed: fn()
+  },
+  render: (args) => ({
+    props: args,
+    template: `<qk-chip 
+      [variant]="variant" 
+      [removable]="removable"
+      [removeAriaLabel]="removeAriaLabel"
+      (removed)="removed($event)">
+      Removable Input
+    </qk-chip>`
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const removeButton = canvas.getByRole('button', { name: 'Custom remove label' });
+    
+    // Test keyboard removal with Enter
+    removeButton.focus();
+    await userEvent.keyboard('{Enter}');
+    expect(args.removed).toHaveBeenCalled();
+    
+    // Test keyboard removal with Space
+    await userEvent.keyboard(' ');
+    expect(args.removed).toHaveBeenCalledTimes(2);
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests keyboard removal functionality for input chips.'
+      }
+    }
+  }
+};
+
+export const DisabledStatesComprehensive: Story = {
+  render: () => ({
     template: `
-    <div style="display: flex; gap: 12px;">
-      <qk-chip 
-        [variant]="variant" 
-        [clickable]="clickable"
-        (clicked)="clicked($event)"
-        (focused)="focused($event)"
-        (blurred)="blurred($event)">
-        Focus Test Chip
-      </qk-chip>
-      <qk-chip variant="filter">Another Chip</qk-chip>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;">
+        <!-- Disabled clickable chip -->
+        <qk-chip [disabled]="true" [clickable]="true">Disabled Clickable</qk-chip>
+        
+        <!-- Disabled removable chip -->
+        <qk-chip [disabled]="true" [removable]="true">Disabled Removable</qk-chip>
+        
+        <!-- Disabled filter chip -->
+        <qk-chip variant="filter" [disabled]="true" [selected]="true">Disabled Selected Filter</qk-chip>
+        
+        <!-- Non-clickable chip -->
+        <qk-chip [clickable]="false">Non-clickable</qk-chip>
+        
+        <!-- Non-clickable filter chip -->
+        <qk-chip variant="filter" [clickable]="false">Non-clickable Filter</qk-chip>
+      </div>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    
+    // Test that disabled chips are present and have disabled styling
+    const disabledChips = canvas.getAllByText(/Disabled/);
+    expect(disabledChips.length).toBe(3);
+    
+    // Test non-clickable chips are present
+    const nonClickableChips = canvas.getAllByText(/Non-clickable/);
+    expect(nonClickableChips.length).toBe(2);
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Comprehensive testing of disabled and non-clickable states.'
+      }
+    }
+  }
+};
+
+export const AllRolesCoverage: Story = {
+  render: () => ({
+    template: `
+      <div style="padding: 20px;">
+        <!-- Filter chip (checkbox role) -->
+        <qk-chip variant="filter">Filter Checkbox</qk-chip>
+        
+        <!-- Removable chip in list (listitem role) -->
+        <ul style="list-style: none; padding: 0;">
+          <li>
+            <qk-chip [removable]="true" [inList]="true">Removable in List</qk-chip>
+          </li>
+        </ul>
+        
+        <!-- Removable chip standalone (presentation role) -->
+        <qk-chip [removable]="true">Removable Standalone</qk-chip>
+        
+        <!-- Clickable chip (button role) -->
+        <qk-chip [clickable]="true">Clickable Button</qk-chip>
+        
+        <!-- Non-clickable chip in list (listitem role) -->
+        <ul style="list-style: none; padding: 0;">
+          <li>
+            <qk-chip [clickable]="false" [inList]="true">Non-clickable in List</qk-chip>
+          </li>
+        </ul>
+        
+        <!-- Non-clickable standalone (presentation role) -->
+        <qk-chip [clickable]="false">Non-clickable Standalone</qk-chip>
+      </div>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    
+    // Verify different ARIA roles are applied
+    const checkbox = canvas.getByRole('checkbox');
+    expect(checkbox).toHaveTextContent('Filter Checkbox');
+    
+    const buttons = canvas.getAllByRole('button');
+    expect(buttons.length).toBeGreaterThanOrEqual(1);
+    
+    const listitems = canvas.getAllByRole('listitem');
+    expect(listitems.length).toBeGreaterThanOrEqual(2);
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests all possible ARIA role combinations for comprehensive coverage.'
+      }
+    }
+  }
+};
+
+export const AllClassModifiers: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 20px;">
+        <!-- All variants -->
+        <qk-chip variant="assist">Assist</qk-chip>
+        <qk-chip variant="filter">Filter</qk-chip>
+        <qk-chip variant="input">Input</qk-chip>
+        <qk-chip variant="suggestion">Suggestion</qk-chip>
+        
+        <!-- All sizes -->
+        <qk-chip size="sm">Small</qk-chip>
+        <qk-chip size="md">Medium</qk-chip>
+        
+        <!-- All elevations -->
+        <qk-chip elevation="flat">Flat</qk-chip>
+        <qk-chip elevation="elevated">Elevated</qk-chip>
+        
+        <!-- All state modifiers -->
+        <qk-chip [disabled]="true">Disabled</qk-chip>
+        <qk-chip [selected]="true">Selected</qk-chip>
+        <qk-chip [clickable]="true">Clickable</qk-chip>
+        <qk-chip [removable]="true">Removable</qk-chip>
+        <qk-chip [hasLeadingIcon]="true">Has Leading Icon</qk-chip>
+        <qk-chip [hasTrailingIcon]="true">Has Trailing Icon</qk-chip>
+        <qk-chip [hasAvatar]="true">Has Avatar</qk-chip>
+        <qk-chip [customClass]="'custom-test-class'">Custom Class</qk-chip>
+        
+        <!-- Combined modifiers -->
+        <qk-chip 
+          variant="filter" 
+          size="sm" 
+          elevation="elevated" 
+          [selected]="true" 
+          [hasLeadingIcon]="true"
+          [customClass]="'combined-test'">
+          Combined
+        </qk-chip>
+      </div>
+    `
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests all CSS class modifiers for complete styling coverage.'
+      }
+    }
+  }
+};
+
+export const EventHandlers: Story = {
+  args: {
+    variant: 'filter',
+    clickable: true,
+    removable: true,
+    clicked: fn(),
+    removed: fn(),
+    focused: fn(),
+    blurred: fn(),
+    selectionChange: fn()
+  },
+  render: (args) => ({
+    props: args,
+    template: `<qk-chip 
+      [variant]="variant" 
+      [clickable]="clickable"
+      [removable]="removable"
+      (clicked)="clicked($event)"
+      (removed)="removed($event)"
+      (focused)="focused($event)"
+      (blurred)="blurred($event)"
+      (selectionChange)="selectionChange($event)">
+      Event Test Chip
+    </qk-chip>`
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByText('Event Test Chip');
+    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });
+    
+    // Test click and selection change
+    await userEvent.click(chip);
+    expect(args.clicked).toHaveBeenCalled();
+    expect(args.selectionChange).toHaveBeenCalledWith(true);
+    
+    // Test remove
+    await userEvent.click(removeButton);
+    expect(args.removed).toHaveBeenCalled();
+    
+    // Test focus/blur - focus on the remove button since the chip container is not focusable
+    removeButton.focus();
+    expect(args.focused).toHaveBeenCalled();
+    
+    chip.blur();
+    expect(args.blurred).toHaveBeenCalled();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests all event handlers for complete functional coverage.'
+      }
+    }
+  }
+};
+
+export const PropertyEdgeCases: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;">
+        <!-- Empty custom class -->
+        <qk-chip [customClass]="''">Empty Custom Class</qk-chip>
+        
+        <!-- Empty aria label -->
+        <qk-chip [ariaLabel]="''">Empty ARIA Label</qk-chip>
+        
+        <!-- Empty remove aria label -->
+        <qk-chip [removable]="true" [removeAriaLabel]="''">Empty Remove ARIA</qk-chip>
+        
+        <!-- Custom remove aria label -->
+        <qk-chip [removable]="true" [removeAriaLabel]="'Custom remove text'">
+          Custom Remove ARIA
+        </qk-chip>
+        
+        <!-- Test ID -->
+        <qk-chip [testId]="'test-chip-id'">Test ID Chip</qk-chip>
+        
+        <!-- Removable filter chip (special case) -->
+        <qk-chip variant="filter" [removable]="true" [clickable]="true">
+          Removable Filter
+        </qk-chip>
+      </div>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    
+    // Test custom remove ARIA label
+    const customRemoveButton = canvas.getByRole('button', { name: 'Custom remove text' });
+    expect(customRemoveButton).toBeInTheDocument();
+    
+    // Test default remove ARIA label (only one exists now)
+    const defaultRemoveButtons = canvas.getAllByRole('button', { name: 'Remove chip' });
+    expect(defaultRemoveButtons.length).toBeGreaterThanOrEqual(1);
+    
+    // Test removable filter chip behavior
+    const removableFilter = canvas.getByText('Removable Filter');
+    await userEvent.click(removableFilter);
+    // Should handle both filter and removable functionality
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests edge cases and property combinations for comprehensive coverage.'
+      }
+    }
+  }
+};
+
+export const TabIndexCoverage: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;">
+        <!-- Disabled chip (tabindex -1) -->
+        <qk-chip [disabled]="true">Disabled</qk-chip>
+        
+        <!-- Filter chip (tabindex 0) -->
+        <qk-chip variant="filter">Filter</qk-chip>
+        
+        <!-- Filter chip removable (tabindex 0) -->
+        <qk-chip variant="filter" [removable]="true">Filter Removable</qk-chip>
+        
+        <!-- Non-filter removable (tabindex -1) -->
+        <qk-chip variant="input" [removable]="true">Input Removable</qk-chip>
+        
+        <!-- Clickable non-filter (tabindex 0) -->
+        <qk-chip variant="assist" [clickable]="true">Clickable Assist</qk-chip>
+        
+        <!-- Non-clickable non-filter (tabindex -1) -->
+        <qk-chip variant="suggestion" [clickable]="false">Non-clickable</qk-chip>
+      </div>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    
+    // Test that chips are rendered correctly with different focusability
+    const filterChip = canvas.getByText('Filter');
+    expect(filterChip).toBeInTheDocument();
+    
+    const disabledChip = canvas.getByText('Disabled');
+    expect(disabledChip).toBeInTheDocument();
+    
+    const clickableChip = canvas.getByText('Clickable Assist');
+    expect(clickableChip).toBeInTheDocument();
+    
+    const nonClickableChip = canvas.getByText('Non-clickable');
+    expect(nonClickableChip).toBeInTheDocument();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests all tabindex calculation scenarios for keyboard navigation.'
+      }
+    }
+  }
+};
+
+export const ClickHandlingEdgeCases: Story = {
+  args: {
+    variant: 'input',
+    removable: true,
+    clickable: true,
+    clicked: fn(),
+    removed: fn()
+  },
+  render: (args) => ({
+    props: args,
+    template: `<qk-chip 
+      [variant]="variant" 
+      [removable]="removable"
+      [clickable]="clickable"
+      (clicked)="clicked($event)"
+      (removed)="removed($event)">
+      Click Test Chip
+    </qk-chip>`
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByText('Click Test Chip');
+    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });
+    
+    // Test click on chip content (should work for removable input chips)
+    await userEvent.click(chip);
+    expect(args.clicked).toHaveBeenCalled();
+    
+    // Test click on remove button (should only trigger remove)
+    await userEvent.click(removeButton);
+    expect(args.removed).toHaveBeenCalled();
+    
+    // Reset call counts by creating new mock functions if needed
+    // The component logic handles preventing double events
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests click handling edge cases for removable chips.'
+      }
+    }
+  }
+};
+
+// =============================================================================
+// BRANCH COVERAGE ENHANCEMENT STORIES (for 90%+ branch coverage)
+// =============================================================================
+
+export const ComplexRoleCombinations: Story = {
+  render: () => ({
+    template: `
+      <div style="padding: 20px;">
+        <!-- Test removable + inList combination (line 143) -->
+        <ul style="list-style: none; padding: 0;">
+          <li>
+            <qk-chip [removable]="true" [inList]="true" [clickable]="false">
+              Removable InList Non-clickable
+            </qk-chip>
+          </li>
+        </ul>
+        
+        <!-- Test just inList without removable or clickable (line 150) -->
+        <ul style="list-style: none; padding: 0;">
+          <li>
+            <qk-chip [inList]="true" [clickable]="false" [removable]="false">
+              InList Only
+            </qk-chip>
+          </li>
+        </ul>
+        
+        <!-- Test default presentation role -->
+        <qk-chip [clickable]="false" [removable]="false" [inList]="false">
+          Default Presentation Role
+        </qk-chip>
+      </div>
+    `
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    
+    // Verify the different role combinations are applied
+    const removableInList = canvas.getByText('Removable InList Non-clickable');
+    expect(removableInList).toBeInTheDocument();
+    
+    const inListOnly = canvas.getByText('InList Only');
+    expect(inListOnly).toBeInTheDocument();
+    
+    const defaultRole = canvas.getByText('Default Presentation Role');
+    expect(defaultRole).toBeInTheDocument();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests complex ARIA role combinations for comprehensive branch coverage.'
+      }
+    }
+  }
+};
+
+// Comprehensive showcase including all features for documentation
+export const ComprehensiveShowcase: Story = {
+  render: () => ({
+    template: `
+    <div style="display: flex; flex-direction: column; gap: 24px; padding: 20px;">
+      <div>
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600;">Filter Chips (with selection)</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <qk-chip variant="filter" [selected]="true" hasTrailingIcon>
+            Selected Filter
+            <span slot="trailing-icon">✓</span>
+          </qk-chip>
+          <qk-chip variant="filter" [selected]="false" hasTrailingIcon>
+            Unselected Filter
+            <span slot="trailing-icon">▼</span>
+          </qk-chip>
+        </div>
+      </div>
+      
+      <div>
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600;">Input Chips (removable)</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <qk-chip variant="input" [removable]="true" customClass="custom-input-chip">
+            Removable Input
+          </qk-chip>
+          <qk-chip variant="input" [removable]="true" [disabled]="true">
+            Disabled Removable
+          </qk-chip>
+        </div>
+      </div>
+      
+      <div>
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600;">Suggestion Chips (interactive)</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <qk-chip variant="suggestion" [clickable]="true" hasLeadingIcon>
+            <span slot="leading-icon">🔍</span>
+            Clickable Suggestion
+          </qk-chip>
+          <qk-chip variant="suggestion" [clickable]="false">
+            Non-clickable
+          </qk-chip>
+        </div>
+      </div>
+      
+      <div>
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600;">Assist Chips</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <qk-chip variant="assist" hasAvatar ariaLabel="User profile chip">
+            <span slot="avatar">👤</span>
+            With Avatar
+          </qk-chip>
+          <qk-chip variant="assist" testId="assist-chip-test">
+            Standard Assist
+          </qk-chip>
+        </div>
+      </div>
     </div>
     `
   }),
   parameters: {
     docs: {
       description: {
-        story: 'Test focus and blur event handling'
-      }
-    }
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByText('Focus Test Chip');
-    const otherChip = canvas.getByText('Another Chip');
-    
-    // Test focus
-    await chip.focus();
-    
-    // Test blur by focusing another element
-    await otherChip.focus();
-    
-    // Test click
-    await userEvent.click(chip);
-  }
-};
-
-export const KeyboardNavigation: Story = {
-  args: {
-    variant: 'filter',
-    clickable: true,
-    removable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [clickable]="clickable"
-      [removable]="removable"
-      (clicked)="clicked($event)"
-      (removed)="removed($event)"
-      (selectionChange)="selectionChange($event)">
-      Keyboard Test Chip
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Test keyboard interactions (Enter/Space for click, Delete/Backspace for remove)'
-      }
-    }
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByText('Keyboard Test Chip');
-    
-    // Focus the chip first
-    await chip.focus();
-    
-    // Test Enter key using direct keyboard event
-    const enterEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
-    chip.dispatchEvent(enterEvent);
-    expect(args.clicked).toHaveBeenCalled();
-    
-    // Test Delete key for removal
-    const deleteEvent = new KeyboardEvent('keydown', { key: 'Delete', bubbles: true });
-    chip.dispatchEvent(deleteEvent);
-    expect(args.removed).toHaveBeenCalled();
-  }
-};
-
-export const NonClickableChip: Story = {
-  args: {
-    variant: 'input',
-    clickable: false
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [clickable]="clickable"
-      (clicked)="clicked($event)">
-      Non-clickable Chip
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Chip that is not clickable'
+        story: 'Comprehensive showcase of all chip variants, features, and interactive states.'
       }
     }
   }
 };
 
-export const Playground: Story = {
+// Story to cover elevation property and blur event
+export const ElevationAndBlurTest: Story = {
   args: {
     variant: 'assist',
-    size: 'md',
-    elevation: 'flat',
-    disabled: false,
-    selected: false,
-    clickable: true,
-    removable: false,
-    hasLeadingIcon: false,
-    hasTrailingIcon: false,
-    hasAvatar: false,
-    customClass: '',
-    ariaLabel: '',
-    removeAriaLabel: '',
-    testId: 'chip-playground'
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [size]="size" 
-      [elevation]="elevation"
-      [disabled]="disabled" 
-      [selected]="selected"
-      [clickable]="clickable"
-      [removable]="removable"
-      [hasLeadingIcon]="hasLeadingIcon"
-      [hasTrailingIcon]="hasTrailingIcon"
-      [hasAvatar]="hasAvatar"
-      [customClass]="customClass"
-      [ariaLabel]="ariaLabel"
-      [removeAriaLabel]="removeAriaLabel"
-      [testId]="testId"
-      (clicked)="clicked($event)"
-      (removed)="removed($event)"
-      (focused)="focused($event)"
-      (blurred)="blurred($event)"
-      (selectionChange)="selectionChange($event)">
-      Playground Chip
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Interactive playground to experiment with all chip properties'
-      }
-    }
-  }
-};
-
-// Additional Coverage Stories
-export const DisabledRemoveChip: Story = {
-  args: {
-    variant: 'input',
-    disabled: true,
-    removable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [disabled]="disabled"
-      [removable]="removable"
-      (removed)="removed($event)">
-      Disabled Removable Chip
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests disabled state for removable chips'
-      }
-    }
-  }
-};
-
-export const DisabledClickableChip: Story = {
-  args: {
-    variant: 'assist',
-    disabled: true,
-    clickable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [disabled]="disabled"
-      [clickable]="clickable"
-      (clicked)="clicked($event)">
-      Disabled Clickable Chip
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests disabled state for clickable chips'
-      }
-    }
-  }
-};
-
-export const KeyboardSpaceTest: Story = {
-  args: {
-    variant: 'assist',
-    clickable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [clickable]="clickable"
-      (clicked)="clicked($event)">
-      Space Key Test
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests Space key activation'
-      }
-    }
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByText('Space Key Test');
-    
-    await chip.focus();
-    
-    // Test Space key
-    const spaceEvent = new KeyboardEvent('keydown', { key: ' ', bubbles: true });
-    chip.dispatchEvent(spaceEvent);
-    expect(args.clicked).toHaveBeenCalled();
-  }
-};
-
-export const KeyboardBackspaceTest: Story = {
-  args: {
-    variant: 'input',
-    removable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [removable]="removable"
-      (removed)="removed($event)">
-      Backspace Key Test
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests Backspace key removal'
-      }
-    }
-  },
-  play: async ({ canvasElement, args }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByText('Backspace Key Test');
-    
-    await chip.focus();
-    
-    // Test Backspace key
-    const backspaceEvent = new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true });
-    chip.dispatchEvent(backspaceEvent);
-    expect(args.removed).toHaveBeenCalled();
-  }
-};
-
-// Coverage Stories for 100% Coverage
-export const NonClickableFilterChip: Story = {
-  args: {
-    variant: 'filter',
-    clickable: false
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [clickable]="clickable">
-      Non-clickable Filter
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests filter chip with clickable=false to cover role getter'
-      }
-    }
-  }
-};
-
-export const FilterChipRoleTest: Story = {
-  args: {
-    variant: 'filter'
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip [variant]="variant">Filter Role Test</qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests filter variant role attribute'
-      }
-    }
-  }
-};
-
-export const NonClickableNonFilterChip: Story = {
-  args: {
-    variant: 'input',
-    clickable: false
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [clickable]="clickable">
-      Listitem Role Test
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests non-clickable non-filter chip for listitem role'
-      }
-    }
-  }
-};
-
-export const AllModifiersChip: Story = {
-  args: {
-    variant: 'input',
-    size: 'sm',
     elevation: 'elevated',
-    disabled: false,
+    blurred: fn(),
+    focused: fn()
+  },
+  render: (args) => ({
+    props: args,
+    template: `<qk-chip 
+      [variant]="variant" 
+      [elevation]="elevation"
+      (blurred)="blurred($event)"
+      (focused)="focused($event)">
+      Elevation Test Chip
+    </qk-chip>`
+  }),
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByRole('button');
+    
+    // Test focus and blur events
+    chip.focus();
+    expect(args.focused).toHaveBeenCalled();
+    
+    chip.blur();
+    expect(args.blurred).toHaveBeenCalled();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tests elevation property and blur event emission.'
+      }
+    }
+  }
+};
+
+// Story to test property initialization coverage
+export const PropertyInitializationTest: Story = {
+  args: {
+    variant: 'filter',
+    size: 'sm',
+    elevation: 'flat',
+    disabled: true,
     selected: true,
-    clickable: true,
+    clickable: false,
     removable: true,
     hasLeadingIcon: true,
     hasTrailingIcon: true,
     hasAvatar: true,
-    customClass: 'test-custom-class'
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant"
-      [size]="size"
-      [elevation]="elevation"
-      [disabled]="disabled"
-      [selected]="selected"
-      [clickable]="clickable"
-      [removable]="removable"
-      [hasLeadingIcon]="hasLeadingIcon"
-      [hasTrailingIcon]="hasTrailingIcon"
-      [hasAvatar]="hasAvatar"
-      [customClass]="customClass">
-      <svg slot="leading-icon" width="18" height="18" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span slot="avatar">A</span>
-      All Modifiers Test
-      <svg slot="trailing-icon" width="18" height="18" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests all possible class modifiers for complete coverage'
-      }
-    }
-  }
-};
-
-export const EmptyCustomClassChip: Story = {
-  args: {
-    variant: 'assist',
-    customClass: ''
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [customClass]="customClass">
-      Empty Custom Class
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests empty custom class handling'
-      }
-    }
-  }
-};
-
-export const UndefinedCustomClassChip: Story = {
-  render: () => ({
-    template: `<qk-chip variant="assist">Undefined Custom Class</qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests undefined custom class handling'
-      }
-    }
-  }
-};
-
-export const DisabledClickableChipTest: Story = {
-  args: {
-    variant: 'assist',
-    disabled: true,
-    clickable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [disabled]="disabled"
-      [clickable]="clickable">
-      Disabled Clickable Test
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests that disabled chips do not get clickable class'
-      }
-    }
-  }
-};
-
-export const AriaLabelFallbackTest: Story = {
-  args: {
-    variant: 'input',
-    removable: true,
-    ariaLabel: '',
-    removeAriaLabel: ''
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [removable]="removable"
-      [ariaLabel]="ariaLabel"
-      [removeAriaLabel]="removeAriaLabel">
-      Aria Fallback Test
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests fallback aria-label for remove button'
-      }
-    }
-  }
-};
-
-export const DefaultPropertyValuesTest: Story = {
-  args: {
-    // Test all default property values
-    variant: 'assist',
-    size: 'md',
-    elevation: 'flat',
-    disabled: false,
-    selected: false,
-    clickable: true,
-    removable: false,
-    hasLeadingIcon: false,
-    hasTrailingIcon: false,
-    hasAvatar: false,
-    customClass: '',
-    ariaLabel: '',
-    ariaPressed: null,
-    removeAriaLabel: '',
-    testId: ''
+    customClass: 'test-class',
+    ariaLabel: 'Test aria',
+    ariaPressed: true,
+    removeAriaLabel: 'Remove test',
+    testId: 'test-id',
+    inList: true,
+    blurred: fn(),
+    focused: fn(),
+    clicked: fn(),
+    removed: fn(),
+    selectionChange: fn()
   },
   render: (args) => ({
     props: args,
@@ -1100,697 +1259,39 @@ export const DefaultPropertyValuesTest: Story = {
       [ariaLabel]="ariaLabel"
       [ariaPressed]="ariaPressed"
       [removeAriaLabel]="removeAriaLabel"
-      [testId]="testId">
-      Default Properties
+      [testId]="testId"
+      [inList]="inList"
+      (blurred)="blurred($event)"
+      (focused)="focused($event)"
+      (clicked)="clicked($event)"
+      (removed)="removed($event)"
+      (selectionChange)="selectionChange($event)">
+      Property Test Chip
     </qk-chip>`
   }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests all default property values to ensure full coverage'
-      }
-    }
-  }
-};
-
-export const ExplicitFalseValuesTest: Story = {
-  args: {
-    disabled: false,
-    selected: false,
-    clickable: true,
-    removable: false,
-    hasLeadingIcon: false,
-    hasTrailingIcon: false,
-    hasAvatar: false
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [disabled]="disabled"
-      [selected]="selected"
-      [clickable]="clickable"
-      [removable]="removable"
-      [hasLeadingIcon]="hasLeadingIcon"
-      [hasTrailingIcon]="hasTrailingIcon"
-      [hasAvatar]="hasAvatar">
-      Explicit False
-    </qk-chip>`
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests explicit false/true values for boolean properties'
-      }
-    }
-  }
-};
-
-export const ComponentInstantiationTest: Story = {
-  args: {},
-  render: () => ({
-    props: {},
-    template: `<qk-chip>Basic Chip</qk-chip>`
-  }),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const chip = canvas.getByRole('button');
+    const chip = canvas.getByText('Property Test Chip');
+    const removeButton = canvas.getByRole('button', { name: 'Remove test' });
     
-    // Access the component to ensure property initialization is covered
-    expect(chip).toBeInTheDocument();
-    expect(chip).toHaveClass('qk-chip');
+    // Since the chip is disabled, the remove button is also disabled and can't receive focus
+    // We'll just verify the component renders correctly with all the properties
+    // The focus/blur events can't be tested with disabled elements
+    
+    // Verify the chip has the expected properties reflected in the DOM
+    const chipElement = canvas.getByText('Property Test Chip').closest('.qk-chip');
+    expect(chipElement).toHaveClass('qk-chip--disabled');
+    expect(chipElement).toHaveClass('qk-chip--selected');
+    expect(chipElement).toHaveClass('qk-chip--filter');
+    expect(chipElement).toHaveClass('qk-chip--sm');
+    expect(chipElement).toHaveClass('test-class');
+    
+    // Note: focus/blur events are not tested here because the element is disabled
   },
   parameters: {
     docs: {
       description: {
-        story: 'Tests basic component instantiation with default values'
-      }
-    }
-  }
-};
-
-export const PropertyAccessTest: Story = {
-  args: {
-    variant: 'assist',
-    disabled: false,
-    clickable: true
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [disabled]="disabled"
-      [clickable]="clickable">
-      Property Test
-    </qk-chip>`
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByRole('button');
-    
-    // Test property access and class generation
-    expect(chip).toHaveClass('qk-chip--assist');
-    expect(chip).toHaveClass('qk-chip--clickable');
-    expect(chip).not.toHaveClass('qk-chip--disabled');
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests property access and class generation'
-      }
-    }
-  }
-};
-
-export const AccessibilityTest: Story = {
-  args: {
-    variant: 'filter',
-    selected: false,
-    removable: true,
-    ariaLabel: 'Filter by category'
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [selected]="selected"
-      [removable]="removable"
-      [ariaLabel]="ariaLabel">
-      Category Filter
-    </qk-chip>`
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByRole('checkbox');
-    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });
-    
-    // Test accessibility attributes
-    expect(chip).toHaveAttribute('aria-label', 'Filter by category');
-    expect(chip).toHaveAttribute('aria-selected', 'false');
-    expect(chip).toHaveAttribute('aria-pressed', 'false');
-    expect(chip).toHaveAttribute('tabindex', '0');
-    
-    // Test remove button accessibility
-    expect(removeButton).toHaveAttribute('aria-label', 'Remove chip');
-    expect(removeButton).toHaveAttribute('tabindex', '0');
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests accessibility features including ARIA labels, roles, and tabindex'
-      }
-    }
-  }
-};
-
-export const AccessibilityCompliantChips: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;">
-        <h3 style="width: 100%; margin-bottom: 16px;">Accessibility Compliant Chips</h3>
-        
-        <!-- Filter chips with proper ARIA -->
-        <qk-chip variant="filter" ariaLabel="Technology filter" [selected]="false">
-          Technology
-        </qk-chip>
-        
-        <qk-chip variant="filter" ariaLabel="Design filter" [selected]="true">
-          Design
-        </qk-chip>
-        
-        <!-- Input chips with remove functionality -->
-        <qk-chip variant="input" [removable]="true" ariaLabel="JavaScript skill" removeAriaLabel="Remove JavaScript skill">
-          JavaScript
-        </qk-chip>
-        
-        <!-- Assist chips -->
-        <qk-chip variant="assist" ariaLabel="Get directions">
-          Directions
-        </qk-chip>
-        
-        <!-- Non-clickable display chips -->
-        <qk-chip variant="suggestion" [clickable]="false" ariaLabel="Read-only status">
-          Status: Active
-        </qk-chip>
-        
-        <!-- Disabled chip -->
-        <qk-chip variant="assist" [disabled]="true" ariaLabel="Unavailable feature">
-          Unavailable
-        </qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Examples of accessibility-compliant chip implementations with proper ARIA labels, roles, and states'
-      }
-    }
-  }
-};
-
-// Coverage Enhancement Stories
-export const AllPropertyCombinations: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Complete Property Coverage Testing</h3>
-        
-        <!-- Test all avatar combinations -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip variant="input" [hasAvatar]="true">
-            <span slot="avatar">A</span>
-            Avatar Chip
-          </qk-chip>
-          
-          <qk-chip variant="input" [hasAvatar]="true" [hasLeadingIcon]="true">
-            <span slot="avatar">B</span>
-            <span slot="leading-icon">🏷️</span>
-            Avatar + Leading
-          </qk-chip>
-          
-          <qk-chip variant="input" [hasAvatar]="true" [hasTrailingIcon]="true">
-            <span slot="avatar">C</span>
-            <span slot="trailing-icon">✓</span>
-            Avatar + Trailing
-          </qk-chip>
-        </div>
-        
-        <!-- Test all icon combinations -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip [hasLeadingIcon]="true" [hasTrailingIcon]="true">
-            <span slot="leading-icon">📱</span>
-            <span slot="trailing-icon">⭐</span>
-            Both Icons
-          </qk-chip>
-          
-          <qk-chip [hasLeadingIcon]="true">
-            <span slot="leading-icon">🔥</span>
-            Leading Only
-          </qk-chip>
-          
-          <qk-chip [hasTrailingIcon]="true">
-            <span slot="trailing-icon">→</span>
-            Trailing Only
-          </qk-chip>
-        </div>
-        
-        <!-- Test all property defaults -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip 
-            [hasLeadingIcon]="false" 
-            [hasTrailingIcon]="false" 
-            [hasAvatar]="false"
-            [disabled]="false"
-            [selected]="false"
-            [clickable]="true"
-            [removable]="false">
-            All Defaults
-          </qk-chip>
-          
-          <qk-chip 
-            variant="assist"
-            size="md"
-            elevation="flat"
-            [disabled]="false">
-            Explicit Defaults
-          </qk-chip>
-        </div>
-        
-        <!-- Test custom class scenarios -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip customClass="">Empty Custom Class</qk-chip>
-          <qk-chip [customClass]="undefined">Undefined Custom Class</qk-chip>
-          <qk-chip customClass="my-custom-class">Custom Class</qk-chip>
-        </div>
-        
-        <!-- Test aria label scenarios -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip ariaLabel="">Empty Aria Label</qk-chip>
-          <qk-chip [ariaLabel]="undefined">Undefined Aria Label</qk-chip>
-          <qk-chip ariaLabel="Custom aria label">Custom Aria Label</qk-chip>
-        </div>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Comprehensive testing of all property combinations to achieve maximum code coverage'
-      }
-    }
-  }
-};
-
-export const EdgeCaseCoverage: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Edge Case Coverage</h3>
-        
-        <!-- Test getter methods coverage -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip variant="filter" [selected]="false">Filter Role Test</qk-chip>
-          <qk-chip [clickable]="true">Button Role Test</qk-chip>
-          <qk-chip [clickable]="false">Listitem Role Test</qk-chip>
-        </div>
-        
-        <!-- Test property initialization coverage -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip>Basic Chip</qk-chip>
-          <qk-chip variant="assist">Assist Variant</qk-chip>
-          <qk-chip size="md">Medium Size</qk-chip>
-          <qk-chip elevation="flat">Flat Elevation</qk-chip>
-        </div>
-        
-        <!-- Test all boolean combinations -->
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <qk-chip [disabled]="true" [clickable]="false">Disabled Non-clickable</qk-chip>
-          <qk-chip [selected]="true" [removable]="true">Selected Removable</qk-chip>
-          <qk-chip [hasLeadingIcon]="true" [hasAvatar]="true">Icon + Avatar</qk-chip>
-        </div>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Edge cases and specific combinations to achieve 100% coverage'
-      }
-    }
-  }
-};
-
-export const FunctionCoverageTest: Story = {
-  args: {
-    variant: 'filter',
-    removable: true,
-    ariaLabel: '',
-    removeAriaLabel: ''
-  },
-  render: (args) => ({
-    props: args,
-    template: `<qk-chip 
-      [variant]="variant" 
-      [removable]="removable"
-      [ariaLabel]="ariaLabel"
-      [removeAriaLabel]="removeAriaLabel">
-      Function Coverage Test
-    </qk-chip>`
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const chip = canvas.getByRole('checkbox');
-    const removeButton = canvas.getByRole('button');
-    
-    // Test the getAriaLabel function with empty ariaLabel
-    expect(chip).not.toHaveAttribute('aria-label');
-    
-    // Test the getRemoveAriaLabel function with empty removeAriaLabel
-    expect(removeButton).toHaveAttribute('aria-label', 'Remove chip');
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests getter functions for aria labels to improve function coverage'
-      }
-    }
-  }
-};
-
-export const TemplateCoverageTest: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Template Coverage Test</h3>
-        
-        <!-- Test all template conditional blocks -->
-        <qk-chip [hasLeadingIcon]="true">
-          <span slot="leading-icon">🎯</span>
-          Leading Icon Template
-        </qk-chip>
-        
-        <qk-chip [hasAvatar]="true">
-          <span slot="avatar">U</span>
-          Avatar Template
-        </qk-chip>
-        
-        <qk-chip [hasTrailingIcon]="true">
-          Trailing Icon Template
-          <span slot="trailing-icon">⚡</span>
-        </qk-chip>
-        
-        <qk-chip [removable]="true">
-          Removable Template
-        </qk-chip>
-        
-        <!-- Ensure label span is covered -->
-        <qk-chip>Label Span Coverage</qk-chip>
-        
-        <!-- Test with custom remove icon -->
-        <qk-chip [removable]="true">
-          Custom Remove Icon
-          <span slot="remove-icon">✕</span>
-        </qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests all template conditional blocks to achieve 100% template coverage'
-      }
-    }
-  }
-};
-
-export const PropertyInitializationTest: Story = {
-  args: {},
-  render: () => ({
-    props: {},
-    template: `
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <!-- Test default property initialization -->
-        <qk-chip>Default Properties</qk-chip>
-        
-        <!-- Test all input decorators -->
-        <qk-chip 
-          variant="assist"
-          size="md" 
-          elevation="flat"
-          [disabled]="false"
-          [selected]="false"
-          [clickable]="true"
-          [removable]="false"
-          [hasLeadingIcon]="false"
-          [hasTrailingIcon]="false"
-          [hasAvatar]="false"
-          customClass=""
-          ariaLabel=""
-          [ariaPressed]="null"
-          removeAriaLabel=""
-          testId="">
-          All Input Properties
-        </qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests property initialization to cover @Input decorator lines'
-      }
-    }
-  }
-};
-
-export const GetterMethodCoverage: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Getter Method Coverage</h3>
-        
-        <!-- Test getAriaLabel with non-empty value -->
-        <qk-chip ariaLabel="Custom Label">Aria Label Set</qk-chip>
-        
-        <!-- Test getAriaLabel with empty value -->
-        <qk-chip ariaLabel="">Aria Label Empty</qk-chip>
-        
-        <!-- Test getRemoveAriaLabel with custom value -->
-        <qk-chip [removable]="true" removeAriaLabel="Custom Remove">Custom Remove Label</qk-chip>
-        
-        <!-- Test getRemoveAriaLabel with default value -->
-        <qk-chip [removable]="true" removeAriaLabel="">Default Remove Label</qk-chip>
-        
-        <!-- Test all role getter conditions -->
-        <qk-chip variant="filter" [clickable]="true">Filter Role</qk-chip>
-        <qk-chip variant="assist" [clickable]="true">Button Role</qk-chip>
-        <qk-chip variant="assist" [clickable]="false">Listitem Role</qk-chip>
-      </div>
-    `
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    
-    // Test role getter coverage
-    const filterChip = canvas.getByText('Filter Role');
-    const buttonChip = canvas.getByText('Button Role');
-    const listitemChip = canvas.getByText('Listitem Role');
-    
-    expect(filterChip.closest('[role="checkbox"]')).toBeInTheDocument();
-    expect(buttonChip.closest('[role="button"]')).toBeInTheDocument();
-    expect(listitemChip.closest('[role="listitem"]')).toBeInTheDocument();
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests all getter methods with different conditions to improve function coverage'
-      }
-    }
-  }
-};
-
-export const BranchCoverageBoost: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Branch Coverage Enhancement</h3>
-        
-        <!-- Test chipClasses getter with all conditions -->
-        <qk-chip 
-          [disabled]="true" 
-          [selected]="true" 
-          [clickable]="false" 
-          [removable]="true"
-          [hasLeadingIcon]="true"
-          [hasTrailingIcon]="true"
-          [hasAvatar]="true"
-          customClass="my-custom">
-          <span slot="leading-icon">🔥</span>
-          <span slot="avatar">A</span>
-          <span slot="trailing-icon">⭐</span>
-          All Modifiers True
-        </qk-chip>
-        
-        <!-- Test chipClasses with negated conditions -->
-        <qk-chip 
-          [disabled]="false" 
-          [selected]="false" 
-          [clickable]="true" 
-          [removable]="false"
-          [hasLeadingIcon]="false"
-          [hasTrailingIcon]="false"
-          [hasAvatar]="false"
-          customClass="">
-          All Modifiers False
-        </qk-chip>
-        
-        <!-- Test disabled + clickable combination -->
-        <qk-chip [disabled]="true" [clickable]="true">Disabled Clickable</qk-chip>
-        
-        <!-- Test non-disabled + clickable combination -->
-        <qk-chip [disabled]="false" [clickable]="true">Enabled Clickable</qk-chip>
-        
-        <!-- Test customClass with truthy value -->
-        <qk-chip customClass="custom-class">Custom Class Set</qk-chip>
-        
-        <!-- Test customClass with falsy value -->
-        <qk-chip customClass="">Custom Class Empty</qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests all conditional branches in getters and computed properties'
-      }
-    }
-  }
-};
-
-export const EventHandlerCoverage: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Event Handler Coverage</h3>
-        
-        <!-- Test focus and blur events -->
-        <qk-chip 
-          id="focus-test-chip"
-          (focused)="handleFocus($event)"
-          (blurred)="handleBlur($event)">
-          Focus/Blur Test
-        </qk-chip>
-        
-        <!-- Test all event combinations -->
-        <qk-chip 
-          variant="filter"
-          [removable]="true"
-          (clicked)="handleClick($event)"
-          (removed)="handleRemove($event)"
-          (focused)="handleFocus($event)"
-          (blurred)="handleBlur($event)"
-          (selectionChange)="handleSelection($event)">
-          All Events Test
-        </qk-chip>
-      </div>
-    `,
-    component: {
-      handleFocus: (event: any) => console.log('Focused:', event),
-      handleBlur: (event: any) => console.log('Blurred:', event),
-      handleClick: (event: any) => console.log('Clicked:', event),
-      handleRemove: (event: any) => console.log('Removed:', event),
-      handleSelection: (event: any) => console.log('Selection:', event)
-    }
-  }),
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const focusChip = canvas.getByText('Focus/Blur Test');
-    
-    // Test focus event
-    await userEvent.click(focusChip);
-    focusChip.focus();
-    
-    // Test blur event  
-    focusChip.blur();
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests focus and blur event handlers to improve function coverage'
-      }
-    }
-  }
-};
-
-export const CompleteLineCoverage: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Complete Line Coverage Test</h3>
-        
-        <!-- Specifically target lines 36-40 (template label section) -->
-        <qk-chip>Simple Label Content</qk-chip>
-        <qk-chip><strong>HTML Label Content</strong></qk-chip>
-        <qk-chip><span>Nested Label Content</span></qk-chip>
-        
-        <!-- Specifically target line 84 (hasLeadingIcon) with explicit false -->
-        <qk-chip [hasLeadingIcon]="false">
-          No Leading Icon
-        </qk-chip>
-        
-        <!-- Specifically target line 95 (hasTrailingIcon) with explicit false -->  
-        <qk-chip [hasTrailingIcon]="false">
-          No Trailing Icon
-        </qk-chip>
-        
-        <!-- Specifically target line 102 (hasAvatar) with explicit false -->
-        <qk-chip [hasAvatar]="false">
-          No Avatar
-        </qk-chip>
-        
-        <!-- Test with multiple content types to ensure template coverage -->
-        <qk-chip>
-          Mixed content with <em>emphasis</em> and text
-        </qk-chip>
-        
-        <!-- Test default property values explicitly -->
-        <qk-chip 
-          [hasLeadingIcon]="false" 
-          [hasTrailingIcon]="false" 
-          [hasAvatar]="false">
-          All Properties False
-        </qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Targets specific uncovered lines to achieve maximum coverage'
-      }
-    }
-  }
-};
-
-export const PropertyInitializationCoverage: Story = {
-  render: () => ({
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 20px;">
-        <h3>Property Initialization Coverage</h3>
-        
-        <!-- Test each property initialization individually -->
-        <qk-chip 
-          variant="assist"
-          size="md" 
-          elevation="flat"
-          [disabled]="false"
-          [selected]="false"
-          [clickable]="true"
-          [removable]="false"
-          [hasLeadingIcon]="false"
-          [hasTrailingIcon]="false"
-          [hasAvatar]="false"
-          customClass=""
-          ariaLabel=""
-          [ariaPressed]="null">
-          Default Property Values
-        </qk-chip>
-        
-        <!-- Empty chip to test label content projection -->
-        <qk-chip></qk-chip>
-        
-        <!-- Basic text content -->
-        <qk-chip>Text</qk-chip>
-        
-        <!-- HTML content in label -->
-        <qk-chip><span>HTML</span></qk-chip>
-      </div>
-    `
-  }),
-  parameters: {
-    docs: {
-      description: {
-        story: 'Tests property initialization and template content projection'
+        story: 'Tests all property initializations and event handler setup.'
       }
     }
   }

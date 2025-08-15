@@ -43,7 +43,7 @@
   &--assist {
     background-color: transparent;
     border-color: #79747E;
-    color: #1D1B20;
+    color: #000000; /* Changed to black */
 
     &:hover:not(.qk-chip--disabled) {
       background-color: rgba(103, 80, 164, 0.08);
@@ -64,19 +64,19 @@
   &--filter {
     background-color: transparent;
     border-color: #79747E;
-    color: #1D1B20;
+    color: #000000; /* Changed to black */
 
     &:hover:not(.qk-chip--disabled) {
       background-color: rgba(103, 80, 164, 0.08);
     }
 
     &.qk-chip--selected {
-      background-color: #E8DEF8;
+      background-color: #D4E6F1; /* Changed to lighter blue for better contrast with black text */
       border-color: transparent;
-      color: #1D1B20;
+      color: #000000; /* Ensure black text on selected state */
 
       &:hover:not(.qk-chip--disabled) {
-        background-color: #E2D7F1;
+        background-color: #C5D9ED; /* Slightly darker on hover */
       }
 
       &.qk-chip--elevated {
@@ -99,7 +99,7 @@
   &--input {
     background-color: transparent;
     border-color: #79747E;
-    color: #1D1B20;
+    color: #000000; /* Changed to black */
 
     &:hover:not(.qk-chip--disabled) {
       background-color: rgba(103, 80, 164, 0.08);
@@ -120,7 +120,7 @@
   &--suggestion {
     background-color: transparent;
     border-color: #79747E;
-    color: #1D1B20;
+    color: #000000; /* Changed to black */
 
     &:hover:not(.qk-chip--disabled) {
       background-color: rgba(103, 80, 164, 0.08);
@@ -305,7 +305,7 @@
   border-radius: 50%;
   overflow: hidden;
   background-color: #E8DEF8;
-  color: #1D1B20;
+  color: #000000; /* Changed to black for better contrast */
 
   .qk-chip--sm & {
     width: 16px;
@@ -435,77 +435,82 @@
 @media (prefers-color-scheme: dark) {
   .qk-chip {
     &--assist {
-      background-color: transparent;
-      border-color: #938F99;
-      color: #E6E0E9;
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
 
       &:hover:not(.qk-chip--disabled) {
-        background-color: rgba(208, 188, 255, 0.08);
+        background-color: #E8E8E8;
       }
 
       &.qk-chip--elevated {
-        background-color: #322F35;
+        background-color: #FFFFFF;
         border-color: transparent;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
 
         &:hover:not(.qk-chip--disabled) {
-          background-color: #3E3A41;
+          background-color: #F5F5F5;
         }
       }
     }
 
     &--filter {
-      background-color: transparent;
-      border-color: #938F99;
-      color: #E6E0E9;
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
 
       &:hover:not(.qk-chip--disabled) {
-        background-color: rgba(208, 188, 255, 0.08);
+        background-color: #E8E8E8;
       }
 
       &.qk-chip--selected {
-        background-color: #4F378B;
+        background-color: #B3D9FF; /* Light blue background for selected state */
         border-color: transparent;
-        color: #E6E0E9;
+        color: #000000; /* Keep black text */
 
         &:hover:not(.qk-chip--disabled) {
-          background-color: #5D4397;
+          background-color: #99CCFF;
         }
       }
 
       &.qk-chip--elevated {
-        background-color: #322F35;
+        background-color: #FFFFFF;
         border-color: transparent;
 
         &:hover:not(.qk-chip--disabled) {
-          background-color: #3E3A41;
+          background-color: #F5F5F5;
         }
       }
     }
 
     &--input,
     &--suggestion {
-      background-color: transparent;
-      border-color: #938F99;
-      color: #E6E0E9;
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
 
       &:hover:not(.qk-chip--disabled) {
-        background-color: rgba(208, 188, 255, 0.08);
+        background-color: #E8E8E8;
       }
 
       &.qk-chip--elevated {
-        background-color: #322F35;
+        background-color: #FFFFFF;
         border-color: transparent;
 
         &:hover:not(.qk-chip--disabled) {
-          background-color: #3E3A41;
+          background-color: #F5F5F5;
         }
       }
     }
   }
 
   .qk-chip__avatar {
-    background-color: #4F378B;
-    color: #E6E0E9;
+    background-color: #E8DEF8;
+    color: #000000; /* Keep black text */
+  }
+
+  // Hidden utility class
+  .qk-chip__hidden {
+    display: none !important;
   }
 }
