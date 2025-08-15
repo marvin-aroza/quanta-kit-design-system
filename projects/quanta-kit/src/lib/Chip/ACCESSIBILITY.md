@@ -7,9 +7,11 @@ The Quanta Kit Angular Chip component has been designed with accessibility as a 
 ## Accessibility Features
 
 ### 1. **Semantic HTML & ARIA Roles**
-- ✅ **Filter chips**: Use `role="checkbox"` with proper `aria-selected` and `aria-pressed` states
+- ✅ **Filter chips**: Prefer `role="checkbox"` with `aria-checked` to reflect selection state. 
+  Alternatively, implement as a toggle button using `role="button"` with `aria-pressed`.
+  Avoid mixing `aria-selected`/`aria-pressed` with `role="checkbox"`.
 - ✅ **Interactive chips**: Use `role="button"` for clickable chips
-- ✅ **Display chips**: Use `role="listitem"` for non-interactive chips
+- ✅ **Display chips**: Use `role="listitem"` only within a semantic/ARIA list container (`<ul>`, `<ol>`, or `role="list"`). Otherwise, omit the role for static chips.
 - ✅ **Remove buttons**: Proper button semantics with descriptive labels
 
 ### 2. **Keyboard Navigation**

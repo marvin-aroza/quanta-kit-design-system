@@ -25,12 +25,12 @@ export type ChipElevation = 'flat' | 'elevated';
     >
       <!-- Leading Icon -->
       <span [style.display]="hasLeadingIcon ? 'inline' : 'none'" class="qk-chip__icon qk-chip__icon--leading" aria-hidden="true">
-        <ng-content select="[slot=leading-icon]"></ng-content>
+        <ng-content select="[leading-icon]"></ng-content>
       </span>
 
       <!-- Avatar -->
       <span [style.display]="hasAvatar ? 'inline' : 'none'" class="qk-chip__avatar" aria-hidden="true">
-        <ng-content select="[slot=avatar]"></ng-content>
+        <ng-content select="[avatar]"></ng-content>
       </span>
 
       <!-- Label -->
@@ -40,7 +40,7 @@ export type ChipElevation = 'flat' | 'elevated';
 
       <!-- Trailing Icon -->
       <span [style.display]="hasTrailingIcon ? 'inline' : 'none'" class="qk-chip__icon qk-chip__icon--trailing" aria-hidden="true">
-        <ng-content select="[slot=trailing-icon]"></ng-content>
+        <ng-content select="[trailing-icon]"></ng-content>
       </span>
 
       <!-- Remove Button -->
@@ -56,7 +56,7 @@ export type ChipElevation = 'flat' | 'elevated';
         (focus)="$event.stopPropagation()"
       >
         <span class="qk-chip__remove-icon" aria-hidden="true">
-          <ng-content select="[slot=remove-icon]">×</ng-content>
+          <ng-content select="[remove-icon]">×</ng-content>
         </span>
       </button>
     </div>
@@ -112,7 +112,12 @@ export class ChipComponent {
   }
 
   getRemoveAriaLabel(): string {
-    return this.removeAriaLabel || 'Remove chip';
+    if (this.removeAriaLabel) {
+      return this.removeAriaLabel;
+    }
+    
+    // Provide a meaningful default for the remove button
+    return this.ariaLabel ? `Remove ${this.ariaLabel}` : 'Remove chip';
   }
 
   get chipClasses(): string {

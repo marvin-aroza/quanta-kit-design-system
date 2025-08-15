@@ -49,7 +49,7 @@ Help users take actions or see information related to primary content.
 
       <!-- With leading icon -->
       <qk-chip variant="assist" [hasLeadingIcon]="true" (clicked)="onAddToCart()">
-        <svg slot="leading-icon" width="18" height="18" fill="currentColor">
+        <svg leading-icon width="18" height="18" fill="currentColor">
           <path d="M19 7h-2v5h-2V7h-2V5h2V3h2v2h2v2zm-4 8H3V9h8.3c.1-.7.4-1.4.8-2H1v14h16v-6.1c-.6.4-1.3.7-2 .7z"/>
         </svg>
         Add to cart
@@ -152,7 +152,7 @@ interface Tag {
           <!-- Avatar if available -->
           <img 
             *ngIf="tag.avatar" 
-            slot="avatar" 
+            avatar 
             [src]="tag.avatar" 
             [alt]="tag.name"
             style="width: 100%; height: 100%; object-fit: cover;">
@@ -160,7 +160,7 @@ interface Tag {
           <!-- Initials fallback -->
           <span 
             *ngIf="!tag.avatar" 
-            slot="avatar" 
+            avatar 
             style="font-size: 12px; font-weight: 500;">
             {{ getInitials(tag.name) }}
           </span>
@@ -287,7 +287,7 @@ interface ChipData {
         (removed)="onChipRemove(chip)"
         (selectionChange)="onChipSelectionChange(chip, $event)">
         
-        <i *ngIf="chip.icon" [class]="chip.icon" slot="leading-icon"></i>
+        <i *ngIf="chip.icon" [class]="chip.icon" leading-icon></i>
         {{ chip.text }}
       </qk-chip>
     </div>
