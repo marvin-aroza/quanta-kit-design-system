@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.2.2...v1.3.0) (2025-08-15)
+
+
+### Features
+
+* **AAP13:** added button component ([0ac1c7e](https://github.com/marvin-aroza/quanta-kit-angular/commit/0ac1c7ec564e9d826ee5589d806c07df36dc0b7f))
+* **AAP13:** added button component ([#31](https://github.com/marvin-aroza/quanta-kit-angular/issues/31)) ([69a5da1](https://github.com/marvin-aroza/quanta-kit-angular/commit/69a5da1faa9fc7a71af3ce20204daae05b8acb6e))
+* **AAP13:** code rabbit code review changes ([2670013](https://github.com/marvin-aroza/quanta-kit-angular/commit/2670013ad38250bb1ac13808eeea07241f678b6b))
+
 ## [1.2.2](https://github.com/marvin-aroza/quanta-kit-angular/compare/v1.2.1...v1.2.2) (2025-08-08)
 
 
