@@ -1,0 +1,516 @@
+// Material UI 3 Chip Component Styles
+// Reference: https://m3.material.io/components/chips/overview
+
+.qk-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  min-width: 48px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  text-decoration: none;
+  cursor: default;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  position: relative;
+  overflow: hidden;
+
+  // Focus outline
+  &:focus-visible {
+    outline: 3px solid #6750A4;
+    outline-offset: 2px;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    &:focus-visible {
+      outline: 3px solid currentColor;
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // Base Variants
+  &--assist {
+    background-color: transparent;
+    border-color: #79747E;
+    color: #000000; /* Changed to black */
+
+    &:hover:not(.qk-chip--disabled) {
+      background-color: rgba(103, 80, 164, 0.08);
+    }
+
+    &.qk-chip--elevated {
+      background-color: #F7F2FA;
+      border-color: transparent;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #F1EBF4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  &--filter {
+    background-color: transparent;
+    border-color: #79747E;
+    color: #000000; /* Changed to black */
+
+    &:hover:not(.qk-chip--disabled) {
+      background-color: rgba(103, 80, 164, 0.08);
+    }
+
+    &.qk-chip--selected {
+      background-color: #D4E6F1; /* Changed to lighter blue for better contrast with black text */
+      border-color: transparent;
+      color: #000000; /* Ensure black text on selected state */
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #C5D9ED; /* Slightly darker on hover */
+      }
+
+      &.qk-chip--elevated {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    &.qk-chip--elevated {
+      background-color: #F7F2FA;
+      border-color: transparent;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #F1EBF4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  &--input {
+    background-color: transparent;
+    border-color: #79747E;
+    color: #000000; /* Changed to black */
+
+    &:hover:not(.qk-chip--disabled) {
+      background-color: rgba(103, 80, 164, 0.08);
+    }
+
+    &.qk-chip--elevated {
+      background-color: #F7F2FA;
+      border-color: transparent;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #F1EBF4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  &--suggestion {
+    background-color: transparent;
+    border-color: #79747E;
+    color: #000000; /* Changed to black */
+
+    &:hover:not(.qk-chip--disabled) {
+      background-color: rgba(103, 80, 164, 0.08);
+    }
+
+    &.qk-chip--elevated {
+      background-color: #F7F2FA;
+      border-color: transparent;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #F1EBF4;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  // Sizes
+  &--sm {
+    height: 24px;
+    padding: 0 12px;
+    font-size: 12px;
+    line-height: 16px;
+    border-radius: 6px;
+
+    .qk-chip__icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .qk-chip__avatar {
+      width: 16px;
+      height: 16px;
+    }
+
+    .qk-chip__remove-button {
+      width: 16px;
+      height: 16px;
+      margin-left: 4px;
+      margin-right: -4px;
+    }
+
+    .qk-chip__remove-icon svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &--md {
+    height: 32px;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 20px;
+    border-radius: 8px;
+
+    .qk-chip__icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .qk-chip__avatar {
+      width: 24px;
+      height: 24px;
+    }
+
+    .qk-chip__remove-button {
+      width: 18px;
+      height: 18px;
+      margin-left: 8px;
+      margin-right: -6px;
+    }
+
+    .qk-chip__remove-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  // States
+  &--clickable {
+    cursor: pointer;
+
+    &:active:not(.qk-chip--disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  &--disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Icon spacing adjustments
+  &--has-leading-icon {
+    padding-left: 12px;
+
+    &.qk-chip--sm {
+      padding-left: 8px;
+    }
+  }
+
+  &--has-trailing-icon {
+    padding-right: 12px;
+
+    &.qk-chip--sm {
+      padding-right: 8px;
+    }
+  }
+
+  &--has-avatar {
+    padding-left: 4px;
+
+    &.qk-chip--sm {
+      padding-left: 4px;
+    }
+  }
+
+  &--removable {
+    padding-right: 4px;
+
+    &.qk-chip--sm {
+      padding-right: 4px;
+    }
+  }
+}
+
+// Chip Elements
+.qk-chip__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qk-chip__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+
+  &--leading {
+    margin-right: 8px;
+    margin-left: -4px;
+
+    .qk-chip--sm & {
+      margin-right: 4px;
+      margin-left: -4px;
+    }
+  }
+
+  &--trailing {
+    margin-left: 8px;
+    margin-right: -4px;
+
+    .qk-chip--sm & {
+      margin-left: 4px;
+      margin-right: -4px;
+    }
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.qk-chip__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #E8DEF8;
+  color: #000000; /* Changed to black for better contrast */
+
+  .qk-chip--sm & {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    margin-left: -4px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.qk-chip__remove-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  margin-right: -6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  &:hover:not(:disabled) {
+    background-color: rgba(103, 80, 164, 0.12);
+    transform: scale(1.1);
+  }
+
+  &:active:not(:disabled) {
+    background-color: rgba(103, 80, 164, 0.2);
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #6750A4;
+    outline-offset: 1px;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    &:focus-visible {
+      outline: 3px solid currentColor;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .qk-chip--sm & {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    margin-right: -4px;
+  }
+}
+
+.qk-chip__remove-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+
+    .qk-chip--sm & {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+// Ripple effect for clickable chips
+.qk-chip--clickable::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: currentColor;
+  opacity: 0;
+  border-radius: inherit;
+  transition: opacity 0.2s cubic-bezier(0.2, 0, 0, 1);
+  pointer-events: none;
+}
+
+.qk-chip--clickable:hover::before {
+  opacity: 0.08;
+}
+
+.qk-chip--clickable:active::before {
+  opacity: 0.12;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .qk-chip {
+    border-width: 2px;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .qk-chip,
+  .qk-chip__remove-button,
+  .qk-chip::before {
+    transition: none;
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .qk-chip {
+    &--assist {
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #E8E8E8;
+      }
+
+      &.qk-chip--elevated {
+        background-color: #FFFFFF;
+        border-color: transparent;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+        &:hover:not(.qk-chip--disabled) {
+          background-color: #F5F5F5;
+        }
+      }
+    }
+
+    &--filter {
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #E8E8E8;
+      }
+
+      &.qk-chip--selected {
+        background-color: #B3D9FF; /* Light blue background for selected state */
+        border-color: transparent;
+        color: #000000; /* Keep black text */
+
+        &:hover:not(.qk-chip--disabled) {
+          background-color: #99CCFF;
+        }
+      }
+
+      &.qk-chip--elevated {
+        background-color: #FFFFFF;
+        border-color: transparent;
+
+        &:hover:not(.qk-chip--disabled) {
+          background-color: #F5F5F5;
+        }
+      }
+    }
+
+    &--input,
+    &--suggestion {
+      background-color: #F5F5F5; /* Light background for dark theme */
+      border-color: #CCCCCC;
+      color: #000000; /* Keep black text */
+
+      &:hover:not(.qk-chip--disabled) {
+        background-color: #E8E8E8;
+      }
+
+      &.qk-chip--elevated {
+        background-color: #FFFFFF;
+        border-color: transparent;
+
+        &:hover:not(.qk-chip--disabled) {
+          background-color: #F5F5F5;
+        }
+      }
+    }
+  }
+
+  .qk-chip__avatar {
+    background-color: #E8DEF8;
+    color: #000000; /* Keep black text */
+  }
+
+  // Hidden utility class
+  .qk-chip__hidden {
+    display: none !important;
+  }
+}
