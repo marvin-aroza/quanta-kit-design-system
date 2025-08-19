@@ -178,10 +178,22 @@ jobs:
         CI: true
 
     - name: Run Storybook tests
+      id: storybook-tests
+      continue-on-error: true
       run: |
         npm run test-storybook
       env:
         CI: true
+
+    - name: Set test status
+      run: |
+        if [ "${{ steps.storybook-tests.outcome }}" = "failure" ]; then
+          echo "STORYBOOK_TESTS_FAILED=true" >> $GITHUB_ENV
+          echo "❌ Storybook tests failed"
+        else
+          echo "STORYBOOK_TESTS_FAILED=false" >> $GITHUB_ENV
+          echo "✅ Storybook tests passed"
+        fi
 
     - name: Check Storybook test coverage threshold
       run: |
@@ -313,6 +325,18 @@ jobs:
         # Create comprehensive coverage report for PR comment
         echo "## 📊 Code Coverage Report" > coverage-pr-report.md
         echo "" >> coverage-pr-report.md
+        
+        # Add test execution status
+        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+          echo "### ❌ Test Execution Status" >> coverage-pr-report.md
+          echo "**Storybook Tests:** ❌ FAILED - Some tests did not pass" >> coverage-pr-report.md
+          echo "" >> coverage-pr-report.md
+        else
+          echo "### ✅ Test Execution Status" >> coverage-pr-report.md
+          echo "**Storybook Tests:** ✅ PASSED - All tests executed successfully" >> coverage-pr-report.md
+          echo "" >> coverage-pr-report.md
+        fi
+        
         echo "### Storybook Tests Coverage" >> coverage-pr-report.md
         echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
         echo "|--------|----------|--------|" >> coverage-pr-report.md
@@ -333,13 +357,18 @@ jobs:
         echo "| Branches | ${SB_BRANCHES_COVERAGE:-N/A}% | ${SB_BRANCHES_STATUS} |" >> coverage-pr-report.md
         echo "| Statements | ${SB_STATEMENTS_COVERAGE:-N/A}% | ${SB_STATEMENTS_STATUS} |" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
-        echo "**Storybook Tests Status:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "**Coverage Status:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
         echo "### Summary" >> coverage-pr-report.md
         echo "- **Minimum Required Coverage:** 90%" >> coverage-pr-report.md
-        echo "- **Storybook Tests:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "- **Test Execution:** $(if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
+        echo "- **Coverage Report:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
-        echo "> 🎯 All coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
+        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+          echo "> ❌ **Pipeline will fail due to test failures.** Please fix the failing tests before merging." >> coverage-pr-report.md
+        else
+          echo "> 🎯 All tests passed. Coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
+        fi
         
         echo "Generated coverage report:"
         cat coverage-pr-report.md
@@ -407,6 +436,14 @@ jobs:
         path: |
           coverage/
         retention-days: 7
+
+    - name: Fail pipeline if tests failed
+      if: steps.storybook-tests.outcome == 'failure'
+      run: |
+        echo "❌ Pipeline failed due to Storybook test failures"
+        echo "Coverage report has been posted to the PR with details"
+        echo "Please fix the failing tests before merging"
+        exit 1
 
   deploy-storybook:
     name: Deploy Storybook to GitHub Pages
