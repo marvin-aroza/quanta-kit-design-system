@@ -62,18 +62,6 @@ The CI/CD pipeline includes:
   "@storybook/addon-docs": "^9.1.1",
   "@storybook/angular": "^9.1.1",
   "@storybook/test-runner": "^0.23.0",
-  "@types/jasmine": "~5.1.0",
-  "@types/jest": "^29.5.0",
-  "jasmine-core": "~5.8.0",
-  "jest": "^29.5.0",
-  "jest-environment-jsdom": "^29.5.0",
-  "karma": "~6.4.0",
-  "karma-chrome-launcher": "~3.2.0",
-  "karma-coverage": "~2.2.0",
-  "karma-firefox-launcher": "^2.1.3",
-  "karma-jasmine": "~5.1.0",
-  "karma-jasmine-html-reporter": "~2.1.0",
-  "karma-opera-launcher": "^1.0.0",
   "ng-packagr": "^20.1.0",
   "playwright": "^1.40.0",
   "storybook": "^9.1.1",
@@ -94,13 +82,11 @@ project-root/
 │   └── quanta-kit/
 │       └── .storybook/
 │           ├── main.ts               # Storybook configuration
-│           └── test-setup.ts         # Jest setup for Storybook
 ├── coverage/                         # Generated coverage reports
 │   └── storybook/
 │       ├── lcov.info                # LCOV coverage data
 │       └── lcov-report/             # HTML coverage report
 ├── package.json                      # Project dependencies and scripts
-├── test-runner-jest.config.js        # Jest configuration for Storybook
 └── GITHUB_ACTIONS_SETUP.md          # This documentation
 ```
 
@@ -125,48 +111,7 @@ Add these scripts to your `package.json`:
 }
 ```
 
-### 2. Jest Configuration (test-runner-jest.config.js)
-
-```javascript
-const { getJestConfig } = require('@storybook/test-runner');
-
-/**
- * @type {import('@jest/types').Config.InitialOptions}
- */
-module.exports = {
-  // The default configuration comes from @storybook/test-runner
-  ...getJestConfig(),
-  
-  // Coverage configuration
-  collectCoverage: true,
-  collectCoverageFrom: [
-    'projects/quanta-kit/src/**/*.{ts,tsx}',
-    '!projects/quanta-kit/src/**/*.stories.{ts,tsx}',
-    '!projects/quanta-kit/src/**/*.spec.{ts,tsx}',
-    '!projects/quanta-kit/src/**/index.ts',
-    '!projects/quanta-kit/src/test.ts',
-    '!projects/quanta-kit/src/public-api.ts'
-  ],
-  coverageDirectory: 'coverage/storybook',
-  coverageReporters: ['text', 'lcov', 'html'],
-  coverageThreshold: {
-    global: {
-      branches: 90,
-      functions: 90,
-      lines: 90,
-      statements: 90
-    }
-  },
-  
-  // Test environment
-  testEnvironment: 'jsdom',
-  
-  // Setup files
-  setupFilesAfterEnv: ['<rootDir>/projects/quanta-kit/.storybook/test-setup.ts']
-};
-```
-
-### 3. Storybook Main Configuration (projects/quanta-kit/.storybook/main.ts)
+### 2. Storybook Main Configuration (projects/quanta-kit/.storybook/main.ts)
 
 ```typescript
 import type { StorybookConfig } from '@storybook/angular';
@@ -245,8 +190,8 @@ Object.defineProperty(document.body.style, 'transform', {
 # Install all required dependencies
 npm install
 
-# Install additional testing dependencies
-npm install --save-dev @types/jest jest jest-environment-jsdom playwright wait-on
+# Install additional testing dependencies  
+npm install --save-dev playwright wait-on
 
 # Install global tools for CI
 npm install -g http-server wait-on
@@ -254,9 +199,7 @@ npm install -g http-server wait-on
 
 ### Step 2: Create Configuration Files
 
-1. Create `test-runner-jest.config.js` in project root
-2. Update `projects/quanta-kit/.storybook/main.ts` to include coverage addon
-3. Create `projects/quanta-kit/.storybook/test-setup.ts` for Jest setup
+1. Update `projects/quanta-kit/.storybook/main.ts` to include coverage addon
 
 ### Step 3: Set Up GitHub Actions
 
@@ -279,13 +222,13 @@ npm install -g http-server wait-on
 
 ### Common Issues
 
-#### 1. Coverage Reports Showing 0%
-**Problem**: Coverage extraction returns 0% despite visible numbers in HTML report.
+#### 2. Storybook Coverage Addon Missing
+**Problem**: Coverage reports showing 0% despite tests running.
 
 **Solution**: 
 - Verify `@storybook/addon-coverage` is installed and configured in main.ts
-- Check that Jest configuration includes correct coverage settings
-- Ensure LCOV files are generated in `coverage/storybook/lcov.info`
+- Ensure coverage addon is properly configured in Storybook
+- Check that coverage files are generated during test runs
 
 #### 2. PR Comments Not Posted
 **Problem**: "Resource not accessible by integration" error.
