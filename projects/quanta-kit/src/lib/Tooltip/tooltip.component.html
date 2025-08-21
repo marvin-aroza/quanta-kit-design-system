@@ -1,0 +1,38 @@
+<div 
+  #triggerElement
+  class="qk-tooltip-trigger"
+  [attr.aria-describedby]="!hasInteractiveChildren() && isVisible() ? tooltipId : null"
+  [attr.aria-expanded]="!hasInteractiveChildren() ? isVisible() : null"
+  (mouseenter)="onTriggerMouseEnter()"
+  (mouseleave)="onTriggerMouseLeave()"
+  (focus)="onTriggerFocus($event)"
+  (blur)="onTriggerBlur($event)"
+  (click)="onTriggerClick($event)"
+  [attr.tabindex]="!hasInteractiveChildren() ? triggerTabIndex : null"
+  [attr.role]="!hasInteractiveChildren() ? 'button' : null">
+  <ng-content></ng-content>
+</div>
+
+@if (isVisible()) {
+  <div 
+    #tooltipElement
+    [id]="tooltipId"
+    class="qk-tooltip"
+    [class]="tooltipClasses"
+    [style]="tooltipStyles"
+    role="tooltip"
+    [attr.aria-hidden]="!isVisible()"
+    (mouseenter)="onTooltipMouseEnter()"
+    (mouseleave)="onTooltipMouseLeave()">
+    
+    @if (type === 'plain') {
+      <div class="qk-tooltip-text">{{ text }}</div>
+    } @else {
+      <div class="qk-tooltip-rich">
+        <ng-content select="[slot=tooltip-content]"></ng-content>
+      </div>
+    }
+    
+    <div class="qk-tooltip-arrow" [class]="arrowClasses"></div>
+  </div>
+}
