@@ -9,26 +9,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
   selector: 'qk-button',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <button
-      [type]="type"
-      [disabled]="disabled || loading"
-      [class]="buttonClasses"
-      (click)="handleClick($event)"
-      (focus)="handleFocus($event)"
-      (blur)="handleBlur($event)"
-      [attr.aria-label]="ariaLabel"
-      [attr.aria-pressed]="ariaPressed"
-      [attr.data-testid]="testId"
-    >
-      <span *ngIf="loading" class="qk-btn-spinner" aria-hidden="true"></span>
-      <ng-content select="[slot=icon-left]"></ng-content>
-      <span class="qk-btn-content" [class.qk-btn-content--hidden]="loading && hideTextOnLoading">
-        <ng-content></ng-content>
-      </span>
-      <ng-content select="[slot=icon-right]"></ng-content>
-    </button>
-  `,
+  templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
