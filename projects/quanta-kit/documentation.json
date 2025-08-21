@@ -11,6 +11,16 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "AccessibilityShowcase",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"padding: 50px;\">\r\n        <h3 style=\"margin-bottom: 30px;\">Accessibility Fixes</h3>\r\n        \r\n        <div style=\"display: grid; gap: 30px;\">\r\n          <div>\r\n            <h4>✅ FIXED: No nested interactive elements</h4>\r\n            <p style=\"font-size: 14px; color: #666; margin-bottom: 15px;\">\r\n              When tooltip contains interactive elements (buttons, links, inputs), \r\n              the wrapper does NOT get role=\"button\", tabindex, or aria-expanded attributes.\r\n            </p>\r\n            <div style=\"display: flex; gap: 15px; flex-wrap: wrap;\">\r\n              \r\n              <qk-tooltip text=\"Tooltip on button\" trigger=\"hover\">\r\n                <button>Button</button>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Tooltip on link\" trigger=\"hover\">\r\n                <a href=\"#\" onclick=\"event.preventDefault()\">Link</a>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Input help text\" trigger=\"focus\">\r\n                <input placeholder=\"Email\" />\r\n              </qk-tooltip>\r\n              \r\n            </div>\r\n            <p style=\"font-size: 12px; color: #888; margin-top: 10px;\">\r\n              Expected HTML: &lt;div class=\"qk-tooltip-trigger\"&gt;&lt;button&gt;Button&lt;/button&gt;&lt;/div&gt;\r\n              <br>No role, tabindex, or aria-expanded on wrapper div.\r\n            </p>\r\n          </div>\r\n          \r\n          <div>\r\n            <h4>✅ FIXED: Proper ARIA for non-interactive content</h4>\r\n            <p style=\"font-size: 14px; color: #666; margin-bottom: 15px;\">\r\n              When tooltip contains non-interactive content, the wrapper gets proper \r\n              role=\"button\", tabindex, and aria-expanded attributes.\r\n            </p>\r\n            <div style=\"display: flex; gap: 15px; flex-wrap: wrap;\">\r\n              \r\n              <qk-tooltip text=\"Info about this text\" trigger=\"hover\">\r\n                <span>Non-interactive text</span>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Help information\" trigger=\"hover\">\r\n                <span style=\"display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #1976d2; color: white; font-size: 14px; cursor: help;\">?</span>\r\n              </qk-tooltip>\r\n              \r\n            </div>\r\n            <p style=\"font-size: 12px; color: #888; margin-top: 10px;\">\r\n              Expected HTML: &lt;div class=\"qk-tooltip-trigger\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\"&gt;&lt;span&gt;Text&lt;/span&gt;&lt;/div&gt;\r\n              <br>Wrapper has proper ARIA attributes.\r\n            </p>\r\n          </div>\r\n          \r\n          <div style=\"background: #f5f5f5; padding: 20px; border-radius: 8px;\">\r\n            <h4>🔧 Technical Implementation</h4>\r\n            <ul style=\"font-size: 14px; margin: 10px 0; padding-left: 20px;\">\r\n              <li>Component detects interactive children after view initialization</li>\r\n              <li>Uses Angular signals for reactive accessibility state</li>\r\n              <li>Conditionally applies role=\"button\", tabindex, and aria-expanded</li>\r\n              <li>Prevents nested interactive elements that confuse screen readers</li>\r\n              <li>Follows WCAG guidelines for proper ARIA usage</li>\r\n            </ul>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "AllClassModifiers",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -39,6 +49,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'success',\r\n        size: 'lg',\r\n        fullWidth: true,\r\n        rounded: true,\r\n        loading: true,\r\n        disabled: false,\r\n        customClass: 'test-modifier-class'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [loading]=\"loading\"\r\n      [disabled]=\"disabled\"\r\n      [customClass]=\"customClass\">\r\n      All Modifiers Combined\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Tests all possible modifier combinations to ensure buttonClasses getter covers all branches.'\r\n            }\r\n        }\r\n    }\r\n}"
+            },
+            {
+                "name": "AllPositions",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"padding: 100px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; place-items: center;\">\r\n        <qk-tooltip text=\"Top Start\" position=\"top-start\" trigger=\"hover\">\r\n          <button>Top Start</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Top\" position=\"top\" trigger=\"hover\">\r\n          <button>Top</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Top End\" position=\"top-end\" trigger=\"hover\">\r\n          <button>Top End</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left Start\" position=\"left-start\" trigger=\"hover\">\r\n          <button>Left Start</button>\r\n        </qk-tooltip>\r\n        <div style=\"display: flex; justify-content: center; align-items: center;\">\r\n          <span>Tooltip Positions</span>\r\n        </div>\r\n        <qk-tooltip text=\"Right Start\" position=\"right-start\" trigger=\"hover\">\r\n          <button>Right Start</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left\" position=\"left\" trigger=\"hover\">\r\n          <button>Left</button>\r\n        </qk-tooltip>\r\n        <div></div>\r\n        <qk-tooltip text=\"Right\" position=\"right\" trigger=\"hover\">\r\n          <button>Right</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left End\" position=\"left-end\" trigger=\"hover\">\r\n          <button>Left End</button>\r\n        </qk-tooltip>\r\n        <div></div>\r\n        <qk-tooltip text=\"Right End\" position=\"right-end\" trigger=\"hover\">\r\n          <button>Right End</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Bottom Start\" position=\"bottom-start\" trigger=\"hover\">\r\n          <button>Bottom Start</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Bottom\" position=\"bottom\" trigger=\"hover\">\r\n          <button>Bottom</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Bottom End\" position=\"bottom-end\" trigger=\"hover\">\r\n          <button>Bottom End</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "AllRolesCoverage",
@@ -101,6 +121,16 @@
                 "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    size: 'md',\r\n    elevation: 'flat'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [elevation]=\"elevation\"\r\n      [disabled]=\"disabled\" \r\n      [selected]=\"selected\"\r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      [hasLeadingIcon]=\"hasLeadingIcon\"\r\n      [hasTrailingIcon]=\"hasTrailingIcon\"\r\n      [hasAvatar]=\"hasAvatar\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Assist Chip\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
+                "name": "BottomPosition",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on bottom',\r\n    position: 'bottom',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Bottom tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "ChipSet",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -119,6 +149,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    clickable: true,\r\n    clicked: fn(),\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [clickable]=\"clickable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\">\r\n      Click Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Click Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });\r\n    \r\n    // Test click on chip content (should work for removable input chips)\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    // Test click on remove button (should only trigger remove)\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Reset call counts by creating new mock functions if needed\r\n    // The component logic handles preventing double events\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests click handling edge cases for removable chips.'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "ClickTrigger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by click',\r\n    position: 'top',\r\n    trigger: 'click'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Click trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "ClickWhenDisabled",
@@ -161,6 +201,16 @@
                 "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 24px; padding: 20px;\">\r\n      <div>\r\n        <h3 style=\"margin: 0 0 12px 0; font-size: 16px; font-weight: 600;\">Filter Chips (with selection)</h3>\r\n        <div style=\"display: flex; flex-wrap: wrap; gap: 8px;\">\r\n          <qk-chip variant=\"filter\" [selected]=\"true\" hasTrailingIcon>\r\n            Selected Filter\r\n            <span slot=\"trailing-icon\">✓</span>\r\n          </qk-chip>\r\n          <qk-chip variant=\"filter\" [selected]=\"false\" hasTrailingIcon>\r\n            Unselected Filter\r\n            <span slot=\"trailing-icon\">▼</span>\r\n          </qk-chip>\r\n        </div>\r\n      </div>\r\n      \r\n      <div>\r\n        <h3 style=\"margin: 0 0 12px 0; font-size: 16px; font-weight: 600;\">Input Chips (removable)</h3>\r\n        <div style=\"display: flex; flex-wrap: wrap; gap: 8px;\">\r\n          <qk-chip variant=\"input\" [removable]=\"true\" customClass=\"custom-input-chip\">\r\n            Removable Input\r\n          </qk-chip>\r\n          <qk-chip variant=\"input\" [removable]=\"true\" [disabled]=\"true\">\r\n            Disabled Removable\r\n          </qk-chip>\r\n        </div>\r\n      </div>\r\n      \r\n      <div>\r\n        <h3 style=\"margin: 0 0 12px 0; font-size: 16px; font-weight: 600;\">Suggestion Chips (interactive)</h3>\r\n        <div style=\"display: flex; flex-wrap: wrap; gap: 8px;\">\r\n          <qk-chip variant=\"suggestion\" [clickable]=\"true\" hasLeadingIcon>\r\n            <span slot=\"leading-icon\">🔍</span>\r\n            Clickable Suggestion\r\n          </qk-chip>\r\n          <qk-chip variant=\"suggestion\" [clickable]=\"false\">\r\n            Non-clickable\r\n          </qk-chip>\r\n        </div>\r\n      </div>\r\n      \r\n      <div>\r\n        <h3 style=\"margin: 0 0 12px 0; font-size: 16px; font-weight: 600;\">Assist Chips</h3>\r\n        <div style=\"display: flex; flex-wrap: wrap; gap: 8px;\">\r\n          <qk-chip variant=\"assist\" hasAvatar ariaLabel=\"User profile chip\">\r\n            <span slot=\"avatar\">👤</span>\r\n            With Avatar\r\n          </qk-chip>\r\n          <qk-chip variant=\"assist\" testId=\"assist-chip-test\">\r\n            Standard Assist\r\n          </qk-chip>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    `\r\n  }),\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Comprehensive showcase of all chip variants, features, and interactive states.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
+                "name": "CustomClass",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom class',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    customClass: 'custom-tooltip-style'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <style>\r\n        .custom-tooltip-style {\r\n          background-color: #ff5722 !important;\r\n          color: white !important;\r\n        }\r\n      </style>\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [customClass]=\"customClass\">\r\n          <button>Custom style</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "CustomClassHandling",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -169,6 +219,36 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md',\r\n        customClass: 'my-custom-class another-custom-class'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [customClass]=\"customClass\">\r\n      Button with Custom Classes\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Tests custom class handling in the buttonClasses getter.'\r\n            }\r\n        }\r\n    }\r\n}"
+            },
+            {
+                "name": "CustomDelays",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom delays',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    showDelay: 1000,\r\n    hideDelay: 500\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [showDelay]=\"showDelay\" [hideDelay]=\"hideDelay\">\r\n          <button>Custom delays</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "CustomMaxWidth",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This is a very long tooltip text that should wrap based on the max width setting to demonstrate how the tooltip handles longer content',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    maxWidth: '200px'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [maxWidth]=\"maxWidth\">\r\n          <button>Max width</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "CustomOffset",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom offset',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    offset: 20\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [offset]=\"offset\">\r\n          <button>Custom offset</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "Danger",
@@ -181,6 +261,16 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'danger',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Danger Button\r\n    </qk-button>`\r\n    })\r\n}"
             },
             {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This is a simple tooltip',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    type: 'plain',\r\n    disabled: false,\r\n    showDelay: 500,\r\n    hideDelay: 0,\r\n    persistent: false,\r\n    customClass: '',\r\n    maxWidth: '320px',\r\n    triggerTabIndex: 0,\r\n    offset: 8\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip \r\n          [text]=\"text\"\r\n          [position]=\"position\"\r\n          [trigger]=\"trigger\"\r\n          [type]=\"type\"\r\n          [disabled]=\"disabled\"\r\n          [showDelay]=\"showDelay\"\r\n          [hideDelay]=\"hideDelay\"\r\n          [persistent]=\"persistent\"\r\n          [customClass]=\"customClass\"\r\n          [maxWidth]=\"maxWidth\"\r\n          [triggerTabIndex]=\"triggerTabIndex\"\r\n          [offset]=\"offset\">\r\n          <button>Hover me</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "Disabled",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -189,6 +279,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        disabled: true,\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\">\r\n      Disabled Button\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Button in disabled state'\r\n            }\r\n        }\r\n    }\r\n}"
+            },
+            {
+                "name": "Disabled",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip is disabled',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    disabled: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [disabled]=\"disabled\">\r\n          <button>Disabled tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "DisabledAndLoading",
@@ -241,6 +341,16 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md',\r\n        customClass: ''\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [customClass]=\"customClass\">\r\n      Button with Empty Custom Class\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Tests handling of empty custom class to ensure no empty strings are added to classes.'\r\n            }\r\n        }\r\n    }\r\n}"
             },
             {
+                "name": "EmptyText",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: '',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Empty tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "EventHandlers",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -281,6 +391,16 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `\r\n    <div style=\"display: flex; flex-direction: column; gap: 1rem;\">\r\n      <p>This story tests focus and blur events:</p>\r\n      <qk-button \r\n        [variant]=\"variant\" \r\n        [size]=\"size\"\r\n        (clicked)=\"clicked($event)\"\r\n        (focused)=\"focused($event)\"\r\n        (blurred)=\"blurred($event)\">\r\n        Focus/Blur Test Button\r\n      </qk-button>\r\n      <qk-button variant=\"secondary\">Another Button (for tabbing)</qk-button>\r\n    </div>\r\n    `\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Story specifically designed to test focus and blur event handling. The play function will automatically trigger these events for testing coverage.'\r\n            }\r\n        }\r\n    },\r\n    play: async ({ canvasElement }) => {\r\n        const canvas = within(canvasElement);\r\n        const button = canvas.getByText('Focus/Blur Test Button');\r\n\r\n        // Focus the button\r\n        await userEvent.click(button);\r\n        await button.focus();\r\n\r\n        // Blur the button by focusing another element\r\n        const secondButton = canvas.getByText('Another Button (for tabbing)');\r\n        await userEvent.tab();\r\n        await secondButton.focus();\r\n    }\r\n}"
             },
             {
+                "name": "FocusTrigger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by focus',\r\n    position: 'top',\r\n    trigger: 'focus'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Focus trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "FullWidth",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -299,6 +419,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'dark',\r\n        size: 'xl',\r\n        fullWidth: true,\r\n        customClass: 'test-full-width-custom'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [customClass]=\"customClass\">\r\n      Full Width + Custom Class\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Tests full width with custom class combination.'\r\n            }\r\n        }\r\n    }\r\n}"
+            },
+            {
+                "name": "HoverTrigger",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by hover',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Hover trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "IconOnly",
@@ -351,6 +481,16 @@
                 "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    clickable: true,\r\n    ariaLabel: 'Keyboard test chip',\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [clickable]=\"clickable\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Keyboard Test\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByRole('button');\r\n    \r\n    // Test focus\r\n    chip.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    // Test keyboard interaction\r\n    await userEvent.keyboard('{Enter}');\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    await userEvent.keyboard(' ');\r\n    expect(args.clicked).toHaveBeenCalledTimes(2);\r\n    \r\n    // Test blur\r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests keyboard navigation and event handling for accessibility compliance.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
+                "name": "LeftPosition",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on left',\r\n    position: 'left',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Left tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "Loading",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -384,11 +524,31 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<TooltipComponent>",
+                "defaultValue": "{\r\n  title: 'Components/Tooltip',\r\n  component: TooltipComponent,\r\n  parameters: {\r\n    layout: 'centered',\r\n    docs: {\r\n      description: {\r\n        component: 'A Material 3 compliant tooltip component that provides contextual information on hover, focus, or click.'\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    text: {\r\n      control: 'text',\r\n      description: 'The text content to display in the tooltip'\r\n    },\r\n    position: {\r\n      control: 'select',\r\n      options: ['top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'left-start', 'left-end', 'right-start', 'right-end'],\r\n      description: 'Position of the tooltip relative to the trigger element'\r\n    },\r\n    trigger: {\r\n      control: 'select',\r\n      options: ['hover', 'focus', 'click', 'manual'],\r\n      description: 'How the tooltip is triggered'\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['plain', 'rich'],\r\n      description: 'Type of tooltip - plain or rich'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the tooltip is disabled'\r\n    },\r\n    showDelay: {\r\n      control: 'number',\r\n      description: 'Delay in milliseconds before showing the tooltip'\r\n    },\r\n    hideDelay: {\r\n      control: 'number',\r\n      description: 'Delay in milliseconds before hiding the tooltip'\r\n    },\r\n    persistent: {\r\n      control: 'boolean',\r\n      description: 'Whether the tooltip persists when hovering over it'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS class to apply to the tooltip'\r\n    },\r\n    maxWidth: {\r\n      control: 'text',\r\n      description: 'Maximum width of the tooltip'\r\n    },\r\n    triggerTabIndex: {\r\n      control: 'number',\r\n      description: 'Tab index for the trigger element'\r\n    },\r\n    offset: {\r\n      control: 'number',\r\n      description: 'Distance from trigger element in pixels'\r\n    }\r\n  },\r\n  tags: ['autodocs']\r\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Meta<ChipComponent>",
                 "defaultValue": "{\r\n  title: 'Components/Chip',\r\n  component: ChipComponent,\r\n  tags: ['autodocs'],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Chip component follows Material UI 3 design guidelines and provides versatile functionality for representing input, attributes, or actions.\r\n\r\n## Features\r\n- **4 Variants**: assist, filter, input, suggestion following Material UI 3 specifications\r\n- **2 Sizes**: sm (24px), md (32px)\r\n- **2 Elevations**: flat, elevated\r\n- **Interactive States**: clickable, selectable, removable\r\n- **Icon Support**: leading icons, trailing icons, avatars\r\n- **Accessibility**: ARIA attributes, keyboard navigation\r\n- **Events**: click, remove, focus, blur, selection change\r\n\r\n## Chip Types (Material UI 3)\r\n- **Assist Chips**: Help users take actions or see information\r\n- **Filter Chips**: Let users select from a set of options\r\n- **Input Chips**: Represent discrete pieces of information\r\n- **Suggestion Chips**: Present dynamically generated suggestions\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-chip variant=\"assist\" size=\"md\" [clickable]=\"true\">\r\n  Assist Chip\r\n</qk-chip>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-chip variant=\"filter\" [hasLeadingIcon]=\"true\">\r\n  <svg slot=\"leading-icon\" width=\"18\" height=\"18\">...</svg>\r\n  Filter with Icon\r\n</qk-chip>\r\n\\`\\`\\`\r\n\r\n## Removable Input Chip\r\n\\`\\`\\`html\r\n<qk-chip variant=\"input\" [removable]=\"true\" (removed)=\"onRemove($event)\">\r\n  Removable Input\r\n</qk-chip>\r\n\\`\\`\\`\r\n        `\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\r\n      description: 'The Material UI 3 chip variant'\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['sm', 'md'] as ChipSize[],\r\n      description: 'The size of the chip'\r\n    },\r\n    elevation: {\r\n      control: 'select',\r\n      options: ['flat', 'elevated'] as ChipElevation[],\r\n      description: 'The elevation style of the chip'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is disabled'\r\n    },\r\n    selected: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is selected (for filter chips)'\r\n    },\r\n    clickable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is clickable'\r\n    },\r\n    removable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip can be removed'\r\n    },\r\n    hasLeadingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a leading icon'\r\n    },\r\n    hasTrailingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a trailing icon'\r\n    },\r\n    hasAvatar: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has an avatar'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply'\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility'\r\n    },\r\n    removeAriaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for remove button'\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes'\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when chip is clicked'\r\n    },\r\n    removed: {\r\n      action: 'removed',\r\n      description: 'Event emitted when chip is removed'\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when chip receives focus'\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when chip loses focus'\r\n    },\r\n    selectionChange: {\r\n      action: 'selectionChange',\r\n      description: 'Event emitted when chip selection changes'\r\n    }\r\n  },\r\n  args: {\r\n    selected: false,\r\n    ariaLabel: 'Chip action',\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  }\r\n}"
+            },
+            {
+                "name": "Persistent",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip persists on hover',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    persistent: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [persistent]=\"persistent\">\r\n          <button>Persistent tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "Playground",
@@ -471,6 +631,26 @@
                 "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      (removed)=\"removed($event)\">\r\n      Custom Remove Icon\r\n      <svg remove-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
+                "name": "RichTooltip",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Rich tooltip with enhanced styling',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    type: 'rich'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [type]=\"type\">\r\n          <button>Rich tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "RightPosition",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on right',\r\n    position: 'right',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Right tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "Rounded",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -541,6 +721,16 @@
                 "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;\">\r\n        <!-- Disabled chip (tabindex -1) -->\r\n        <qk-chip [disabled]=\"true\">Disabled</qk-chip>\r\n        \r\n        <!-- Filter chip (tabindex 0) -->\r\n        <qk-chip variant=\"filter\">Filter</qk-chip>\r\n        \r\n        <!-- Filter chip removable (tabindex 0) -->\r\n        <qk-chip variant=\"filter\" [removable]=\"true\">Filter Removable</qk-chip>\r\n        \r\n        <!-- Non-filter removable (tabindex -1) -->\r\n        <qk-chip variant=\"input\" [removable]=\"true\">Input Removable</qk-chip>\r\n        \r\n        <!-- Clickable non-filter (tabindex 0) -->\r\n        <qk-chip variant=\"assist\" [clickable]=\"true\">Clickable Assist</qk-chip>\r\n        \r\n        <!-- Non-clickable non-filter (tabindex -1) -->\r\n        <qk-chip variant=\"suggestion\" [clickable]=\"false\">Non-clickable</qk-chip>\r\n      </div>\r\n    `\r\n  }),\r\n  play: async ({ canvasElement }) => {\r\n    const canvas = within(canvasElement);\r\n    \r\n    // Test that chips are rendered correctly with different focusability\r\n    const filterChip = canvas.getByText('Filter');\r\n    expect(filterChip).toBeInTheDocument();\r\n    \r\n    const disabledChip = canvas.getByText('Disabled');\r\n    expect(disabledChip).toBeInTheDocument();\r\n    \r\n    const clickableChip = canvas.getByText('Clickable Assist');\r\n    expect(clickableChip).toBeInTheDocument();\r\n    \r\n    const nonClickableChip = canvas.getByText('Non-clickable');\r\n    expect(nonClickableChip).toBeInTheDocument();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all tabindex calculation scenarios for keyboard navigation.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
+                "name": "TopPosition",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on top',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Top tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "WithAvatar",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -571,6 +761,36 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z\"/>\r\n      </svg>\r\n      Save Changes\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Button with icons on both left and right sides'\r\n            }\r\n        }\r\n    }\r\n}"
             },
             {
+                "name": "WithButton",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip is attached to a button',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <button>Button with tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "WithIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'This is an information icon',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <span style=\"display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #1976d2; color: white; font-size: 14px; cursor: help;\">?</span>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "WithInput",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Enter your email address',\r\n    trigger: 'focus'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <input type=\"email\" placeholder=\"Email\" />\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
                 "name": "WithLeadingIcon",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -589,6 +809,26 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      <svg slot=\"icon-left\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z\"/>\r\n      </svg>\r\n      Add Item\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Button with an icon on the left side'\r\n            }\r\n        }\r\n    }\r\n}"
+            },
+            {
+                "name": "WithLink",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'More information about this link',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <a href=\"#\" onclick=\"event.preventDefault()\">Link with tooltip</a>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+            },
+            {
+                "name": "WithNonInteractiveText",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    text: 'Additional information about this text',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <span>Hover over this text</span>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
             },
             {
                 "name": "WithRightIcon",
@@ -628,6 +868,17 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
+                "rawtype": "StoryObj<TooltipComponent>",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
                 "rawtype": "StoryObj<ChipComponent>",
                 "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
@@ -638,6 +889,248 @@
         ],
         "enumerations": [],
         "groupedVariables": {
+            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
+                {
+                    "name": "AccessibilityShowcase",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"padding: 50px;\">\r\n        <h3 style=\"margin-bottom: 30px;\">Accessibility Fixes</h3>\r\n        \r\n        <div style=\"display: grid; gap: 30px;\">\r\n          <div>\r\n            <h4>✅ FIXED: No nested interactive elements</h4>\r\n            <p style=\"font-size: 14px; color: #666; margin-bottom: 15px;\">\r\n              When tooltip contains interactive elements (buttons, links, inputs), \r\n              the wrapper does NOT get role=\"button\", tabindex, or aria-expanded attributes.\r\n            </p>\r\n            <div style=\"display: flex; gap: 15px; flex-wrap: wrap;\">\r\n              \r\n              <qk-tooltip text=\"Tooltip on button\" trigger=\"hover\">\r\n                <button>Button</button>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Tooltip on link\" trigger=\"hover\">\r\n                <a href=\"#\" onclick=\"event.preventDefault()\">Link</a>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Input help text\" trigger=\"focus\">\r\n                <input placeholder=\"Email\" />\r\n              </qk-tooltip>\r\n              \r\n            </div>\r\n            <p style=\"font-size: 12px; color: #888; margin-top: 10px;\">\r\n              Expected HTML: &lt;div class=\"qk-tooltip-trigger\"&gt;&lt;button&gt;Button&lt;/button&gt;&lt;/div&gt;\r\n              <br>No role, tabindex, or aria-expanded on wrapper div.\r\n            </p>\r\n          </div>\r\n          \r\n          <div>\r\n            <h4>✅ FIXED: Proper ARIA for non-interactive content</h4>\r\n            <p style=\"font-size: 14px; color: #666; margin-bottom: 15px;\">\r\n              When tooltip contains non-interactive content, the wrapper gets proper \r\n              role=\"button\", tabindex, and aria-expanded attributes.\r\n            </p>\r\n            <div style=\"display: flex; gap: 15px; flex-wrap: wrap;\">\r\n              \r\n              <qk-tooltip text=\"Info about this text\" trigger=\"hover\">\r\n                <span>Non-interactive text</span>\r\n              </qk-tooltip>\r\n              \r\n              <qk-tooltip text=\"Help information\" trigger=\"hover\">\r\n                <span style=\"display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #1976d2; color: white; font-size: 14px; cursor: help;\">?</span>\r\n              </qk-tooltip>\r\n              \r\n            </div>\r\n            <p style=\"font-size: 12px; color: #888; margin-top: 10px;\">\r\n              Expected HTML: &lt;div class=\"qk-tooltip-trigger\" role=\"button\" tabindex=\"0\" aria-expanded=\"false\"&gt;&lt;span&gt;Text&lt;/span&gt;&lt;/div&gt;\r\n              <br>Wrapper has proper ARIA attributes.\r\n            </p>\r\n          </div>\r\n          \r\n          <div style=\"background: #f5f5f5; padding: 20px; border-radius: 8px;\">\r\n            <h4>🔧 Technical Implementation</h4>\r\n            <ul style=\"font-size: 14px; margin: 10px 0; padding-left: 20px;\">\r\n              <li>Component detects interactive children after view initialization</li>\r\n              <li>Uses Angular signals for reactive accessibility state</li>\r\n              <li>Conditionally applies role=\"button\", tabindex, and aria-expanded</li>\r\n              <li>Prevents nested interactive elements that confuse screen readers</li>\r\n              <li>Follows WCAG guidelines for proper ARIA usage</li>\r\n            </ul>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "AllPositions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"padding: 100px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; place-items: center;\">\r\n        <qk-tooltip text=\"Top Start\" position=\"top-start\" trigger=\"hover\">\r\n          <button>Top Start</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Top\" position=\"top\" trigger=\"hover\">\r\n          <button>Top</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Top End\" position=\"top-end\" trigger=\"hover\">\r\n          <button>Top End</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left Start\" position=\"left-start\" trigger=\"hover\">\r\n          <button>Left Start</button>\r\n        </qk-tooltip>\r\n        <div style=\"display: flex; justify-content: center; align-items: center;\">\r\n          <span>Tooltip Positions</span>\r\n        </div>\r\n        <qk-tooltip text=\"Right Start\" position=\"right-start\" trigger=\"hover\">\r\n          <button>Right Start</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left\" position=\"left\" trigger=\"hover\">\r\n          <button>Left</button>\r\n        </qk-tooltip>\r\n        <div></div>\r\n        <qk-tooltip text=\"Right\" position=\"right\" trigger=\"hover\">\r\n          <button>Right</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Left End\" position=\"left-end\" trigger=\"hover\">\r\n          <button>Left End</button>\r\n        </qk-tooltip>\r\n        <div></div>\r\n        <qk-tooltip text=\"Right End\" position=\"right-end\" trigger=\"hover\">\r\n          <button>Right End</button>\r\n        </qk-tooltip>\r\n        \r\n        <qk-tooltip text=\"Bottom Start\" position=\"bottom-start\" trigger=\"hover\">\r\n          <button>Bottom Start</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Bottom\" position=\"bottom\" trigger=\"hover\">\r\n          <button>Bottom</button>\r\n        </qk-tooltip>\r\n        <qk-tooltip text=\"Bottom End\" position=\"bottom-end\" trigger=\"hover\">\r\n          <button>Bottom End</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "BottomPosition",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on bottom',\r\n    position: 'bottom',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Bottom tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "ClickTrigger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by click',\r\n    position: 'top',\r\n    trigger: 'click'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Click trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "CustomClass",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom class',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    customClass: 'custom-tooltip-style'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <style>\r\n        .custom-tooltip-style {\r\n          background-color: #ff5722 !important;\r\n          color: white !important;\r\n        }\r\n      </style>\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [customClass]=\"customClass\">\r\n          <button>Custom style</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "CustomDelays",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom delays',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    showDelay: 1000,\r\n    hideDelay: 500\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [showDelay]=\"showDelay\" [hideDelay]=\"hideDelay\">\r\n          <button>Custom delays</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "CustomMaxWidth",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This is a very long tooltip text that should wrap based on the max width setting to demonstrate how the tooltip handles longer content',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    maxWidth: '200px'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [maxWidth]=\"maxWidth\">\r\n          <button>Max width</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "CustomOffset",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip with custom offset',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    offset: 20\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [offset]=\"offset\">\r\n          <button>Custom offset</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This is a simple tooltip',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    type: 'plain',\r\n    disabled: false,\r\n    showDelay: 500,\r\n    hideDelay: 0,\r\n    persistent: false,\r\n    customClass: '',\r\n    maxWidth: '320px',\r\n    triggerTabIndex: 0,\r\n    offset: 8\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip \r\n          [text]=\"text\"\r\n          [position]=\"position\"\r\n          [trigger]=\"trigger\"\r\n          [type]=\"type\"\r\n          [disabled]=\"disabled\"\r\n          [showDelay]=\"showDelay\"\r\n          [hideDelay]=\"hideDelay\"\r\n          [persistent]=\"persistent\"\r\n          [customClass]=\"customClass\"\r\n          [maxWidth]=\"maxWidth\"\r\n          [triggerTabIndex]=\"triggerTabIndex\"\r\n          [offset]=\"offset\">\r\n          <button>Hover me</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "Disabled",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip is disabled',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    disabled: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [disabled]=\"disabled\">\r\n          <button>Disabled tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "EmptyText",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: '',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Empty tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "FocusTrigger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by focus',\r\n    position: 'top',\r\n    trigger: 'focus'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Focus trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "HoverTrigger",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Triggered by hover',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Hover trigger</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "LeftPosition",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on left',\r\n    position: 'left',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Left tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<TooltipComponent>",
+                    "defaultValue": "{\r\n  title: 'Components/Tooltip',\r\n  component: TooltipComponent,\r\n  parameters: {\r\n    layout: 'centered',\r\n    docs: {\r\n      description: {\r\n        component: 'A Material 3 compliant tooltip component that provides contextual information on hover, focus, or click.'\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    text: {\r\n      control: 'text',\r\n      description: 'The text content to display in the tooltip'\r\n    },\r\n    position: {\r\n      control: 'select',\r\n      options: ['top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'left-start', 'left-end', 'right-start', 'right-end'],\r\n      description: 'Position of the tooltip relative to the trigger element'\r\n    },\r\n    trigger: {\r\n      control: 'select',\r\n      options: ['hover', 'focus', 'click', 'manual'],\r\n      description: 'How the tooltip is triggered'\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['plain', 'rich'],\r\n      description: 'Type of tooltip - plain or rich'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the tooltip is disabled'\r\n    },\r\n    showDelay: {\r\n      control: 'number',\r\n      description: 'Delay in milliseconds before showing the tooltip'\r\n    },\r\n    hideDelay: {\r\n      control: 'number',\r\n      description: 'Delay in milliseconds before hiding the tooltip'\r\n    },\r\n    persistent: {\r\n      control: 'boolean',\r\n      description: 'Whether the tooltip persists when hovering over it'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS class to apply to the tooltip'\r\n    },\r\n    maxWidth: {\r\n      control: 'text',\r\n      description: 'Maximum width of the tooltip'\r\n    },\r\n    triggerTabIndex: {\r\n      control: 'number',\r\n      description: 'Tab index for the trigger element'\r\n    },\r\n    offset: {\r\n      control: 'number',\r\n      description: 'Distance from trigger element in pixels'\r\n    }\r\n  },\r\n  tags: ['autodocs']\r\n}"
+                },
+                {
+                    "name": "Persistent",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip persists on hover',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    persistent: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [persistent]=\"persistent\">\r\n          <button>Persistent tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "RichTooltip",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Rich tooltip with enhanced styling',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    type: 'rich'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\" [type]=\"type\">\r\n          <button>Rich tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "RightPosition",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on right',\r\n    position: 'right',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Right tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "TopPosition",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Tooltip on top',\r\n    position: 'top',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [position]=\"position\" [trigger]=\"trigger\">\r\n          <button>Top tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithButton",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip is attached to a button',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <button>Button with tooltip</button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'This is an information icon',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <span style=\"display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #1976d2; color: white; font-size: 14px; cursor: help;\">?</span>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithInput",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Enter your email address',\r\n    trigger: 'focus'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <input type=\"email\" placeholder=\"Email\" />\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithLink",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'More information about this link',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <a href=\"#\" onclick=\"event.preventDefault()\">Link with tooltip</a>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                },
+                {
+                    "name": "WithNonInteractiveText",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    text: 'Additional information about this text',\r\n    trigger: 'hover'\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; display: flex; justify-content: center; align-items: center;\">\r\n        <qk-tooltip [text]=\"text\" [trigger]=\"trigger\">\r\n          <span>Hover over this text</span>\r\n        </qk-tooltip>\r\n      </div>\r\n    `\r\n  })\r\n}"
+                }
+            ],
             "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
                 {
                     "name": "AllClassModifiers",
@@ -1255,6 +1748,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<ButtonComponent>",
                     "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<TooltipComponent>",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -1893,6 +2399,256 @@
             },
             {
                 "filePath": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "AccessibilityShowcase",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "AllPositions",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "BottomPosition",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ClickTrigger",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CustomClass",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CustomDelays",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CustomMaxWidth",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "CustomOffset",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Disabled",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "EmptyText",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "FocusTrigger",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "HoverTrigger",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LeftPosition",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Persistent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "RichTooltip",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "RightPosition",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "TopPosition",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithButton",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithIcon",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithInput",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithLink",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithNonInteractiveText",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "type": "type alias",
                 "linktype": "miscellaneous",
                 "linksubtype": "typealias",

@@ -3,3 +3,4 @@
  */
 export * from './lib/Button';
 export * from './lib/Chip';
+export * from './lib/Tooltip';

@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ release-prod, main, develop, pre-release ]
+    branches: [ release-prod, main, develop ]
   pull_request:
-    branches: [ release-prod, main, develop, pre-release ]
+    branches: [ release-prod, main, develop ]
 
 permissions:
   contents: write
@@ -449,7 +449,7 @@ jobs:
     name: Deploy Storybook to GitHub Pages
     runs-on: ubuntu-latest
     needs: [install, build, audit, test]
-    if: github.ref == 'refs/heads/pre-release' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
