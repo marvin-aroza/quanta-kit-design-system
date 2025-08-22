@@ -164,6 +164,15 @@ jobs:
     - name: Clean dist directory to avoid Jest conflicts
       run: rm -rf dist/
 
+    - name: Run Jest Tests with Coverage
+      id: jest-tests
+      continue-on-error: true
+      run: |
+        echo "🧪 Running Jest tests with coverage..."
+        npm run test:coverage
+      env:
+        CI: true
+
     - name: Build Storybook for testing
       run: |
         npm run build-storybook
@@ -187,6 +196,16 @@ jobs:
 
     - name: Set test status
       run: |
+        # Check Jest test results
+        if [ "${{ steps.jest-tests.outcome }}" = "failure" ]; then
+          echo "JEST_TESTS_FAILED=true" >> $GITHUB_ENV
+          echo "❌ Jest tests failed"
+        else
+          echo "JEST_TESTS_FAILED=false" >> $GITHUB_ENV
+          echo "✅ Jest tests passed"
+        fi
+        
+        # Check Storybook test results
         if [ "${{ steps.storybook-tests.outcome }}" = "failure" ]; then
           echo "STORYBOOK_TESTS_FAILED=true" >> $GITHUB_ENV
           echo "❌ Storybook tests failed"
@@ -195,176 +214,187 @@ jobs:
           echo "✅ Storybook tests passed"
         fi
 
-    - name: Check Storybook test coverage threshold
+    - name: Check Jest test coverage threshold
       run: |
-        # Check Storybook coverage if it exists
-        if [ -f "coverage/storybook/lcov.info" ]; then
-          echo "Checking Storybook test coverage..."
+        # Check Jest coverage if it exists
+        if [ -f "coverage/lcov.info" ]; then
+          echo "Checking Jest test coverage..."
           
           # Debug: Show what coverage files exist
           echo "Coverage files found:"
           find coverage/ -type f -name "*.html" -o -name "*.info" -o -name "*.json" 2>/dev/null || echo "No coverage files found"
           
-          # Try to extract coverage from lcov.info directly first
+          # Extract coverage from lcov.info
           echo "Extracting coverage from lcov.info..."
           
-          # Parse lcov.info for more reliable coverage extraction
-          if [ -f "coverage/storybook/lcov.info" ]; then
+          # Parse lcov.info for coverage extraction
+          if [ -f "coverage/lcov.info" ]; then
             # Extract lines coverage
-            LF_FOUND=$(grep -c "LF:" coverage/storybook/lcov.info || echo "0")
-            LH_FOUND=$(grep -c "LH:" coverage/storybook/lcov.info || echo "0")
+            LF_FOUND=$(grep -c "LF:" coverage/lcov.info || echo "0")
+            LH_FOUND=$(grep -c "LH:" coverage/lcov.info || echo "0")
             
             if [ "$LF_FOUND" -gt 0 ] && [ "$LH_FOUND" -gt 0 ]; then
               # Calculate coverage from lcov.info
-              TOTAL_LINES=$(grep "LF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_LINES=$(grep "LH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_LINES=$(grep "LF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_LINES=$(grep "LH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
-              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_FUNCTIONS=$(grep "FNH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_FUNCTIONS=$(grep "FNH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
-              TOTAL_BRANCHES=$(grep "BRF:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_BRANCHES=$(grep "BRH:" coverage/storybook/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_BRANCHES=$(grep "BRF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_BRANCHES=$(grep "BRH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
               # Calculate percentages (handle 0/0 = 100% case)
               if [ "$TOTAL_LINES" -gt 0 ]; then
-                SB_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
+                JEST_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
               else
-                SB_LINES_COVERAGE="100"  # No lines to cover = 100% coverage
+                JEST_LINES_COVERAGE="100"  # No lines to cover = 100% coverage
               fi
               
               if [ "$TOTAL_FUNCTIONS" -gt 0 ]; then
-                SB_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
+                JEST_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
               else
-                SB_FUNCTIONS_COVERAGE="100"  # No functions to cover = 100% coverage
+                JEST_FUNCTIONS_COVERAGE="100"  # No functions to cover = 100% coverage
               fi
               
               if [ "$TOTAL_BRANCHES" -gt 0 ]; then
-                SB_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
+                JEST_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
               else
-                SB_BRANCHES_COVERAGE="100"  # No branches to cover = 100% coverage
+                JEST_BRANCHES_COVERAGE="100"  # No branches to cover = 100% coverage
               fi
               
               # For statements, use lines as fallback
-              SB_STATEMENTS_COVERAGE="$SB_LINES_COVERAGE"
+              JEST_STATEMENTS_COVERAGE="$JEST_LINES_COVERAGE"
               
               echo "Calculated coverage from lcov.info:"
-              echo "Lines: $HIT_LINES/$TOTAL_LINES = ${SB_LINES_COVERAGE}%"
-              echo "Functions: $HIT_FUNCTIONS/$TOTAL_FUNCTIONS = ${SB_FUNCTIONS_COVERAGE}%"
-              echo "Branches: $HIT_BRANCHES/$TOTAL_BRANCHES = ${SB_BRANCHES_COVERAGE}%"
-              echo "Statements: ${SB_STATEMENTS_COVERAGE}%"
+              echo "Lines: $HIT_LINES/$TOTAL_LINES = ${JEST_LINES_COVERAGE}%"
+              echo "Functions: $HIT_FUNCTIONS/$TOTAL_FUNCTIONS = ${JEST_FUNCTIONS_COVERAGE}%"
+              echo "Branches: $HIT_BRANCHES/$TOTAL_BRANCHES = ${JEST_BRANCHES_COVERAGE}%"
+              echo "Statements: ${JEST_STATEMENTS_COVERAGE}%"
               
             else
               echo "⚠️ lcov.info exists but appears to be empty or malformed"
               # Fallback to HTML parsing
-              if [ -f "coverage/storybook/lcov-report/index.html" ]; then
+              if [ -f "coverage/jest/lcov-report/index.html" ]; then
                 echo "Trying HTML parsing as fallback..."
-                cat coverage/storybook/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
+                cat coverage/jest/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
                 
-                SB_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                SB_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                SB_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                SB_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/storybook/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
               else
-                SB_LINES_COVERAGE="0"
-                SB_FUNCTIONS_COVERAGE="0"
-                SB_BRANCHES_COVERAGE="0"
-                SB_STATEMENTS_COVERAGE="0"
+                JEST_LINES_COVERAGE="0"
+                JEST_FUNCTIONS_COVERAGE="0"
+                JEST_BRANCHES_COVERAGE="0"
+                JEST_STATEMENTS_COVERAGE="0"
               fi
             fi
             
-            echo "Storybook Coverage Summary:" | tee coverage-storybook-summary.txt
-            echo "Lines: ${SB_LINES_COVERAGE}%" | tee -a coverage-storybook-summary.txt
-            echo "Functions: ${SB_FUNCTIONS_COVERAGE}%" | tee -a coverage-storybook-summary.txt
-            echo "Branches: ${SB_BRANCHES_COVERAGE}%" | tee -a coverage-storybook-summary.txt
-            echo "Statements: ${SB_STATEMENTS_COVERAGE}%" | tee -a coverage-storybook-summary.txt
+            echo "Jest Coverage Summary:" | tee coverage-jest-summary.txt
+            echo "Lines: ${JEST_LINES_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Functions: ${JEST_FUNCTIONS_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Branches: ${JEST_BRANCHES_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Statements: ${JEST_STATEMENTS_COVERAGE}%" | tee -a coverage-jest-summary.txt
             
-            # Check if Storybook coverage meets 90% threshold
-            if (( $(echo "$SB_LINES_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$SB_FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$SB_BRANCHES_COVERAGE >= 90" | bc -l) )) && \
-               (( $(echo "$SB_STATEMENTS_COVERAGE >= 90" | bc -l) )); then
-              echo "✅ Storybook coverage thresholds met (90% minimum)" | tee -a coverage-storybook-summary.txt
-              echo "STORYBOOK_COVERAGE_STATUS=✅ PASSED" >> $GITHUB_ENV
+            # Check if Jest coverage meets 90% threshold
+            if (( $(echo "$JEST_LINES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_BRANCHES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_STATEMENTS_COVERAGE >= 90" | bc -l) )); then
+              echo "✅ Jest coverage thresholds met (90% minimum)" | tee -a coverage-jest-summary.txt
+              echo "JEST_COVERAGE_STATUS=✅ PASSED" >> $GITHUB_ENV
             else
-              echo "❌ Storybook coverage below 90% threshold:" | tee -a coverage-storybook-summary.txt
-              echo "Lines: ${SB_LINES_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
-              echo "Functions: ${SB_FUNCTIONS_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
-              echo "Branches: ${SB_BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
-              echo "Statements: ${SB_STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-storybook-summary.txt
-              echo "STORYBOOK_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
+              echo "❌ Jest coverage below 90% threshold:" | tee -a coverage-jest-summary.txt
+              echo "Lines: ${JEST_LINES_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Functions: ${JEST_FUNCTIONS_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Branches: ${JEST_BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Statements: ${JEST_STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "JEST_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
               echo "⚠️ Coverage is below threshold, but continuing pipeline for reporting..."
             fi
             
             # Save coverage values for PR comment
-            echo "SB_LINES_COVERAGE=${SB_LINES_COVERAGE}" >> $GITHUB_ENV
-            echo "SB_FUNCTIONS_COVERAGE=${SB_FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
-            echo "SB_BRANCHES_COVERAGE=${SB_BRANCHES_COVERAGE}" >> $GITHUB_ENV
-            echo "SB_STATEMENTS_COVERAGE=${SB_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_LINES_COVERAGE=${JEST_LINES_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_FUNCTIONS_COVERAGE=${JEST_FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_BRANCHES_COVERAGE=${JEST_BRANCHES_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_STATEMENTS_COVERAGE=${JEST_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
           else
             echo "❌ No lcov.info file found"
-            echo "STORYBOOK_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
-            echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
-            echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
-            echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
-            echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
+            echo "JEST_LINES_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
           fi
         else
-          echo "⚠️  No Storybook coverage report found, skipping threshold check"
-          echo "STORYBOOK_COVERAGE_STATUS=⚠️ NO REPORT" >> $GITHUB_ENV
-          echo "SB_LINES_COVERAGE=0" >> $GITHUB_ENV
-          echo "SB_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
-          echo "SB_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
-          echo "SB_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+          echo "⚠️  No Jest coverage report found, skipping threshold check"
+          echo "JEST_COVERAGE_STATUS=⚠️ NO REPORT" >> $GITHUB_ENV
+          echo "JEST_LINES_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
         fi
         
-        echo "Coverage check completed. Status: ${STORYBOOK_COVERAGE_STATUS:-UNKNOWN}"
+        echo "Coverage check completed. Status: ${JEST_COVERAGE_STATUS:-UNKNOWN}"
 
     - name: Generate Coverage Report for PR
       if: github.event_name == 'pull_request'
       run: |
         # Create comprehensive coverage report for PR comment
-        echo "## 📊 Code Coverage Report" > coverage-pr-report.md
+        echo "## 📊 Test Results & Coverage Report" > coverage-pr-report.md
         echo "" >> coverage-pr-report.md
         
-        # Add test execution status
-        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
-          echo "### ❌ Test Execution Status" >> coverage-pr-report.md
-          echo "**Storybook Tests:** ❌ FAILED - Some tests did not pass" >> coverage-pr-report.md
-          echo "" >> coverage-pr-report.md
+        # Add test execution status for both test types
+        echo "### 🧪 Test Execution Status" >> coverage-pr-report.md
+        echo "| Test Type | Status | Result |" >> coverage-pr-report.md
+        echo "|-----------|--------|--------|" >> coverage-pr-report.md
+        
+        # Jest test status
+        if [ "${JEST_TESTS_FAILED}" = "true" ]; then
+          echo "| Jest Unit Tests | ❌ FAILED | Some tests did not pass |" >> coverage-pr-report.md
         else
-          echo "### ✅ Test Execution Status" >> coverage-pr-report.md
-          echo "**Storybook Tests:** ✅ PASSED - All tests executed successfully" >> coverage-pr-report.md
-          echo "" >> coverage-pr-report.md
+          echo "| Jest Unit Tests | ✅ PASSED | All tests executed successfully |" >> coverage-pr-report.md
         fi
         
-        echo "### Storybook Tests Coverage" >> coverage-pr-report.md
+        # Storybook test status
+        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+          echo "| Storybook Tests | ❌ FAILED | Some tests did not pass |" >> coverage-pr-report.md
+        else
+          echo "| Storybook Tests | ✅ PASSED | All tests executed successfully |" >> coverage-pr-report.md
+        fi
+        
+        echo "" >> coverage-pr-report.md
+        
+        echo "### 📊 Jest Unit Test Coverage" >> coverage-pr-report.md
         echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
         echo "|--------|----------|--------|" >> coverage-pr-report.md
         
-        # Add Storybook coverage rows
-        SB_LINES_STATUS="❌"
-        SB_FUNCTIONS_STATUS="❌"
-        SB_BRANCHES_STATUS="❌"
-        SB_STATEMENTS_STATUS="❌"
+        # Add Jest coverage rows
+        JEST_LINES_STATUS="❌"
+        JEST_FUNCTIONS_STATUS="❌"
+        JEST_BRANCHES_STATUS="❌"
+        JEST_STATEMENTS_STATUS="❌"
         
-        if (( $(echo "${SB_LINES_COVERAGE:-0} >= 90" | bc -l) )); then SB_LINES_STATUS="✅"; fi
-        if (( $(echo "${SB_FUNCTIONS_COVERAGE:-0} >= 90" | bc -l) )); then SB_FUNCTIONS_STATUS="✅"; fi
-        if (( $(echo "${SB_BRANCHES_COVERAGE:-0} >= 90" | bc -l) )); then SB_BRANCHES_STATUS="✅"; fi
-        if (( $(echo "${SB_STATEMENTS_COVERAGE:-0} >= 90" | bc -l) )); then SB_STATEMENTS_STATUS="✅"; fi
+        if (( $(echo "${JEST_LINES_COVERAGE:-0} >= 90" | bc -l) )); then JEST_LINES_STATUS="✅"; fi
+        if (( $(echo "${JEST_FUNCTIONS_COVERAGE:-0} >= 90" | bc -l) )); then JEST_FUNCTIONS_STATUS="✅"; fi
+        if (( $(echo "${JEST_BRANCHES_COVERAGE:-0} >= 90" | bc -l) )); then JEST_BRANCHES_STATUS="✅"; fi
+        if (( $(echo "${JEST_STATEMENTS_COVERAGE:-0} >= 90" | bc -l) )); then JEST_STATEMENTS_STATUS="✅"; fi
         
-        echo "| Lines | ${SB_LINES_COVERAGE:-N/A}% | ${SB_LINES_STATUS} |" >> coverage-pr-report.md
-        echo "| Functions | ${SB_FUNCTIONS_COVERAGE:-N/A}% | ${SB_FUNCTIONS_STATUS} |" >> coverage-pr-report.md
-        echo "| Branches | ${SB_BRANCHES_COVERAGE:-N/A}% | ${SB_BRANCHES_STATUS} |" >> coverage-pr-report.md
-        echo "| Statements | ${SB_STATEMENTS_COVERAGE:-N/A}% | ${SB_STATEMENTS_STATUS} |" >> coverage-pr-report.md
+        echo "| Lines | ${JEST_LINES_COVERAGE:-N/A}% | ${JEST_LINES_STATUS} |" >> coverage-pr-report.md
+        echo "| Functions | ${JEST_FUNCTIONS_COVERAGE:-N/A}% | ${JEST_FUNCTIONS_STATUS} |" >> coverage-pr-report.md
+        echo "| Branches | ${JEST_BRANCHES_COVERAGE:-N/A}% | ${JEST_BRANCHES_STATUS} |" >> coverage-pr-report.md
+        echo "| Statements | ${JEST_STATEMENTS_COVERAGE:-N/A}% | ${JEST_STATEMENTS_STATUS} |" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
-        echo "**Coverage Status:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "**Coverage Status:** ${JEST_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
         echo "### Summary" >> coverage-pr-report.md
         echo "- **Minimum Required Coverage:** 90%" >> coverage-pr-report.md
-        echo "- **Test Execution:** $(if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
-        echo "- **Coverage Report:** ${STORYBOOK_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "- **Jest Unit Tests:** $(if [ "${JEST_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
+        echo "- **Storybook Tests:** $(if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
+        echo "- **Coverage Report:** ${JEST_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
         echo "" >> coverage-pr-report.md
-        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+        if [ "${JEST_TESTS_FAILED}" = "true" ] || [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
           echo "> ❌ **Pipeline will fail due to test failures.** Please fix the failing tests before merging." >> coverage-pr-report.md
         else
           echo "> 🎯 All tests passed. Coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
@@ -424,9 +454,9 @@ jobs:
     - name: Upload coverage reports
       uses: codecov/codecov-action@v5
       with:
-        files: ./coverage/storybook/lcov.info
+        files: ./coverage/jest/lcov.info
         fail_ci_if_error: false
-        name: storybook-coverage-node-22
+        name: jest-coverage-node-22
 
     - name: Upload test artifacts
       uses: actions/upload-artifact@v4
@@ -438,9 +468,15 @@ jobs:
         retention-days: 7
 
     - name: Fail pipeline if tests failed
-      if: steps.storybook-tests.outcome == 'failure'
+      if: steps.jest-tests.outcome == 'failure' || steps.storybook-tests.outcome == 'failure'
       run: |
-        echo "❌ Pipeline failed due to Storybook test failures"
+        echo "❌ Pipeline failed due to test failures"
+        if [ "${{ steps.jest-tests.outcome }}" = "failure" ]; then
+          echo "- Jest tests failed"
+        fi
+        if [ "${{ steps.storybook-tests.outcome }}" = "failure" ]; then
+          echo "- Storybook tests failed"
+        fi
         echo "Coverage report has been posted to the PR with details"
         echo "Please fix the failing tests before merging"
         exit 1

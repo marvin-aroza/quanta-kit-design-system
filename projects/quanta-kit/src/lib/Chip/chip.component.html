@@ -1,0 +1,50 @@
+<div
+  [class]="chipClasses"
+  [attr.role]="role"
+  [attr.aria-label]="getAriaLabel()"
+  [attr.aria-checked]="role === 'checkbox' && variant === 'filter' ? selected : null"
+  [attr.aria-disabled]="disabled"
+  [attr.data-testid]="testId"
+  (click)="handleClick($event)"
+  (keydown)="handleKeydown($event)"
+  (focus)="handleFocus($event)"
+  (blur)="handleBlur($event)"
+  [tabindex]="getTabIndex()"
+>
+  <!-- Leading Icon -->
+  <span [style.display]="hasLeadingIcon ? 'inline' : 'none'" class="qk-chip__icon qk-chip__icon--leading" aria-hidden="true">
+    <ng-content select="[leading-icon]"></ng-content>
+  </span>
+
+  <!-- Avatar -->
+  <span [style.display]="hasAvatar ? 'inline' : 'none'" class="qk-chip__avatar" aria-hidden="true">
+    <ng-content select="[avatar]"></ng-content>
+  </span>
+
+  <!-- Label -->
+  <span class="qk-chip__label">
+    <ng-content></ng-content>
+  </span>
+
+  <!-- Trailing Icon -->
+  <span [style.display]="hasTrailingIcon ? 'inline' : 'none'" class="qk-chip__icon qk-chip__icon--trailing" aria-hidden="true">
+    <ng-content select="[trailing-icon]"></ng-content>
+  </span>
+
+  <!-- Remove Button -->
+  <button
+    [style.display]="removable ? 'inline-flex' : 'none'"
+    type="button"
+    class="qk-chip__remove-button"
+    [attr.aria-label]="getRemoveAriaLabel()"
+    [disabled]="disabled"
+    [tabindex]="disabled ? -1 : 0"
+    (click)="handleRemove($event)"
+    (keydown)="handleRemoveKeydown($event)"
+    (focus)="$event.stopPropagation()"
+  >
+    <span class="qk-chip__remove-icon" aria-hidden="true">
+      <ng-content select="[remove-icon]">×</ng-content>
+    </span>
+  </button>
+</div>
