@@ -36,6 +36,8 @@
             "browserTarget": "quanta-kit:build",
             "compodoc": true,
             "compodocArgs": [
+              "-p",
+              "projects/quanta-kit/tsconfig.lib.json",
               "-e",
               "json",
               "-d",
@@ -51,6 +53,8 @@
             "browserTarget": "quanta-kit:build",
             "compodoc": true,
             "compodocArgs": [
+              "-p",
+              "projects/quanta-kit/tsconfig.lib.json",
               "-e",
               "json",
               "-d",
