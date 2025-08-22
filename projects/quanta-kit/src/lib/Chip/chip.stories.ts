@@ -20,8 +20,8 @@ The Chip component implements Material Design 3 chip variants for compact inform
 
 ## Features
 - Four chip variants (assist, filter, input, suggestion)
-- Multiple sizes (sm, md, lg)
-- Elevation options (flat, raised)
+- Multiple sizes (sm, md)
+- Elevation options (flat, elevated)
 - Selection states for filter chips
 - Removable functionality for input chips
 - Icon and avatar support
@@ -46,12 +46,12 @@ The Chip component implements Material Design 3 chip variants for compact inform
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'] as ChipSize[],
+      options: ['sm', 'md'] as ChipSize[],
       description: 'The size of the chip'
     },
     elevation: {
       control: 'select',
-      options: ['flat', 'raised'] as ChipElevation[],
+      options: ['flat', 'elevated'] as ChipElevation[],
       description: 'The elevation level of the chip'
     },
     disabled: {

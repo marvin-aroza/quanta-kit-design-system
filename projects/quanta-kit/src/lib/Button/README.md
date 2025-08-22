@@ -180,15 +180,18 @@ type ButtonType = 'button' | 'submit' | 'reset';
 ```typescript
 export class MyComponent {
   handleClick(event: MouseEvent) {
-    console.log('Button clicked:', event);
+    // Handle button click
+    this.onButtonClick(event);
   }
 
   handleFocus(event: FocusEvent) {
-    console.log('Button focused:', event);
+    // Handle button focus
+    this.onButtonFocus(event);
   }
 
   handleBlur(event: FocusEvent) {
-    console.log('Button blurred:', event);
+    // Handle button blur
+    this.onButtonBlur(event);
   }
 }
 ```
