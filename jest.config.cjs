@@ -29,7 +29,7 @@ module.exports = {
     'text-summary',
     'lcov'
   ],
-  coverageDirectory: '<rootDir>/coverage/jest',
+  coverageDirectory: '<rootDir>/coverage',
   coverageThreshold: {
     global: {
       statements: 90,

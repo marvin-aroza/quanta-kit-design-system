@@ -217,7 +217,7 @@ jobs:
     - name: Check Jest test coverage threshold
       run: |
         # Check Jest coverage if it exists
-        if [ -f "coverage/lcov.info" ]; then
+        if [ -f "coverage/jest/lcov.info" ]; then
           echo "Checking Jest test coverage..."
           
           # Debug: Show what coverage files exist
@@ -228,21 +228,21 @@ jobs:
           echo "Extracting coverage from lcov.info..."
           
           # Parse lcov.info for coverage extraction
-          if [ -f "coverage/lcov.info" ]; then
+          if [ -f "coverage/jest/lcov.info" ]; then
             # Extract lines coverage
-            LF_FOUND=$(grep -c "LF:" coverage/lcov.info || echo "0")
-            LH_FOUND=$(grep -c "LH:" coverage/lcov.info || echo "0")
+            LF_FOUND=$(grep -c "LF:" coverage/jest/lcov.info || echo "0")
+            LH_FOUND=$(grep -c "LH:" coverage/jest/lcov.info || echo "0")
             
             if [ "$LF_FOUND" -gt 0 ] && [ "$LH_FOUND" -gt 0 ]; then
               # Calculate coverage from lcov.info
-              TOTAL_LINES=$(grep "LF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_LINES=$(grep "LH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_LINES=$(grep "LF:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_LINES=$(grep "LH:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
-              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_FUNCTIONS=$(grep "FNH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_FUNCTIONS=$(grep "FNH:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
-              TOTAL_BRANCHES=$(grep "BRF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
-              HIT_BRANCHES=$(grep "BRH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              TOTAL_BRANCHES=$(grep "BRF:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_BRANCHES=$(grep "BRH:" coverage/jest/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
               
               # Calculate percentages (handle 0/0 = 100% case)
               if [ "$TOTAL_LINES" -gt 0 ]; then
@@ -275,14 +275,14 @@ jobs:
             else
               echo "⚠️ lcov.info exists but appears to be empty or malformed"
               # Fallback to HTML parsing
-              if [ -f "coverage/lcov-report/index.html" ]; then
+              if [ -f "coverage/jest/lcov-report/index.html" ]; then
                 echo "Trying HTML parsing as fallback..."
-                cat coverage/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
+                cat coverage/jest/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
                 
-                JEST_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                JEST_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                JEST_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
-                JEST_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
               else
                 JEST_LINES_COVERAGE="0"
                 JEST_FUNCTIONS_COVERAGE="0"
@@ -454,7 +454,7 @@ jobs:
     - name: Upload coverage reports
       uses: codecov/codecov-action@v5
       with:
-        files: ./coverage/lcov.info
+        files: ./coverage/jest/lcov.info
         fail_ci_if_error: false
         name: jest-coverage-node-22
 
