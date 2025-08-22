@@ -463,11 +463,13 @@ export class AccessibleChipsExample {
   }
 
   onChipFocus(filter: any) {
-    console.log('Chip focused:', filter.name);
+    // Handle chip focus event
+    this.updateFocusState(filter);
   }
 
   onChipBlur(filter: any) {
-    console.log('Chip blurred:', filter.name);
+    // Handle chip blur event
+    this.resetFocusState(filter);
   }
 }
 ```
@@ -737,7 +739,8 @@ export class ErrorHandlingExample {
       this.tags = this.tags.filter(t => t.id !== tag.id);
     } catch (error) {
       this.error = 'Failed to remove tag. Please try again.';
-      console.error('Tag removal failed:', error);
+      // Log error for debugging (consider using a proper logging service)
+      this.logError('Tag removal failed:', error);
     } finally {
       this.loading = false;
     }

@@ -13,6 +13,34 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/angular",
     "options": {}
+  },
+  "webpackFinal": async (config: any) => {
+    // Disable performance warnings for Storybook builds
+    config.performance = {
+      hints: false,
+    };
+    
+    // Optimize chunks for better performance
+    if (config.optimization) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+          angular: {
+            test: /[\\/]node_modules[\\/]@angular[\\/]/,
+            name: 'angular',
+            chunks: 'all',
+            priority: 10,
+          },
+        },
+      };
+    }
+    
+    return config;
   }
 };
 export default config;
