@@ -1,0 +1,29 @@
+{
+  "name": "@quanta-kit/design-tokens",
+  "version": "1.0.0",
+  "description": "Design tokens for Quanta Kit UI components",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "node build.js && rollup -c",
+    "dev": "style-dictionary build --watch",
+    "clean": "rimraf dist",
+    "test": "echo \"Design tokens package - no tests needed\" && exit 0",
+    "storybook": "echo \"Design tokens package - no storybook needed\" && exit 0"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.0.0",
+    "style-dictionary": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "design-tokens",
+    "design-system"
+  ]
+}

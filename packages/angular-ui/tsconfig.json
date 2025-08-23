@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    ".storybook/**/*"
+  ],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "../react-ui/**/*",
+    "../design-tokens/**/*"
+  ]
+}
