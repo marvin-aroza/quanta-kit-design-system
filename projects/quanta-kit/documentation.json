@@ -118,7 +118,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    clickable: true,\r\n    clicked: fn(),\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [clickable]=\"clickable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\">\r\n      Click Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Click Test Chip');\r\n    const removeButton = canvas.getByRole('button');\r\n    \r\n    // Test click on chip content (should work for removable input chips)\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    // Test click on remove button (should only trigger remove)\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Reset call counts by creating new mock functions if needed\r\n    // The component logic handles preventing double events\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests click handling edge cases for removable chips.'\r\n      }\r\n    }\r\n  }\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    clickable: true,\r\n    clicked: fn(),\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [clickable]=\"clickable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\">\r\n      Click Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Click Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });\r\n    \r\n    // Test click on chip content (should work for removable input chips)\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    // Test click on remove button (should only trigger remove)\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Reset call counts by creating new mock functions if needed\r\n    // The component logic handles preventing double events\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests click handling edge cases for removable chips.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
                 "name": "ClickWhenDisabled",
@@ -181,6 +181,16 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'danger',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Danger Button\r\n    </qk-button>`\r\n    })\r\n}"
             },
             {
+                "name": "Delete",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n     variant: 'delete',\r\n    disabled: false,\r\n    loading: false,\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button\r\n      [disabled]=\"disabled\"\r\n      [variant]=\"variant\"\r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Delete Button\r\n    </qk-button>`,\r\n  }),\r\n}"
+            },
+            {
                 "name": "Disabled",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -221,6 +231,16 @@
                 "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;\">\r\n        <!-- Disabled clickable chip -->\r\n        <qk-chip [disabled]=\"true\" [clickable]=\"true\">Disabled Clickable</qk-chip>\r\n        \r\n        <!-- Disabled removable chip -->\r\n        <qk-chip [disabled]=\"true\" [removable]=\"true\">Disabled Removable</qk-chip>\r\n        \r\n        <!-- Disabled filter chip -->\r\n        <qk-chip variant=\"filter\" [disabled]=\"true\" [selected]=\"true\">Disabled Selected Filter</qk-chip>\r\n        \r\n        <!-- Non-clickable chip -->\r\n        <qk-chip [clickable]=\"false\">Non-clickable</qk-chip>\r\n        \r\n        <!-- Non-clickable filter chip -->\r\n        <qk-chip variant=\"filter\" [clickable]=\"false\">Non-clickable Filter</qk-chip>\r\n      </div>\r\n    `\r\n  }),\r\n  play: async ({ canvasElement }) => {\r\n    const canvas = within(canvasElement);\r\n    \r\n    // Test that disabled chips are present and have disabled styling\r\n    const disabledChips = canvas.getAllByText(/Disabled/);\r\n    expect(disabledChips.length).toBe(3);\r\n    \r\n    // Test non-clickable chips are present\r\n    const nonClickableChips = canvas.getAllByText(/Non-clickable/);\r\n    expect(nonClickableChips.length).toBe(2);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Comprehensive testing of disabled and non-clickable states.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
+                "name": "ElevationAndBlurTest",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    elevation: 'elevated',\r\n    blurred: fn(),\r\n    focused: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [elevation]=\"elevation\"\r\n      (blurred)=\"blurred($event)\"\r\n      (focused)=\"focused($event)\">\r\n      Elevation Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByRole('button');\r\n    \r\n    // Test focus and blur events\r\n    chip.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests elevation property and blur event emission.'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
                 "name": "EmptyCustomClass",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -238,7 +258,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    clickable: true,\r\n    removable: true,\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Event Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByRole('checkbox');\r\n    const removeButton = canvas.getByRole('button');\r\n    \r\n    // Test click and selection change\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    expect(args.selectionChange).toHaveBeenCalledWith(true);\r\n    \r\n    // Test remove\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test focus/blur\r\n    chip.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all event handlers for complete functional coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    clickable: true,\r\n    removable: true,\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Event Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Event Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });\r\n    \r\n    // Test click and selection change\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    expect(args.selectionChange).toHaveBeenCalledWith(true);\r\n    \r\n    // Test remove\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test focus/blur - focus on the remove button since the chip container is not focusable\r\n    removeButton.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all event handlers for complete functional coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
                 "name": "FilterChip",
@@ -381,6 +401,16 @@
                 "defaultValue": "{\r\n  title: 'Components/Chip',\r\n  component: ChipComponent,\r\n  tags: ['autodocs'],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Chip component follows Material UI 3 design guidelines and provides versatile functionality for representing input, attributes, or actions.\r\n\r\n## Features\r\n- **4 Variants**: assist, filter, input, suggestion following Material UI 3 specifications\r\n- **2 Sizes**: sm (24px), md (32px)\r\n- **2 Elevations**: flat, elevated\r\n- **Interactive States**: clickable, selectable, removable\r\n- **Icon Support**: leading icons, trailing icons, avatars\r\n- **Accessibility**: ARIA attributes, keyboard navigation\r\n- **Events**: click, remove, focus, blur, selection change\r\n\r\n## Chip Types (Material UI 3)\r\n- **Assist Chips**: Help users take actions or see information\r\n- **Filter Chips**: Let users select from a set of options\r\n- **Input Chips**: Represent discrete pieces of information\r\n- **Suggestion Chips**: Present dynamically generated suggestions\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-chip variant=\"assist\" size=\"md\" [clickable]=\"true\">\r\n  Assist Chip\r\n</qk-chip>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-chip variant=\"filter\" [hasLeadingIcon]=\"true\">\r\n  <svg slot=\"leading-icon\" width=\"18\" height=\"18\">...</svg>\r\n  Filter with Icon\r\n</qk-chip>\r\n\\`\\`\\`\r\n\r\n## Removable Input Chip\r\n\\`\\`\\`html\r\n<qk-chip variant=\"input\" [removable]=\"true\" (removed)=\"onRemove($event)\">\r\n  Removable Input\r\n</qk-chip>\r\n\\`\\`\\`\r\n        `\r\n      }\r\n    }\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\r\n      description: 'The Material UI 3 chip variant'\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['sm', 'md'] as ChipSize[],\r\n      description: 'The size of the chip'\r\n    },\r\n    elevation: {\r\n      control: 'select',\r\n      options: ['flat', 'elevated'] as ChipElevation[],\r\n      description: 'The elevation style of the chip'\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is disabled'\r\n    },\r\n    selected: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is selected (for filter chips)'\r\n    },\r\n    clickable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is clickable'\r\n    },\r\n    removable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip can be removed'\r\n    },\r\n    hasLeadingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a leading icon'\r\n    },\r\n    hasTrailingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a trailing icon'\r\n    },\r\n    hasAvatar: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has an avatar'\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply'\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility'\r\n    },\r\n    removeAriaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for remove button'\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes'\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when chip is clicked'\r\n    },\r\n    removed: {\r\n      action: 'removed',\r\n      description: 'Event emitted when chip is removed'\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when chip receives focus'\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when chip loses focus'\r\n    },\r\n    selectionChange: {\r\n      action: 'selectionChange',\r\n      description: 'Event emitted when chip selection changes'\r\n    }\r\n  },\r\n  args: {\r\n    selected: false,\r\n    ariaLabel: 'Chip action',\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  }\r\n}"
             },
             {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<ButtonComponent>",
+                "defaultValue": "{\r\n  title: 'Components/Buttongroup',\r\n  component: ButtonComponent,\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ButtonComponent],\r\n    }),\r\n  ],\r\n  args: {\r\n    disabled: false,\r\n    loading: false,\r\n    hideTextOnLoading: false,\r\n    ariaLabel: '',\r\n    testId: '',\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n  },\r\n}"
+            },
+            {
                 "name": "Playground",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -411,6 +441,16 @@
                 "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\" \r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [fullWidth]=\"fullWidth\"\r\n      [rounded]=\"rounded\"\r\n      [square]=\"square\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Primary Button\r\n    </qk-button>`\r\n    })\r\n}"
             },
             {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n     variant: 'primary',\r\n    disabled: false,\r\n    loading: false,\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button\r\n      [disabled]=\"disabled\"\r\n      [variant]=\"variant\"\r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Primary Button\r\n    </qk-button>`,\r\n  }),\r\n}"
+            },
+            {
                 "name": "PropertyEdgeCases",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -419,6 +459,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;\">\r\n        <!-- Empty custom class -->\r\n        <qk-chip [customClass]=\"''\">Empty Custom Class</qk-chip>\r\n        \r\n        <!-- Empty aria label -->\r\n        <qk-chip [ariaLabel]=\"''\">Empty ARIA Label</qk-chip>\r\n        \r\n        <!-- Empty remove aria label -->\r\n        <qk-chip [removable]=\"true\" [removeAriaLabel]=\"''\">Empty Remove ARIA</qk-chip>\r\n        \r\n        <!-- Custom remove aria label -->\r\n        <qk-chip [removable]=\"true\" [removeAriaLabel]=\"'Custom remove text'\">\r\n          Custom Remove ARIA\r\n        </qk-chip>\r\n        \r\n        <!-- Test ID -->\r\n        <qk-chip [testId]=\"'test-chip-id'\">Test ID Chip</qk-chip>\r\n        \r\n        <!-- Removable filter chip (special case) -->\r\n        <qk-chip variant=\"filter\" [removable]=\"true\" [clickable]=\"true\">\r\n          Removable Filter\r\n        </qk-chip>\r\n      </div>\r\n    `\r\n  }),\r\n  play: async ({ canvasElement }) => {\r\n    const canvas = within(canvasElement);\r\n    \r\n    // Test custom remove ARIA label\r\n    const customRemoveButton = canvas.getByRole('button', { name: 'Custom remove text' });\r\n    expect(customRemoveButton).toBeInTheDocument();\r\n    \r\n    // Test default remove ARIA label (only one exists now)\r\n    const defaultRemoveButtons = canvas.getAllByRole('button', { name: 'Remove chip' });\r\n    expect(defaultRemoveButtons.length).toBeGreaterThanOrEqual(1);\r\n    \r\n    // Test removable filter chip behavior\r\n    const removableFilter = canvas.getByText('Removable Filter');\r\n    await userEvent.click(removableFilter);\r\n    // Should handle both filter and removable functionality\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests edge cases and property combinations for comprehensive coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
+            },
+            {
+                "name": "PropertyInitializationTest",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    size: 'sm',\r\n    elevation: 'flat',\r\n    disabled: true,\r\n    selected: true,\r\n    clickable: false,\r\n    removable: true,\r\n    hasLeadingIcon: true,\r\n    hasTrailingIcon: true,\r\n    hasAvatar: true,\r\n    customClass: 'test-class',\r\n    ariaLabel: 'Test aria',\r\n    ariaPressed: true,\r\n    removeAriaLabel: 'Remove test',\r\n    testId: 'test-id',\r\n    inList: true,\r\n    blurred: fn(),\r\n    focused: fn(),\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\"\r\n      [size]=\"size\"\r\n      [elevation]=\"elevation\"\r\n      [disabled]=\"disabled\"\r\n      [selected]=\"selected\"\r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      [hasLeadingIcon]=\"hasLeadingIcon\"\r\n      [hasTrailingIcon]=\"hasTrailingIcon\"\r\n      [hasAvatar]=\"hasAvatar\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [ariaPressed]=\"ariaPressed\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      [testId]=\"testId\"\r\n      [inList]=\"inList\"\r\n      (blurred)=\"blurred($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Property Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Property Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove test' });\r\n    \r\n    // Since the chip is disabled, the remove button is also disabled and can't receive focus\r\n    // We'll just verify the component renders correctly with all the properties\r\n    // The focus/blur events can't be tested with disabled elements\r\n    \r\n    // Verify the chip has the expected properties reflected in the DOM\r\n    const chipElement = canvas.getByText('Property Test Chip').closest('.qk-chip');\r\n    expect(chipElement).toHaveClass('qk-chip--disabled');\r\n    expect(chipElement).toHaveClass('qk-chip--selected');\r\n    expect(chipElement).toHaveClass('qk-chip--filter');\r\n    expect(chipElement).toHaveClass('qk-chip--sm');\r\n    expect(chipElement).toHaveClass('test-class');\r\n    \r\n    // Note: focus/blur events are not tested here because the element is disabled\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all property initializations and event handler setup.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
                 "name": "RemovableChip",
@@ -438,7 +488,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    removeAriaLabel: 'Custom remove label',\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      (removed)=\"removed($event)\">\r\n      Removable Input\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const removeButton = canvas.getByRole('button', { name: 'Custom remove label' });\r\n    \r\n    // Test keyboard removal with Enter\r\n    removeButton.focus();\r\n    await userEvent.keyboard('{Enter}');\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test keyboard removal with Space\r\n    await userEvent.keyboard(' ');\r\n    expect(args.removed).toHaveBeenCalledTimes(2);\r\n    \r\n    // Test keyboard removal with Delete\r\n    await userEvent.keyboard('{Delete}');\r\n    expect(args.removed).toHaveBeenCalledTimes(3);\r\n    \r\n    // Test keyboard removal with Backspace\r\n    await userEvent.keyboard('{Backspace}');\r\n    expect(args.removed).toHaveBeenCalledTimes(4);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests keyboard removal functionality for input chips.'\r\n      }\r\n    }\r\n  }\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    removeAriaLabel: 'Custom remove label',\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      (removed)=\"removed($event)\">\r\n      Removable Input\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const removeButton = canvas.getByRole('button', { name: 'Custom remove label' });\r\n    \r\n    // Test keyboard removal with Enter\r\n    removeButton.focus();\r\n    await userEvent.keyboard('{Enter}');\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test keyboard removal with Space\r\n    await userEvent.keyboard(' ');\r\n    expect(args.removed).toHaveBeenCalledTimes(2);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests keyboard removal functionality for input chips.'\r\n      }\r\n    }\r\n  }\r\n}"
             },
             {
                 "name": "RemovableWithCustomIcon",
@@ -448,7 +498,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      (removed)=\"removed($event)\">\r\n      Custom Remove Icon\r\n      <svg slot=\"remove-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      (removed)=\"removed($event)\">\r\n      Custom Remove Icon\r\n      <svg remove-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
                 "name": "Rounded",
@@ -528,7 +578,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <img slot=\"avatar\" src=\"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face\" alt=\"User\" style=\"width: 100%; height: 100%; object-fit: cover;\">\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <img avatar src=\"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face\" alt=\"User\" style=\"width: 100%; height: 100%; object-fit: cover;\">\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
                 "name": "WithAvatarInitials",
@@ -538,7 +588,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <span slot=\"avatar\" style=\"font-size: 12px; font-weight: 500;\">JD</span>\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <span avatar style=\"font-size: 12px; font-weight: 500;\">JD</span>\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
                 "name": "WithBothIcons",
@@ -558,7 +608,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasLeadingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasLeadingIcon]=\"hasLeadingIcon\">\r\n      <svg slot=\"leading-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/>\r\n      </svg>\r\n      With Leading Icon\r\n    </qk-chip>`\r\n  })\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasLeadingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasLeadingIcon]=\"hasLeadingIcon\">\r\n      <svg leading-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/>\r\n      </svg>\r\n      With Leading Icon\r\n    </qk-chip>`\r\n  })\r\n}"
             },
             {
                 "name": "WithLeftIcon",
@@ -588,7 +638,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasTrailingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasTrailingIcon]=\"hasTrailingIcon\">\r\n      With Trailing Icon\r\n      <svg slot=\"trailing-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasTrailingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasTrailingIcon]=\"hasTrailingIcon\">\r\n      With Trailing Icon\r\n      <svg trailing-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
             }
         ],
         "functions": [],
@@ -610,6 +660,17 @@
                 "subtype": "typealias",
                 "rawtype": "StoryObj<ChipComponent>",
                 "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<ButtonComponent>",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -697,7 +758,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    clickable: true,\r\n    clicked: fn(),\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [clickable]=\"clickable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\">\r\n      Click Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Click Test Chip');\r\n    const removeButton = canvas.getByRole('button');\r\n    \r\n    // Test click on chip content (should work for removable input chips)\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    // Test click on remove button (should only trigger remove)\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Reset call counts by creating new mock functions if needed\r\n    // The component logic handles preventing double events\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests click handling edge cases for removable chips.'\r\n      }\r\n    }\r\n  }\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    clickable: true,\r\n    clicked: fn(),\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [clickable]=\"clickable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\">\r\n      Click Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Click Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });\r\n    \r\n    // Test click on chip content (should work for removable input chips)\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    \r\n    // Test click on remove button (should only trigger remove)\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Reset call counts by creating new mock functions if needed\r\n    // The component logic handles preventing double events\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests click handling edge cases for removable chips.'\r\n      }\r\n    }\r\n  }\r\n}"
                 },
                 {
                     "name": "ComplexRoleCombinations",
@@ -740,6 +801,16 @@
                     "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;\">\r\n        <!-- Disabled clickable chip -->\r\n        <qk-chip [disabled]=\"true\" [clickable]=\"true\">Disabled Clickable</qk-chip>\r\n        \r\n        <!-- Disabled removable chip -->\r\n        <qk-chip [disabled]=\"true\" [removable]=\"true\">Disabled Removable</qk-chip>\r\n        \r\n        <!-- Disabled filter chip -->\r\n        <qk-chip variant=\"filter\" [disabled]=\"true\" [selected]=\"true\">Disabled Selected Filter</qk-chip>\r\n        \r\n        <!-- Non-clickable chip -->\r\n        <qk-chip [clickable]=\"false\">Non-clickable</qk-chip>\r\n        \r\n        <!-- Non-clickable filter chip -->\r\n        <qk-chip variant=\"filter\" [clickable]=\"false\">Non-clickable Filter</qk-chip>\r\n      </div>\r\n    `\r\n  }),\r\n  play: async ({ canvasElement }) => {\r\n    const canvas = within(canvasElement);\r\n    \r\n    // Test that disabled chips are present and have disabled styling\r\n    const disabledChips = canvas.getAllByText(/Disabled/);\r\n    expect(disabledChips.length).toBe(3);\r\n    \r\n    // Test non-clickable chips are present\r\n    const nonClickableChips = canvas.getAllByText(/Non-clickable/);\r\n    expect(nonClickableChips.length).toBe(2);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Comprehensive testing of disabled and non-clickable states.'\r\n      }\r\n    }\r\n  }\r\n}"
                 },
                 {
+                    "name": "ElevationAndBlurTest",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    elevation: 'elevated',\r\n    blurred: fn(),\r\n    focused: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [elevation]=\"elevation\"\r\n      (blurred)=\"blurred($event)\"\r\n      (focused)=\"focused($event)\">\r\n      Elevation Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByRole('button');\r\n    \r\n    // Test focus and blur events\r\n    chip.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests elevation property and blur event emission.'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
                     "name": "EventHandlers",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -747,7 +818,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    clickable: true,\r\n    removable: true,\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Event Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByRole('checkbox');\r\n    const removeButton = canvas.getByRole('button');\r\n    \r\n    // Test click and selection change\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    expect(args.selectionChange).toHaveBeenCalledWith(true);\r\n    \r\n    // Test remove\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test focus/blur\r\n    chip.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all event handlers for complete functional coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    clickable: true,\r\n    removable: true,\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Event Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Event Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove chip' });\r\n    \r\n    // Test click and selection change\r\n    await userEvent.click(chip);\r\n    expect(args.clicked).toHaveBeenCalled();\r\n    expect(args.selectionChange).toHaveBeenCalledWith(true);\r\n    \r\n    // Test remove\r\n    await userEvent.click(removeButton);\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test focus/blur - focus on the remove button since the chip container is not focusable\r\n    removeButton.focus();\r\n    expect(args.focused).toHaveBeenCalled();\r\n    \r\n    chip.blur();\r\n    expect(args.blurred).toHaveBeenCalled();\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all event handlers for complete functional coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
                 },
                 {
                     "name": "FilterChip",
@@ -810,6 +881,16 @@
                     "defaultValue": "{\r\n  render: () => ({\r\n    template: `\r\n      <div style=\"display: flex; flex-wrap: wrap; gap: 12px; padding: 20px;\">\r\n        <!-- Empty custom class -->\r\n        <qk-chip [customClass]=\"''\">Empty Custom Class</qk-chip>\r\n        \r\n        <!-- Empty aria label -->\r\n        <qk-chip [ariaLabel]=\"''\">Empty ARIA Label</qk-chip>\r\n        \r\n        <!-- Empty remove aria label -->\r\n        <qk-chip [removable]=\"true\" [removeAriaLabel]=\"''\">Empty Remove ARIA</qk-chip>\r\n        \r\n        <!-- Custom remove aria label -->\r\n        <qk-chip [removable]=\"true\" [removeAriaLabel]=\"'Custom remove text'\">\r\n          Custom Remove ARIA\r\n        </qk-chip>\r\n        \r\n        <!-- Test ID -->\r\n        <qk-chip [testId]=\"'test-chip-id'\">Test ID Chip</qk-chip>\r\n        \r\n        <!-- Removable filter chip (special case) -->\r\n        <qk-chip variant=\"filter\" [removable]=\"true\" [clickable]=\"true\">\r\n          Removable Filter\r\n        </qk-chip>\r\n      </div>\r\n    `\r\n  }),\r\n  play: async ({ canvasElement }) => {\r\n    const canvas = within(canvasElement);\r\n    \r\n    // Test custom remove ARIA label\r\n    const customRemoveButton = canvas.getByRole('button', { name: 'Custom remove text' });\r\n    expect(customRemoveButton).toBeInTheDocument();\r\n    \r\n    // Test default remove ARIA label (only one exists now)\r\n    const defaultRemoveButtons = canvas.getAllByRole('button', { name: 'Remove chip' });\r\n    expect(defaultRemoveButtons.length).toBeGreaterThanOrEqual(1);\r\n    \r\n    // Test removable filter chip behavior\r\n    const removableFilter = canvas.getByText('Removable Filter');\r\n    await userEvent.click(removableFilter);\r\n    // Should handle both filter and removable functionality\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests edge cases and property combinations for comprehensive coverage.'\r\n      }\r\n    }\r\n  }\r\n}"
                 },
                 {
+                    "name": "PropertyInitializationTest",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'filter',\r\n    size: 'sm',\r\n    elevation: 'flat',\r\n    disabled: true,\r\n    selected: true,\r\n    clickable: false,\r\n    removable: true,\r\n    hasLeadingIcon: true,\r\n    hasTrailingIcon: true,\r\n    hasAvatar: true,\r\n    customClass: 'test-class',\r\n    ariaLabel: 'Test aria',\r\n    ariaPressed: true,\r\n    removeAriaLabel: 'Remove test',\r\n    testId: 'test-id',\r\n    inList: true,\r\n    blurred: fn(),\r\n    focused: fn(),\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    selectionChange: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\"\r\n      [size]=\"size\"\r\n      [elevation]=\"elevation\"\r\n      [disabled]=\"disabled\"\r\n      [selected]=\"selected\"\r\n      [clickable]=\"clickable\"\r\n      [removable]=\"removable\"\r\n      [hasLeadingIcon]=\"hasLeadingIcon\"\r\n      [hasTrailingIcon]=\"hasTrailingIcon\"\r\n      [hasAvatar]=\"hasAvatar\"\r\n      [customClass]=\"customClass\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [ariaPressed]=\"ariaPressed\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      [testId]=\"testId\"\r\n      [inList]=\"inList\"\r\n      (blurred)=\"blurred($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (clicked)=\"clicked($event)\"\r\n      (removed)=\"removed($event)\"\r\n      (selectionChange)=\"selectionChange($event)\">\r\n      Property Test Chip\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const chip = canvas.getByText('Property Test Chip');\r\n    const removeButton = canvas.getByRole('button', { name: 'Remove test' });\r\n    \r\n    // Since the chip is disabled, the remove button is also disabled and can't receive focus\r\n    // We'll just verify the component renders correctly with all the properties\r\n    // The focus/blur events can't be tested with disabled elements\r\n    \r\n    // Verify the chip has the expected properties reflected in the DOM\r\n    const chipElement = canvas.getByText('Property Test Chip').closest('.qk-chip');\r\n    expect(chipElement).toHaveClass('qk-chip--disabled');\r\n    expect(chipElement).toHaveClass('qk-chip--selected');\r\n    expect(chipElement).toHaveClass('qk-chip--filter');\r\n    expect(chipElement).toHaveClass('qk-chip--sm');\r\n    expect(chipElement).toHaveClass('test-class');\r\n    \r\n    // Note: focus/blur events are not tested here because the element is disabled\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests all property initializations and event handler setup.'\r\n      }\r\n    }\r\n  }\r\n}"
+                },
+                {
                     "name": "RemovableChip",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -827,7 +908,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    removeAriaLabel: 'Custom remove label',\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      (removed)=\"removed($event)\">\r\n      Removable Input\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const removeButton = canvas.getByRole('button', { name: 'Custom remove label' });\r\n    \r\n    // Test keyboard removal with Enter\r\n    removeButton.focus();\r\n    await userEvent.keyboard('{Enter}');\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test keyboard removal with Space\r\n    await userEvent.keyboard(' ');\r\n    expect(args.removed).toHaveBeenCalledTimes(2);\r\n    \r\n    // Test keyboard removal with Delete\r\n    await userEvent.keyboard('{Delete}');\r\n    expect(args.removed).toHaveBeenCalledTimes(3);\r\n    \r\n    // Test keyboard removal with Backspace\r\n    await userEvent.keyboard('{Backspace}');\r\n    expect(args.removed).toHaveBeenCalledTimes(4);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests keyboard removal functionality for input chips.'\r\n      }\r\n    }\r\n  }\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true,\r\n    removeAriaLabel: 'Custom remove label',\r\n    removed: fn()\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      [removeAriaLabel]=\"removeAriaLabel\"\r\n      (removed)=\"removed($event)\">\r\n      Removable Input\r\n    </qk-chip>`\r\n  }),\r\n  play: async ({ canvasElement, args }) => {\r\n    const canvas = within(canvasElement);\r\n    const removeButton = canvas.getByRole('button', { name: 'Custom remove label' });\r\n    \r\n    // Test keyboard removal with Enter\r\n    removeButton.focus();\r\n    await userEvent.keyboard('{Enter}');\r\n    expect(args.removed).toHaveBeenCalled();\r\n    \r\n    // Test keyboard removal with Space\r\n    await userEvent.keyboard(' ');\r\n    expect(args.removed).toHaveBeenCalledTimes(2);\r\n  },\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        story: 'Tests keyboard removal functionality for input chips.'\r\n      }\r\n    }\r\n  }\r\n}"
                 },
                 {
                     "name": "RemovableWithCustomIcon",
@@ -837,7 +918,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      (removed)=\"removed($event)\">\r\n      Custom Remove Icon\r\n      <svg slot=\"remove-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    removable: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [removable]=\"removable\"\r\n      (removed)=\"removed($event)\">\r\n      Custom Remove Icon\r\n      <svg remove-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
                 },
                 {
                     "name": "SuggestionChip",
@@ -867,7 +948,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <img slot=\"avatar\" src=\"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face\" alt=\"User\" style=\"width: 100%; height: 100%; object-fit: cover;\">\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <img avatar src=\"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face\" alt=\"User\" style=\"width: 100%; height: 100%; object-fit: cover;\">\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
                 },
                 {
                     "name": "WithAvatarInitials",
@@ -877,7 +958,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <span slot=\"avatar\" style=\"font-size: 12px; font-weight: 500;\">JD</span>\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'input',\r\n    hasAvatar: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasAvatar]=\"hasAvatar\">\r\n      <span avatar style=\"font-size: 12px; font-weight: 500;\">JD</span>\r\n      John Doe\r\n    </qk-chip>`\r\n  })\r\n}"
                 },
                 {
                     "name": "WithLeadingIcon",
@@ -887,7 +968,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasLeadingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasLeadingIcon]=\"hasLeadingIcon\">\r\n      <svg slot=\"leading-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/>\r\n      </svg>\r\n      With Leading Icon\r\n    </qk-chip>`\r\n  })\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasLeadingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasLeadingIcon]=\"hasLeadingIcon\">\r\n      <svg leading-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z\"/>\r\n      </svg>\r\n      With Leading Icon\r\n    </qk-chip>`\r\n  })\r\n}"
                 },
                 {
                     "name": "WithTrailingIcon",
@@ -897,7 +978,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasTrailingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasTrailingIcon]=\"hasTrailingIcon\">\r\n      With Trailing Icon\r\n      <svg slot=\"trailing-icon\" width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
+                    "defaultValue": "{\r\n  args: {\r\n    variant: 'assist',\r\n    hasTrailingIcon: true\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-chip \r\n      [variant]=\"variant\" \r\n      [hasTrailingIcon]=\"hasTrailingIcon\">\r\n      With Trailing Icon\r\n      <svg trailing-icon width=\"18\" height=\"18\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-chip>`\r\n  })\r\n}"
                 }
             ],
             "projects/quanta-kit/src/lib/Button/button.stories.ts": [
@@ -1192,6 +1273,38 @@
                     "defaultValue": "{\r\n    args: {\r\n        variant: 'primary',\r\n        size: 'md'\r\n    },\r\n    render: (args) => ({\r\n        props: args,\r\n        template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\">\r\n      Continue\r\n      <svg slot=\"icon-right\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\r\n        <path d=\"M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z\"/>\r\n      </svg>\r\n    </qk-button>`\r\n    }),\r\n    parameters: {\r\n        docs: {\r\n            description: {\r\n                story: 'Button with an icon on the right side'\r\n            }\r\n        }\r\n    }\r\n}"
                 }
             ],
+            "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts": [
+                {
+                    "name": "Delete",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n     variant: 'delete',\r\n    disabled: false,\r\n    loading: false,\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button\r\n      [disabled]=\"disabled\"\r\n      [variant]=\"variant\"\r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Delete Button\r\n    </qk-button>`,\r\n  }),\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<ButtonComponent>",
+                    "defaultValue": "{\r\n  title: 'Components/Buttongroup',\r\n  component: ButtonComponent,\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ButtonComponent],\r\n    }),\r\n  ],\r\n  args: {\r\n    disabled: false,\r\n    loading: false,\r\n    hideTextOnLoading: false,\r\n    ariaLabel: '',\r\n    testId: '',\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n  },\r\n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n     variant: 'primary',\r\n    disabled: false,\r\n    loading: false,\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button\r\n      [disabled]=\"disabled\"\r\n      [variant]=\"variant\"\r\n      [loading]=\"loading\"\r\n      [hideTextOnLoading]=\"hideTextOnLoading\"\r\n      [ariaLabel]=\"ariaLabel\"\r\n      [testId]=\"testId\"\r\n      (clicked)=\"clicked($event)\"\r\n      (focused)=\"focused($event)\"\r\n      (blurred)=\"blurred($event)\">\r\n      Primary Button\r\n    </qk-button>`,\r\n  }),\r\n}"
+                }
+            ],
             "projects/quanta-kit/.storybook/preview.ts": [
                 {
                     "name": "preview",
@@ -1228,6 +1341,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<ChipComponent>",
                     "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<ButtonComponent>",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -1552,6 +1678,46 @@
                 "status": "low"
             },
             {
+                "filePath": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Delete",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Buttongroup/buttongroup.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
@@ -1676,6 +1842,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "ElevationAndBlurTest",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "EventHandlers",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -1737,6 +1913,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "PropertyEdgeCases",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "PropertyInitializationTest",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
