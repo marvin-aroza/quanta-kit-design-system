@@ -1,15 +1,15 @@
-import React from 'react';
-import './Button.css';
+import React from "react";
+import "./Button.css";
 
 export interface ButtonProps {
   /**
    * Button variant
    */
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: "primary" | "secondary" | "outline" | "ghost";
   /**
    * Button size
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   /**
    * Is the button disabled?
    */
@@ -29,30 +29,36 @@ export interface ButtonProps {
   /**
    * Button type
    */
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
 }
 
 /**
  * Primary UI component for user interaction
  */
 export const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'medium',
+  variant = "primary",
+  size = "medium",
   disabled = false,
   children,
   onClick,
-  className = '',
-  type = 'button',
+  className = "",
+  type = "button",
   ...props
 }) => {
-  const baseClasses = 'qk-button';
+  const baseClasses = "qk-button";
   const variantClass = `qk-button--${variant}`;
   const sizeClass = `qk-button--${size}`;
-  const disabledClass = disabled ? 'qk-button--disabled' : '';
-  
-  const classes = [baseClasses, variantClass, sizeClass, disabledClass, className]
+  const disabledClass = disabled ? "qk-button--disabled" : "";
+
+  const classes = [
+    baseClasses,
+    variantClass,
+    sizeClass,
+    disabledClass,
+    className,
+  ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   return (
     <button

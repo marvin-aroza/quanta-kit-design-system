@@ -11,12 +11,16 @@ npm install quanta-kit-react
 ## Usage
 
 ```tsx
-import { Button } from 'quanta-kit-react';
+import { Button } from "quanta-kit-react";
 
 function App() {
   return (
     <div>
-      <Button variant="primary" size="medium" onClick={() => console.log('Clicked!')}>
+      <Button
+        variant="primary"
+        size="medium"
+        onClick={() => console.log("Clicked!")}
+      >
         Click me
       </Button>
     </div>
@@ -31,6 +35,7 @@ function App() {
 A versatile button component with multiple variants and sizes.
 
 **Props:**
+
 - `variant`: 'primary' | 'secondary' | 'outline' | 'ghost' (default: 'primary')
 - `size`: 'small' | 'medium' | 'large' (default: 'medium')
 - `disabled`: boolean (default: false)

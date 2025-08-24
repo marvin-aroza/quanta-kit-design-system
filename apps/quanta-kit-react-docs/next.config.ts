@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   experimental: {
     turbo: undefined,
   },
-  output: 'standalone'
+  output: "standalone",
 };
 
 export default nextConfig;
