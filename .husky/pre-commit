@@ -1,0 +1,16 @@
+# Pre-commit checks
+echo "🔍 Running pre-commit checks..."
+
+# 1. Run linting across all packages
+echo "🔧 Running lint checks..."
+npm run lint
+
+# 2. Run type checking across all packages
+echo "🔍 Running type checks..."
+npm run check-types
+
+# 3. Run format check
+echo "📝 Checking code formatting..."
+npm run format
+
+echo "✅ All pre-commit checks passed!"
