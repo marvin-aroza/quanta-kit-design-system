@@ -27,15 +27,11 @@ npm install quanta-kit
 ## Basic Usage
 
 ```typescript
-import { ChipComponent } from 'quanta-kit';
+import { ChipComponent } from "quanta-kit";
 
 @Component({
   imports: [ChipComponent],
-  template: `
-    <qk-chip variant="assist" size="md">
-      Basic Chip
-    </qk-chip>
-  `
+  template: ` <qk-chip variant="assist" size="md"> Basic Chip </qk-chip> `,
 })
 export class MyComponent {}
 ```
@@ -44,45 +40,46 @@ export class MyComponent {}
 
 ### Props
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `variant` | `ChipVariant` | `'assist'` | The Material UI 3 chip variant |
-| `size` | `ChipSize` | `'md'` | The size of the chip |
-| `elevation` | `ChipElevation` | `'flat'` | The elevation style |
-| `disabled` | `boolean` | `false` | Whether the chip is disabled |
-| `selected` | `boolean` | `false` | Whether the chip is selected (filter chips) |
-| `clickable` | `boolean` | `true` | Whether the chip is clickable |
-| `removable` | `boolean` | `false` | Whether the chip can be removed |
-| `hasLeadingIcon` | `boolean` | `false` | Whether the chip has a leading icon |
-| `hasTrailingIcon` | `boolean` | `false` | Whether the chip has a trailing icon |
-| `hasAvatar` | `boolean` | `false` | Whether the chip has an avatar |
-| `customClass` | `string` | `''` | Custom CSS classes to apply |
-| `ariaLabel` | `string` | `''` | ARIA label for accessibility |
-| `ariaPressed` | `boolean \| null` | `null` | ARIA pressed state |
-| `removeAriaLabel` | `string` | `''` | ARIA label for remove button |
-| `testId` | `string` | `''` | Test ID for testing purposes |
+| Property          | Type              | Default    | Description                                 |
+| ----------------- | ----------------- | ---------- | ------------------------------------------- |
+| `variant`         | `ChipVariant`     | `'assist'` | The Material UI 3 chip variant              |
+| `size`            | `ChipSize`        | `'md'`     | The size of the chip                        |
+| `elevation`       | `ChipElevation`   | `'flat'`   | The elevation style                         |
+| `disabled`        | `boolean`         | `false`    | Whether the chip is disabled                |
+| `selected`        | `boolean`         | `false`    | Whether the chip is selected (filter chips) |
+| `clickable`       | `boolean`         | `true`     | Whether the chip is clickable               |
+| `removable`       | `boolean`         | `false`    | Whether the chip can be removed             |
+| `hasLeadingIcon`  | `boolean`         | `false`    | Whether the chip has a leading icon         |
+| `hasTrailingIcon` | `boolean`         | `false`    | Whether the chip has a trailing icon        |
+| `hasAvatar`       | `boolean`         | `false`    | Whether the chip has an avatar              |
+| `customClass`     | `string`          | `''`       | Custom CSS classes to apply                 |
+| `ariaLabel`       | `string`          | `''`       | ARIA label for accessibility                |
+| `ariaPressed`     | `boolean \| null` | `null`     | ARIA pressed state                          |
+| `removeAriaLabel` | `string`          | `''`       | ARIA label for remove button                |
+| `testId`          | `string`          | `''`       | Test ID for testing purposes                |
 
 ### Events
 
-| Event | Type | Description |
-|-------|------|-------------|
-| `clicked` | `EventEmitter<MouseEvent>` | Emitted when chip is clicked |
-| `removed` | `EventEmitter<MouseEvent>` | Emitted when chip is removed |
-| `focused` | `EventEmitter<FocusEvent>` | Emitted when chip receives focus |
-| `blurred` | `EventEmitter<FocusEvent>` | Emitted when chip loses focus |
-| `selectionChange` | `EventEmitter<boolean>` | Emitted when selection state changes |
+| Event             | Type                       | Description                          |
+| ----------------- | -------------------------- | ------------------------------------ |
+| `clicked`         | `EventEmitter<MouseEvent>` | Emitted when chip is clicked         |
+| `removed`         | `EventEmitter<MouseEvent>` | Emitted when chip is removed         |
+| `focused`         | `EventEmitter<FocusEvent>` | Emitted when chip receives focus     |
+| `blurred`         | `EventEmitter<FocusEvent>` | Emitted when chip loses focus        |
+| `selectionChange` | `EventEmitter<boolean>`    | Emitted when selection state changes |
 
 ### Types
 
 ```typescript
-export type ChipVariant = 'assist' | 'filter' | 'input' | 'suggestion';
-export type ChipSize = 'sm' | 'md';
-export type ChipElevation = 'flat' | 'elevated';
+export type ChipVariant = "assist" | "filter" | "input" | "suggestion";
+export type ChipSize = "sm" | "md";
+export type ChipElevation = "flat" | "elevated";
 ```
 
 ## Material UI 3 Chip Types
 
 ### Assist Chips
+
 Help users take actions or see information related to primary content.
 
 ```html
@@ -93,38 +90,30 @@ Help users take actions or see information related to primary content.
 ```
 
 ### Filter Chips
+
 Let users select from a set of options to filter content.
 
 ```html
-<qk-chip 
-  variant="filter" 
-  [selected]="isSelected" 
-  (selectionChange)="onFilterChange($event)">
-  Popular
-</qk-chip>
+<qk-chip variant="filter" [selected]="isSelected" (selectionChange)="onFilterChange($event)"> Popular </qk-chip>
 ```
 
 ### Input Chips
+
 Represent discrete pieces of information entered by a user.
 
 ```html
-<qk-chip 
-  variant="input" 
-  [removable]="true" 
-  [hasAvatar]="true"
-  (removed)="onTagRemove()">
-  <img avatar src="avatar.jpg" alt="User">
+<qk-chip variant="input" [removable]="true" [hasAvatar]="true" (removed)="onTagRemove()">
+  <img avatar src="avatar.jpg" alt="User" />
   John Doe
 </qk-chip>
 ```
 
 ### Suggestion Chips
+
 Present dynamically generated suggestions for user actions.
 
 ```html
-<qk-chip variant="suggestion" (clicked)="onSuggestionClick()">
-  Coffee shops nearby
-</qk-chip>
+<qk-chip variant="suggestion" (clicked)="onSuggestionClick()"> Coffee shops nearby </qk-chip>
 ```
 
 ## Examples
@@ -135,7 +124,7 @@ Present dynamically generated suggestions for user actions.
 <!-- Leading Icon -->
 <qk-chip variant="assist" [hasLeadingIcon]="true">
   <svg leading-icon width="18" height="18" fill="currentColor">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
   </svg>
   With Icon
 </qk-chip>
@@ -144,7 +133,7 @@ Present dynamically generated suggestions for user actions.
 <qk-chip variant="assist" [hasTrailingIcon]="true">
   Action
   <svg trailing-icon width="18" height="18" fill="currentColor">
-    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
   </svg>
 </qk-chip>
 ```
@@ -154,7 +143,7 @@ Present dynamically generated suggestions for user actions.
 ```html
 <!-- Image Avatar -->
 <qk-chip variant="input" [hasAvatar]="true" [removable]="true">
-  <img avatar src="user.jpg" alt="User" style="width: 100%; height: 100%; object-fit: cover;">
+  <img avatar src="user.jpg" alt="User" style="width: 100%; height: 100%; object-fit: cover;" />
   John Doe
 </qk-chip>
 
@@ -171,7 +160,7 @@ Present dynamically generated suggestions for user actions.
 <qk-chip variant="input" [removable]="true" (removed)="onRemove($event)">
   Removable Chip
   <svg remove-icon width="18" height="18" fill="currentColor">
-    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z"/>
+    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12z" />
   </svg>
 </qk-chip>
 ```
@@ -180,36 +169,26 @@ Present dynamically generated suggestions for user actions.
 
 ```typescript
 @Component({
-  template: `
-    <qk-chip 
-      variant="filter"
-      [selected]="isSelected"
-      (clicked)="onChipClick($event)"
-      (selectionChange)="onSelectionChange($event)"
-      (focused)="onChipFocus($event)"
-      (blurred)="onChipBlur($event)">
-      Interactive Chip
-    </qk-chip>
-  `
+  template: ` <qk-chip variant="filter" [selected]="isSelected" (clicked)="onChipClick($event)" (selectionChange)="onSelectionChange($event)" (focused)="onChipFocus($event)" (blurred)="onChipBlur($event)"> Interactive Chip </qk-chip> `,
 })
 export class MyComponent {
   isSelected = false;
 
   onChipClick(event: MouseEvent) {
-    console.log('Chip clicked:', event);
+    console.log("Chip clicked:", event);
   }
 
   onSelectionChange(selected: boolean) {
     this.isSelected = selected;
-    console.log('Selection changed:', selected);
+    console.log("Selection changed:", selected);
   }
 
   onChipFocus(event: FocusEvent) {
-    console.log('Chip focused');
+    console.log("Chip focused");
   }
 
   onChipBlur(event: FocusEvent) {
-    console.log('Chip blurred');
+    console.log("Chip blurred");
   }
 }
 ```
@@ -221,27 +200,15 @@ export class MyComponent {
   <!-- Filter Chips -->
   <div class="filter-section">
     <h4>Filters</h4>
-    <qk-chip variant="filter" [selected]="filters.popular" (selectionChange)="toggleFilter('popular', $event)">
-      Popular
-    </qk-chip>
-    <qk-chip variant="filter" [selected]="filters.nearby" (selectionChange)="toggleFilter('nearby', $event)">
-      Nearby
-    </qk-chip>
-    <qk-chip variant="filter" [selected]="filters.price" (selectionChange)="toggleFilter('price', $event)">
-      Price
-    </qk-chip>
+    <qk-chip variant="filter" [selected]="filters.popular" (selectionChange)="toggleFilter('popular', $event)"> Popular </qk-chip>
+    <qk-chip variant="filter" [selected]="filters.nearby" (selectionChange)="toggleFilter('nearby', $event)"> Nearby </qk-chip>
+    <qk-chip variant="filter" [selected]="filters.price" (selectionChange)="toggleFilter('price', $event)"> Price </qk-chip>
   </div>
 
   <!-- Input Chips (Tags) -->
   <div class="tags-section">
     <h4>Selected Tags</h4>
-    <qk-chip 
-      *ngFor="let tag of selectedTags" 
-      variant="input" 
-      [removable]="true"
-      (removed)="removeTag(tag)">
-      {{ tag.name }}
-    </qk-chip>
+    <qk-chip *ngFor="let tag of selectedTags" variant="input" [removable]="true" (removed)="removeTag(tag)"> {{ tag.name }} </qk-chip>
   </div>
 
   <!-- Assist Chips -->
@@ -272,31 +239,18 @@ The Chip component includes comprehensive accessibility features:
 ### Accessibility Example
 
 ```html
-<qk-chip 
-  variant="filter"
-  [selected]="isSelected"
-  ariaLabel="Filter by popularity"
-  (selectionChange)="onFilterChange($event)">
-  Popular
-</qk-chip>
+<qk-chip variant="filter" [selected]="isSelected" ariaLabel="Filter by popularity" (selectionChange)="onFilterChange($event)"> Popular </qk-chip>
 
-<qk-chip 
-  variant="input"
-  [removable]="true"
-  ariaLabel="JavaScript programming language tag"
-  removeAriaLabel="Remove JavaScript tag"
-  (removed)="onTagRemove()">
-  JavaScript
-</qk-chip>
+<qk-chip variant="input" [removable]="true" ariaLabel="JavaScript programming language tag" removeAriaLabel="Remove JavaScript tag" (removed)="onTagRemove()"> JavaScript </qk-chip>
 ```
 
 ## Keyboard Navigation
 
-| Key | Action |
-|-----|--------|
-| `Enter` / `Space` | Activate clickable chip |
-| `Delete` / `Backspace` | Remove removable chip |
-| `Tab` | Navigate between chips |
+| Key                    | Action                  |
+| ---------------------- | ----------------------- |
+| `Enter` / `Space`      | Activate clickable chip |
+| `Delete` / `Backspace` | Remove removable chip   |
+| `Tab`                  | Navigate between chips  |
 
 ## CSS Classes
 
@@ -305,26 +259,56 @@ The component generates CSS classes following the BEM methodology:
 ```scss
 .qk-chip {
   // Base chip styles
-  
-  &--assist { /* Assist variant */ }
-  &--filter { /* Filter variant */ }
-  &--input { /* Input variant */ }
-  &--suggestion { /* Suggestion variant */ }
-  
-  &--sm { /* Small size */ }
-  &--md { /* Medium size */ }
-  
-  &--flat { /* Flat elevation */ }
-  &--elevated { /* Elevated elevation */ }
-  
-  &--disabled { /* Disabled state */ }
-  &--selected { /* Selected state */ }
-  &--clickable { /* Clickable state */ }
-  &--removable { /* Removable state */ }
-  
-  &--has-leading-icon { /* With leading icon */ }
-  &--has-trailing-icon { /* With trailing icon */ }
-  &--has-avatar { /* With avatar */ }
+
+  &--assist {
+    /* Assist variant */
+  }
+  &--filter {
+    /* Filter variant */
+  }
+  &--input {
+    /* Input variant */
+  }
+  &--suggestion {
+    /* Suggestion variant */
+  }
+
+  &--sm {
+    /* Small size */
+  }
+  &--md {
+    /* Medium size */
+  }
+
+  &--flat {
+    /* Flat elevation */
+  }
+  &--elevated {
+    /* Elevated elevation */
+  }
+
+  &--disabled {
+    /* Disabled state */
+  }
+  &--selected {
+    /* Selected state */
+  }
+  &--clickable {
+    /* Clickable state */
+  }
+  &--removable {
+    /* Removable state */
+  }
+
+  &--has-leading-icon {
+    /* With leading icon */
+  }
+  &--has-trailing-icon {
+    /* With trailing icon */
+  }
+  &--has-avatar {
+    /* With avatar */
+  }
 }
 ```
 
@@ -333,28 +317,28 @@ The component generates CSS classes following the BEM methodology:
 The component includes comprehensive test coverage and testing utilities:
 
 ```typescript
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChipComponent } from 'quanta-kit';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ChipComponent } from "quanta-kit";
 
-describe('Chip Integration', () => {
+describe("Chip Integration", () => {
   let component: ChipComponent;
   let fixture: ComponentFixture<ChipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChipComponent]
+      imports: [ChipComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChipComponent);
     component = fixture.componentInstance;
   });
 
-  it('should handle click events', () => {
-    spyOn(component.clicked, 'emit');
+  it("should handle click events", () => {
+    spyOn(component.clicked, "emit");
     component.clickable = true;
     fixture.detectChanges();
 
-    const chipElement = fixture.nativeElement.querySelector('.qk-chip');
+    const chipElement = fixture.nativeElement.querySelector(".qk-chip");
     chipElement.click();
 
     expect(component.clicked.emit).toHaveBeenCalled();

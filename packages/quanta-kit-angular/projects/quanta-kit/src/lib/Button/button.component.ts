@@ -1,8 +1,31 @@
-import { Component, Input, Output, EventEmitter, HostBinding, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostBinding,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /** Supported button visual variants */
-export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark' | 'outline-primary' | 'outline-secondary' | 'outline-success' | 'outline-danger' | 'outline-warning' | 'outline-info' | 'outline-light' | 'outline-dark';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'info'
+  | 'light'
+  | 'dark'
+  | 'outline-primary'
+  | 'outline-secondary'
+  | 'outline-success'
+  | 'outline-danger'
+  | 'outline-warning'
+  | 'outline-info'
+  | 'outline-light'
+  | 'outline-dark';
 
 /** Supported button sizes */
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -12,7 +35,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 
 /**
  * A customizable button component with multiple variants, sizes, and states.
- * 
+ *
  * @example
  * ```html
  * <qk-button variant="primary" size="lg" (clicked)="handleClick()">
@@ -26,54 +49,54 @@ export type ButtonType = 'button' | 'submit' | 'reset';
   imports: [CommonModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   /** Button variant/style */
   @Input() variant: ButtonVariant = 'primary';
-  
+
   /** Button size */
   @Input() size: ButtonSize = 'md';
-  
+
   /** Button type attribute */
   @Input() type: ButtonType = 'button';
-  
+
   /** Whether the button is disabled */
   @Input() disabled = false;
-  
+
   /** Whether the button is in loading state */
   @Input() loading = false;
-  
+
   /** Whether to hide text content when loading */
   @Input() hideTextOnLoading = false;
-  
+
   /** Whether the button should take full width */
   @Input() fullWidth = false;
-  
+
   /** Whether the button has rounded corners */
   @Input() rounded = false;
-  
+
   /** Whether the button has no border radius */
   @Input() square = false;
-  
+
   /** Custom CSS classes to apply */
   @Input() customClass = '';
-  
+
   /** ARIA label for accessibility */
   @Input() ariaLabel = '';
-  
+
   /** ARIA pressed state for toggle buttons */
   @Input() ariaPressed: boolean | null = null;
-  
+
   /** Test ID for testing purposes */
   @Input() testId = '';
-  
+
   /** Click event emitter */
   @Output() clicked = new EventEmitter<MouseEvent>();
-  
+
   /** Focus event emitter */
   @Output() focused = new EventEmitter<FocusEvent>();
-  
+
   /** Blur event emitter */
   @Output() blurred = new EventEmitter<FocusEvent>();
 

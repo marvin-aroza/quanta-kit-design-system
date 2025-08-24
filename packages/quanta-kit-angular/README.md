@@ -30,17 +30,20 @@ npm install quanta-kit-angular
 ### For Development
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/marvin-aroza/quanta-kit-angular.git
 cd quanta-kit-angular
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start Storybook (recommended for development):
+
 ```bash
 npm run storybook
 ```
@@ -50,14 +53,10 @@ Storybook will be available at `http://localhost:6006`.
 ## 🚀 Quick Start
 
 ```typescript
-import { ButtonComponent } from 'quanta-kit-angular';
+import { ButtonComponent } from "quanta-kit-angular";
 
 @Component({
-  template: `
-    <qk-button variant="primary" size="medium">
-      Click me!
-    </qk-button>
-  `
+  template: ` <qk-button variant="primary" size="medium"> Click me! </qk-button> `,
 })
 export class MyComponent {}
 ```
@@ -72,6 +71,7 @@ export class MyComponent {}
 - `npm run test-storybook` - Run Storybook tests
 
 ## Development serverta-kit-angular
+
 🚀 Techy &amp; Futuristic QuantaKit delivers quantized UI elements in an Angular-based toolkit built for scale. With atomic design, blazing performance, and WCAG accessibility, it’s your launchpad to consistent, adaptive apps—now and as Web Components in the future.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
@@ -95,17 +95,21 @@ projects/quanta-kit/
 ## 🎨 Component Categories
 
 ### Atoms
+
 - Button, Input, Label, Icon, etc.
 
-### Molecules  
+### Molecules
+
 - Form Field, Card Header, Navigation Item, etc.
 
 ### Organisms
+
 - Form, Card, Navigation Bar, etc.
 
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
+
 - Component development workflow
 - Storybook story creation
 - Accessibility requirements

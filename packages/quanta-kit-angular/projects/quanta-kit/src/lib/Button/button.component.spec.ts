@@ -7,7 +7,7 @@ describe('ButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonComponent]
+      imports: [ButtonComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ButtonComponent);
@@ -57,7 +57,7 @@ describe('ButtonComponent', () => {
     component.loading = true;
     component.disabled = true;
     component.customClass = 'test-class';
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn');
     expect(classes).toContain('qk-btn--danger');
@@ -72,49 +72,49 @@ describe('ButtonComponent', () => {
 
   it('should handle disabled state correctly', () => {
     component.disabled = true;
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn--disabled');
   });
 
   it('should handle loading state correctly', () => {
     component.loading = true;
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn--loading');
   });
 
   it('should handle fullWidth state correctly', () => {
     component.fullWidth = true;
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn--full-width');
   });
 
   it('should handle rounded state correctly', () => {
     component.rounded = true;
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn--rounded');
   });
 
   it('should handle square state correctly', () => {
     component.square = true;
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn--square');
   });
 
   it('should handle custom class correctly', () => {
     component.customClass = 'my-custom-class';
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('my-custom-class');
   });
 
   it('should handle empty custom class correctly', () => {
     component.customClass = '';
-    
+
     const classes = component.buttonClasses;
     expect(classes).not.toMatch(/undefined|null/);
   });
@@ -127,7 +127,7 @@ describe('ButtonComponent', () => {
       eventEmitted = true;
       capturedEvent = event;
     });
-    
+
     component.handleClick(mockEvent);
     expect(eventEmitted).toBe(true);
     expect(capturedEvent).toBe(mockEvent);
@@ -137,8 +137,8 @@ describe('ButtonComponent', () => {
     component.disabled = true;
     const mockEvent = new MouseEvent('click');
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     component.handleClick(mockEvent);
     expect(eventEmitted).toBe(false);
   });
@@ -147,8 +147,8 @@ describe('ButtonComponent', () => {
     component.loading = true;
     const mockEvent = new MouseEvent('click');
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     component.handleClick(mockEvent);
     expect(eventEmitted).toBe(false);
   });
@@ -158,8 +158,8 @@ describe('ButtonComponent', () => {
     component.loading = true;
     const mockEvent = new MouseEvent('click');
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     component.handleClick(mockEvent);
     expect(eventEmitted).toBe(false);
   });
@@ -172,7 +172,7 @@ describe('ButtonComponent', () => {
       eventEmitted = true;
       capturedEvent = event;
     });
-    
+
     component.handleFocus(mockEvent);
     expect(eventEmitted).toBe(true);
     expect(capturedEvent).toBe(mockEvent);
@@ -186,16 +186,25 @@ describe('ButtonComponent', () => {
       eventEmitted = true;
       capturedEvent = event;
     });
-    
+
     component.handleBlur(mockEvent);
     expect(eventEmitted).toBe(true);
     expect(capturedEvent).toBe(mockEvent);
   });
 
   it('should test all button variants', () => {
-    const variants = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
-    
-    variants.forEach(variant => {
+    const variants = [
+      'primary',
+      'secondary',
+      'success',
+      'danger',
+      'warning',
+      'info',
+      'light',
+      'dark',
+    ];
+
+    variants.forEach((variant) => {
       component.variant = variant as any;
       const classes = component.buttonClasses;
       expect(classes).toContain(`qk-btn--${variant}`);
@@ -203,9 +212,18 @@ describe('ButtonComponent', () => {
   });
 
   it('should test outline button variants', () => {
-    const outlineVariants = ['outline-primary', 'outline-secondary', 'outline-success', 'outline-danger', 'outline-warning', 'outline-info', 'outline-light', 'outline-dark'];
-    
-    outlineVariants.forEach(variant => {
+    const outlineVariants = [
+      'outline-primary',
+      'outline-secondary',
+      'outline-success',
+      'outline-danger',
+      'outline-warning',
+      'outline-info',
+      'outline-light',
+      'outline-dark',
+    ];
+
+    outlineVariants.forEach((variant) => {
       component.variant = variant as any;
       const classes = component.buttonClasses;
       expect(classes).toContain(`qk-btn--${variant}`);
@@ -214,8 +232,8 @@ describe('ButtonComponent', () => {
 
   it('should test all button sizes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
-    
-    sizes.forEach(size => {
+
+    sizes.forEach((size) => {
       component.size = size as any;
       const classes = component.buttonClasses;
       expect(classes).toContain(`qk-btn--${size}`);
@@ -231,7 +249,7 @@ describe('ButtonComponent', () => {
     component.rounded = true;
     component.square = true;
     component.customClass = 'custom-class another-class';
-    
+
     const classes = component.buttonClasses;
     expect(classes).toContain('qk-btn');
     expect(classes).toContain('qk-btn--outline-danger');

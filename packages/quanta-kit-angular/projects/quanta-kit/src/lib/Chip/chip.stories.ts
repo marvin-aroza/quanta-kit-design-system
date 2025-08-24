@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { fn } from 'storybook/test';
-import { ChipComponent, ChipVariant, ChipSize, ChipElevation } from './chip.component';
+import {
+  ChipComponent,
+  ChipVariant,
+  ChipSize,
+  ChipElevation,
+} from './chip.component';
 
 const meta: Meta<ChipComponent> = {
   title: 'Components/Chip',
@@ -34,94 +39,94 @@ The Chip component implements Material Design 3 chip variants for compact inform
   Filter Option
 </qk-chip>
 \`\`\`
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   argTypes: {
     variant: {
       control: 'select',
       options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],
-      description: 'The type of chip'
+      description: 'The type of chip',
     },
     size: {
       control: 'select',
       options: ['sm', 'md'] as ChipSize[],
-      description: 'The size of the chip'
+      description: 'The size of the chip',
     },
     elevation: {
       control: 'select',
       options: ['flat', 'elevated'] as ChipElevation[],
-      description: 'The elevation level of the chip'
+      description: 'The elevation level of the chip',
     },
     disabled: {
       control: 'boolean',
-      description: 'Whether the chip is disabled'
+      description: 'Whether the chip is disabled',
     },
     selected: {
       control: 'boolean',
-      description: 'Whether the chip is selected (filter chips only)'
+      description: 'Whether the chip is selected (filter chips only)',
     },
     removable: {
       control: 'boolean',
-      description: 'Whether the chip can be removed (input chips only)'
+      description: 'Whether the chip can be removed (input chips only)',
     },
     hasLeadingIcon: {
       control: 'boolean',
-      description: 'Whether the chip has a leading icon'
+      description: 'Whether the chip has a leading icon',
     },
     hasTrailingIcon: {
       control: 'boolean',
-      description: 'Whether the chip has a trailing icon'
+      description: 'Whether the chip has a trailing icon',
     },
     hasAvatar: {
       control: 'boolean',
-      description: 'Whether the chip has an avatar'
+      description: 'Whether the chip has an avatar',
     },
     customClass: {
       control: 'text',
-      description: 'Custom CSS classes to apply'
+      description: 'Custom CSS classes to apply',
     },
     ariaLabel: {
       control: 'text',
-      description: 'ARIA label for accessibility'
+      description: 'ARIA label for accessibility',
     },
     removeAriaLabel: {
       control: 'text',
-      description: 'ARIA label for the remove button'
+      description: 'ARIA label for the remove button',
     },
     testId: {
       control: 'text',
-      description: 'Test ID for testing purposes'
+      description: 'Test ID for testing purposes',
     },
     clicked: {
       action: 'clicked',
-      description: 'Event emitted when chip is clicked'
+      description: 'Event emitted when chip is clicked',
     },
     removed: {
       action: 'removed',
-      description: 'Event emitted when chip is removed'
+      description: 'Event emitted when chip is removed',
     },
     focused: {
       action: 'focused',
-      description: 'Event emitted when chip receives focus'
+      description: 'Event emitted when chip receives focus',
     },
     blurred: {
       action: 'blurred',
-      description: 'Event emitted when chip loses focus'
+      description: 'Event emitted when chip loses focus',
     },
     selectionChange: {
       action: 'selectionChange',
-      description: 'Event emitted when chip selection changes'
-    }
+      description: 'Event emitted when chip selection changes',
+    },
   },
   args: {
     clicked: fn(),
     removed: fn(),
     focused: fn(),
     blurred: fn(),
-    selectionChange: fn()
-  }
+    selectionChange: fn(),
+  },
 };
 
 export default meta;
@@ -132,7 +137,7 @@ export const AssistChip: Story = {
   args: {
     variant: 'assist',
     size: 'md',
-    elevation: 'flat'
+    elevation: 'flat',
   },
   render: (args) => ({
     props: args,
@@ -143,8 +148,8 @@ export const AssistChip: Story = {
       [disabled]="disabled"
       (clicked)="clicked($event)">
       Assist Chip
-    </qk-chip>`
-  })
+    </qk-chip>`,
+  }),
 };
 
 export const FilterChip: Story = {
@@ -152,7 +157,7 @@ export const FilterChip: Story = {
     variant: 'filter',
     size: 'md',
     elevation: 'flat',
-    selected: false
+    selected: false,
   },
   render: (args) => ({
     props: args,
@@ -165,8 +170,8 @@ export const FilterChip: Story = {
       (clicked)="clicked($event)"
       (selectionChange)="selectionChange($event)">
       Filter Chip
-    </qk-chip>`
-  })
+    </qk-chip>`,
+  }),
 };
 
 export const InputChip: Story = {
@@ -174,7 +179,7 @@ export const InputChip: Story = {
     variant: 'input',
     size: 'md',
     elevation: 'flat',
-    removable: true
+    removable: true,
   },
   render: (args) => ({
     props: args,
@@ -187,15 +192,15 @@ export const InputChip: Story = {
       (clicked)="clicked($event)"
       (removed)="removed($event)">
       Input Chip
-    </qk-chip>`
-  })
+    </qk-chip>`,
+  }),
 };
 
 export const SuggestionChip: Story = {
   args: {
     variant: 'suggestion',
     size: 'md',
-    elevation: 'flat'
+    elevation: 'flat',
   },
   render: (args) => ({
     props: args,
@@ -206,6 +211,6 @@ export const SuggestionChip: Story = {
       [disabled]="disabled"
       (clicked)="clicked($event)">
       Suggestion Chip
-    </qk-chip>`
-  })
+    </qk-chip>`,
+  }),
 };

@@ -17,6 +17,7 @@ This document provides comprehensive installation and configuration instructions
 ## 🎯 Overview
 
 The CI/CD pipeline includes:
+
 - **Multi-stage workflow**: Install → Build → Test → Audit
 - **Storybook testing** with coverage reporting
 - **Security auditing** with npm audit
@@ -35,6 +36,7 @@ The CI/CD pipeline includes:
 ## 📦 Required Dependencies
 
 ### Production Dependencies
+
 ```json
 {
   "@angular/common": "^20.1.0",
@@ -49,6 +51,7 @@ The CI/CD pipeline includes:
 ```
 
 ### Development Dependencies
+
 ```json
 {
   "@angular-devkit/build-angular": "^20.1.0",
@@ -114,22 +117,19 @@ Add these scripts to your `package.json`:
 ### 2. Storybook Main Configuration (projects/quanta-kit/.storybook/main.ts)
 
 ```typescript
-import type { StorybookConfig } from '@storybook/angular';
+import type { StorybookConfig } from "@storybook/angular";
 
 const config: StorybookConfig = {
-  "stories": [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
-  ],
-  "addons": [
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  addons: [
     "@storybook/addon-docs",
     "@storybook/addon-a11y",
-    "@storybook/addon-coverage"  // Essential for coverage reporting
+    "@storybook/addon-coverage", // Essential for coverage reporting
   ],
-  "framework": {
-    "name": "@storybook/angular",
-    "options": {}
-  }
+  framework: {
+    name: "@storybook/angular",
+    options: {},
+  },
 };
 export default config;
 ```
@@ -137,47 +137,50 @@ export default config;
 ### 4. Jest Setup File (projects/quanta-kit/.storybook/test-setup.ts)
 
 ```typescript
-import 'jest-preset-angular/setup-jest';
+import "jest-preset-angular/setup-jest";
 
 // Configure Jest environment for Angular/Storybook tests
-Object.defineProperty(window, 'CSS', { value: null });
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(window, "CSS", { value: null });
+Object.defineProperty(window, "getComputedStyle", {
   value: () => {
     return {
-      display: 'none',
-      appearance: ['-webkit-appearance']
+      display: "none",
+      appearance: ["-webkit-appearance"],
     };
-  }
+  },
 });
 
-Object.defineProperty(document, 'doctype', {
-  value: '<!DOCTYPE html>'
+Object.defineProperty(document, "doctype", {
+  value: "<!DOCTYPE html>",
 });
-Object.defineProperty(document.body.style, 'transform', {
+Object.defineProperty(document.body.style, "transform", {
   value: () => {
     return {
       enumerable: true,
-      configurable: true
+      configurable: true,
     };
-  }
+  },
 });
 ```
 
 ## 🚀 Pipeline Features
 
 ### Job Structure
+
 1. **Install**: Dependency installation and caching
 2. **Build**: Application and Storybook builds
 3. **Audit**: Security vulnerability scanning
 4. **Test**: Storybook testing with coverage
 
 ### Coverage Reporting
+
 - **Extraction Method**: Direct LCOV parsing with HTML fallback
 - **Threshold**: 90% minimum for lines, functions, branches, statements
 - **Reporting**: Automated PR comments with detailed coverage tables
 - **Upload**: Integration with Codecov for historical tracking
 
 ### Security Features
+
 - **npm audit**: Automated vulnerability scanning
 - **Artifact retention**: 30 days for audit reports, 7 days for builds
 - **Permission management**: Minimal required permissions for PR comments
@@ -190,7 +193,7 @@ Object.defineProperty(document.body.style, 'transform', {
 # Install all required dependencies
 npm install
 
-# Install additional testing dependencies  
+# Install additional testing dependencies
 npm install --save-dev playwright wait-on
 
 # Install global tools for CI
@@ -223,17 +226,21 @@ npm install -g http-server wait-on
 ### Common Issues
 
 #### 2. Storybook Coverage Addon Missing
+
 **Problem**: Coverage reports showing 0% despite tests running.
 
-**Solution**: 
+**Solution**:
+
 - Verify `@storybook/addon-coverage` is installed and configured in main.ts
 - Ensure coverage addon is properly configured in Storybook
 - Check that coverage files are generated during test runs
 
 #### 2. PR Comments Not Posted
+
 **Problem**: "Resource not accessible by integration" error.
 
 **Solution**:
+
 ```yaml
 permissions:
   contents: read
@@ -242,17 +249,21 @@ permissions:
 ```
 
 #### 3. Storybook Tests Failing
+
 **Problem**: Tests timeout or fail to run.
 
 **Solution**:
+
 - Increase timeout in test script: `--testTimeout 60000`
 - Ensure Playwright browsers are installed: `npx playwright install --with-deps`
 - Verify Storybook builds successfully before testing
 
 #### 4. Missing Dependencies
+
 **Problem**: Module not found errors during CI.
 
 **Solution**:
+
 - Check that all dependencies are listed in package.json
 - Verify cache restoration is working properly
 - Use fallback `npm ci` in each job
@@ -277,26 +288,31 @@ npx jest --showConfig
 ## 📚 Best Practices
 
 ### 1. Dependency Management
+
 - Pin major versions to prevent breaking changes
 - Use `npm ci` in CI for consistent installs
 - Keep dev dependencies separate from production
 
 ### 2. Coverage Strategy
+
 - Set realistic thresholds (90% is aggressive but achievable)
 - Exclude test files and configuration from coverage
 - Use both LCOV and HTML reports for flexibility
 
 ### 3. Performance Optimization
+
 - Use caching for node_modules between jobs
 - Run jobs in parallel where possible
 - Upload artifacts only when necessary
 
 ### 4. Security
+
 - Use minimal required permissions
 - Audit dependencies regularly
 - Keep sensitive data in GitHub secrets
 
 ### 5. Maintenance
+
 - Review and update dependencies monthly
 - Monitor pipeline performance and adjust timeouts
 - Keep documentation updated with configuration changes
@@ -310,7 +326,7 @@ After successful setup, you should have:
 ✅ **Security auditing** with vulnerability detection  
 ✅ **PR comments** with detailed coverage information  
 ✅ **Artifact storage** for builds and reports  
-✅ **Integration** with external services like Codecov  
+✅ **Integration** with external services like Codecov
 
 ## 📞 Support
 
@@ -323,6 +339,6 @@ If you encounter issues:
 
 ---
 
-*Last updated: August 2025*  
-*Pipeline version: v1.0*  
-*Compatible with: Angular 20.x, Node.js 22.x, Storybook 9.x*
+_Last updated: August 2025_  
+_Pipeline version: v1.0_  
+_Compatible with: Angular 20.x, Node.js 22.x, Storybook 9.x_

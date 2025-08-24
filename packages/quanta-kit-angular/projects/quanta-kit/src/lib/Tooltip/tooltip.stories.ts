@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { TooltipComponent, TooltipPosition, TooltipTrigger, TooltipType } from './tooltip.component';
+import {
+  TooltipComponent,
+  TooltipPosition,
+  TooltipTrigger,
+  TooltipType,
+} from './tooltip.component';
 
 const meta: Meta<TooltipComponent> = {
   title: 'Components/Tooltip',
@@ -31,60 +36,60 @@ Based on Material Design 3 guidelines for tooltips.
   <button>Hover me</button>
 </qk-tooltip>
 \`\`\`
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   argTypes: {
     text: {
       control: 'text',
-      description: 'Tooltip text content'
+      description: 'Tooltip text content',
     },
     position: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],
-      description: 'Position of the tooltip relative to trigger'
+      description: 'Position of the tooltip relative to trigger',
     },
     trigger: {
       control: 'select',
       options: ['hover', 'click', 'focus'] as TooltipTrigger[],
-      description: 'How the tooltip is triggered'
+      description: 'How the tooltip is triggered',
     },
     type: {
       control: 'select',
       options: ['plain', 'rich'] as TooltipType[],
-      description: 'Type of tooltip content'
+      description: 'Type of tooltip content',
     },
     disabled: {
       control: 'boolean',
-      description: 'Whether the tooltip is disabled'
+      description: 'Whether the tooltip is disabled',
     },
     showDelay: {
       control: 'number',
-      description: 'Delay before showing tooltip (ms)'
+      description: 'Delay before showing tooltip (ms)',
     },
     hideDelay: {
       control: 'number',
-      description: 'Delay before hiding tooltip (ms)'
+      description: 'Delay before hiding tooltip (ms)',
     },
     persistent: {
       control: 'boolean',
-      description: 'Whether tooltip stays open until explicitly closed'
+      description: 'Whether tooltip stays open until explicitly closed',
     },
     customClass: {
       control: 'text',
-      description: 'Custom CSS classes'
+      description: 'Custom CSS classes',
     },
     maxWidth: {
       control: 'text',
-      description: 'Maximum width of tooltip'
+      description: 'Maximum width of tooltip',
     },
     offset: {
       control: 'number',
-      description: 'Distance from trigger element in pixels'
-    }
+      description: 'Distance from trigger element in pixels',
+    },
   },
-  tags: ['autodocs']
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -94,7 +99,7 @@ export const Default: Story = {
   args: {
     text: 'This is a simple tooltip',
     position: 'top',
-    trigger: 'hover'
+    trigger: 'hover',
   },
   render: (args) => ({
     props: args,
@@ -109,15 +114,15 @@ export const Default: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const TopPosition: Story = {
   args: {
     text: 'Tooltip positioned on top',
     position: 'top',
-    trigger: 'hover'
+    trigger: 'hover',
   },
   render: (args) => ({
     props: args,
@@ -132,15 +137,15 @@ export const TopPosition: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const BottomPosition: Story = {
   args: {
     text: 'Tooltip positioned on bottom',
     position: 'bottom',
-    trigger: 'hover'
+    trigger: 'hover',
   },
   render: (args) => ({
     props: args,
@@ -155,15 +160,15 @@ export const BottomPosition: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const LeftPosition: Story = {
   args: {
     text: 'Tooltip positioned on left',
     position: 'left',
-    trigger: 'hover'
+    trigger: 'hover',
   },
   render: (args) => ({
     props: args,
@@ -178,15 +183,15 @@ export const LeftPosition: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const RightPosition: Story = {
   args: {
     text: 'Tooltip positioned on right',
     position: 'right',
-    trigger: 'hover'
+    trigger: 'hover',
   },
   render: (args) => ({
     props: args,
@@ -201,8 +206,8 @@ export const RightPosition: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const Disabled: Story = {
@@ -210,7 +215,7 @@ export const Disabled: Story = {
     text: 'This tooltip is disabled',
     position: 'top',
     trigger: 'hover',
-    disabled: true
+    disabled: true,
   },
   render: (args) => ({
     props: args,
@@ -226,6 +231,6 @@ export const Disabled: Story = {
           </button>
         </qk-tooltip>
       </div>
-    `
-  })
+    `,
+  }),
 };

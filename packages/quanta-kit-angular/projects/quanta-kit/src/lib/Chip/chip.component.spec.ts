@@ -7,7 +7,7 @@ describe('ChipComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChipComponent]
+      imports: [ChipComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChipComponent);
@@ -61,7 +61,7 @@ describe('ChipComponent', () => {
 
   it('should generate classes for disabled state', () => {
     component.disabled = true;
-    
+
     const classes = component.chipClasses;
     expect(classes).toContain('qk-chip--disabled');
   });
@@ -69,7 +69,7 @@ describe('ChipComponent', () => {
   it('should generate classes for clickable state', () => {
     component.clickable = true;
     component.disabled = false;
-    
+
     const classes = component.chipClasses;
     expect(classes).toContain('qk-chip--clickable');
   });
@@ -77,14 +77,14 @@ describe('ChipComponent', () => {
   it('should not add clickable class when disabled', () => {
     component.clickable = true;
     component.disabled = true;
-    
+
     const classes = component.chipClasses;
     expect(classes).not.toContain('qk-chip--clickable');
   });
 
   it('should generate classes for removable state', () => {
     component.removable = true;
-    
+
     const classes = component.chipClasses;
     expect(classes).toContain('qk-chip--removable');
   });
@@ -93,7 +93,7 @@ describe('ChipComponent', () => {
     component.hasLeadingIcon = true;
     component.hasTrailingIcon = true;
     component.hasAvatar = true;
-    
+
     const classes = component.chipClasses;
     expect(classes).toContain('qk-chip--has-leading-icon');
     expect(classes).toContain('qk-chip--has-trailing-icon');
@@ -102,7 +102,7 @@ describe('ChipComponent', () => {
 
   it('should add custom class', () => {
     component.customClass = 'my-custom-class';
-    
+
     const classes = component.chipClasses;
     expect(classes).toContain('my-custom-class');
   });
@@ -110,7 +110,7 @@ describe('ChipComponent', () => {
   it('should return correct role for filter variant', () => {
     component.variant = 'filter';
     component.removable = false;
-    
+
     expect(component.role).toBe('checkbox');
   });
 
@@ -119,13 +119,13 @@ describe('ChipComponent', () => {
     component.disabled = false;
     component.removable = false;
     component.variant = 'assist';
-    
+
     expect(component.role).toBe('button');
   });
 
   it('should return empty role for removable chips', () => {
     component.removable = true;
-    
+
     expect(component.role).toBe('');
   });
 
@@ -134,20 +134,20 @@ describe('ChipComponent', () => {
     component.disabled = true;
     component.removable = false;
     component.variant = 'assist';
-    
+
     expect(component.role).toBe('');
   });
 
   it('should return correct tab index for disabled chips', () => {
     component.disabled = true;
-    
+
     expect(component.getTabIndex()).toBe(-1);
   });
 
   it('should return correct tab index for removable chips', () => {
     component.removable = true;
     component.disabled = false;
-    
+
     expect(component.getTabIndex()).toBe(-1);
   });
 
@@ -155,7 +155,7 @@ describe('ChipComponent', () => {
     component.clickable = true;
     component.disabled = false;
     component.removable = false;
-    
+
     expect(component.getTabIndex()).toBe(0);
   });
 
@@ -164,39 +164,39 @@ describe('ChipComponent', () => {
     component.disabled = false;
     component.removable = false;
     component.clickable = false;
-    
+
     expect(component.getTabIndex()).toBe(0);
   });
 
   it('should return aria label when set', () => {
     component.ariaLabel = 'Test chip';
-    
+
     expect(component.getAriaLabel()).toBe('Test chip');
   });
 
   it('should return empty aria label when not set', () => {
     component.ariaLabel = '';
-    
+
     expect(component.getAriaLabel()).toBe('');
   });
 
   it('should return custom remove aria label when set', () => {
     component.removeAriaLabel = 'Custom remove';
-    
+
     expect(component.getRemoveAriaLabel()).toBe('Custom remove');
   });
 
   it('should return default remove aria label with chip label', () => {
     component.ariaLabel = 'My chip';
     component.removeAriaLabel = '';
-    
+
     expect(component.getRemoveAriaLabel()).toBe('Remove My chip');
   });
 
   it('should return default remove aria label without chip label', () => {
     component.ariaLabel = '';
     component.removeAriaLabel = '';
-    
+
     expect(component.getRemoveAriaLabel()).toBe('Remove chip');
   });
 
@@ -204,22 +204,22 @@ describe('ChipComponent', () => {
     component.disabled = false;
     component.clickable = true;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new MouseEvent('click');
     component.handleClick(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
   it('should not emit click when disabled', () => {
     component.disabled = true;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new MouseEvent('click');
     component.handleClick(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
@@ -227,11 +227,11 @@ describe('ChipComponent', () => {
     component.clickable = false;
     component.disabled = false;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new MouseEvent('click');
     component.handleClick(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
@@ -245,10 +245,10 @@ describe('ChipComponent', () => {
       selectionEmitted = true;
       expect(selected).toBe(true);
     });
-    
+
     const mockEvent = new MouseEvent('click');
     component.handleClick(mockEvent);
-    
+
     expect(component.selected).toBe(true);
     expect(selectionEmitted).toBe(true);
   });
@@ -256,36 +256,36 @@ describe('ChipComponent', () => {
   it('should emit remove event when removed', () => {
     component.disabled = false;
     let eventEmitted = false;
-    component.removed.subscribe(() => eventEmitted = true);
-    
+    component.removed.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new MouseEvent('click');
     component.handleRemove(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
   it('should not emit remove when disabled', () => {
     component.disabled = true;
     let eventEmitted = false;
-    component.removed.subscribe(() => eventEmitted = true);
-    
+    component.removed.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new MouseEvent('click');
     component.handleRemove(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
   it('should handle remove keydown for Enter', () => {
     component.disabled = false;
     let eventEmitted = false;
-    component.removed.subscribe(() => eventEmitted = true);
-    
+    component.removed.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
     Object.defineProperty(mockEvent, 'stopPropagation', { value: jest.fn() });
-    
+
     component.handleRemoveKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(mockEvent.stopPropagation).toHaveBeenCalled();
@@ -294,25 +294,25 @@ describe('ChipComponent', () => {
   it('should handle remove keydown for Space', () => {
     component.disabled = false;
     let eventEmitted = false;
-    component.removed.subscribe(() => eventEmitted = true);
-    
+    component.removed.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: ' ' });
     Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
     Object.defineProperty(mockEvent, 'stopPropagation', { value: jest.fn() });
-    
+
     component.handleRemoveKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
   it('should not handle remove keydown when disabled', () => {
     component.disabled = true;
     let eventEmitted = false;
-    component.removed.subscribe(() => eventEmitted = true);
-    
+    component.removed.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     component.handleRemoveKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
@@ -320,13 +320,13 @@ describe('ChipComponent', () => {
     component.disabled = false;
     component.clickable = true;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
-    
+
     component.handleKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
     expect(mockEvent.preventDefault).toHaveBeenCalled();
   });
@@ -335,24 +335,24 @@ describe('ChipComponent', () => {
     component.disabled = false;
     component.clickable = true;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: ' ' });
     Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
-    
+
     component.handleKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
   it('should not handle keydown when disabled', () => {
     component.disabled = true;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     component.handleKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
@@ -360,31 +360,31 @@ describe('ChipComponent', () => {
     component.clickable = false;
     component.disabled = false;
     let eventEmitted = false;
-    component.clicked.subscribe(() => eventEmitted = true);
-    
+    component.clicked.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
     component.handleKeydown(mockEvent);
-    
+
     expect(eventEmitted).toBe(false);
   });
 
   it('should emit focus event', () => {
     let eventEmitted = false;
-    component.focused.subscribe(() => eventEmitted = true);
-    
+    component.focused.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new FocusEvent('focus');
     component.handleFocus(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
   it('should emit blur event', () => {
     let eventEmitted = false;
-    component.blurred.subscribe(() => eventEmitted = true);
-    
+    component.blurred.subscribe(() => (eventEmitted = true));
+
     const mockEvent = new FocusEvent('blur');
     component.handleBlur(mockEvent);
-    
+
     expect(eventEmitted).toBe(true);
   });
 
@@ -397,7 +397,7 @@ describe('ChipComponent', () => {
     component.removable = true;
     component.clickable = true;
     let clickEmitted = false;
-    component.clicked.subscribe(() => clickEmitted = true);
+    component.clicked.subscribe(() => (clickEmitted = true));
 
     // Create a mock event with target being the remove button
     const removeButton = document.createElement('button');
@@ -405,11 +405,11 @@ describe('ChipComponent', () => {
     const mockEvent = {
       target: removeButton,
       preventDefault: jest.fn(),
-      stopPropagation: jest.fn()
+      stopPropagation: jest.fn(),
     } as any;
 
     component.handleClick(mockEvent);
-    
+
     // Click should not be emitted when clicking on remove button
     expect(clickEmitted).toBe(false);
   });
@@ -418,21 +418,21 @@ describe('ChipComponent', () => {
     component.removable = true;
     component.clickable = true;
     let clickEmitted = false;
-    component.clicked.subscribe(() => clickEmitted = true);
+    component.clicked.subscribe(() => (clickEmitted = true));
 
     // Create a mock event with target NOT being the remove button
     const chipElement = document.createElement('div');
     const mockEvent = {
       target: chipElement,
       preventDefault: jest.fn(),
-      stopPropagation: jest.fn()
+      stopPropagation: jest.fn(),
     } as any;
 
     // Mock closest to return null (not a remove button)
     chipElement.closest = jest.fn().mockReturnValue(null);
 
     component.handleClick(mockEvent);
-    
+
     // Click should be emitted when not clicking on remove button
     expect(clickEmitted).toBe(true);
   });
@@ -440,20 +440,20 @@ describe('ChipComponent', () => {
   it('should toggle filter chip selection on click', () => {
     component.variant = 'filter';
     component.selected = false;
-    
+
     const mockEvent = {
       target: document.createElement('div'),
       preventDefault: jest.fn(),
-      stopPropagation: jest.fn()
+      stopPropagation: jest.fn(),
     } as any;
 
     component.handleClick(mockEvent);
-    
+
     expect(component.selected).toBe(true);
-    
+
     // Click again to toggle back
     component.handleClick(mockEvent);
-    
+
     expect(component.selected).toBe(false);
   });
 
@@ -462,17 +462,17 @@ describe('ChipComponent', () => {
     component.removable = false;
     component.clickable = false;
     component.disabled = false;
-    
+
     expect(component.getTabIndex()).toBe(0);
   });
 
   it('should specifically test filter variant tab index logic', () => {
     // Reset all properties to ensure clean state
     component.disabled = false;
-    component.removable = false; 
+    component.removable = false;
     component.clickable = false;
     component.variant = 'filter';
-    
+
     // This should hit line 56 exactly
     const result = component.getTabIndex();
     expect(result).toBe(0);
@@ -482,16 +482,16 @@ describe('ChipComponent', () => {
     // Create a new component fixture to avoid any side effects
     const newFixture = TestBed.createComponent(ChipComponent);
     const newComponent = newFixture.componentInstance;
-    
+
     // Explicitly set each property
     newComponent.disabled = false;
     newComponent.removable = false;
     newComponent.clickable = false;
     newComponent.variant = 'filter';
-    
+
     // Trigger change detection
     newFixture.detectChanges();
-    
+
     // Test the specific logic path
     expect(newComponent.getTabIndex()).toBe(0);
   });

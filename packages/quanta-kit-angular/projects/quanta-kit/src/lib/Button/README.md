@@ -22,58 +22,51 @@ A comprehensive, accessible, and customizable button component for Angular appli
 The button component is part of the Quanta Kit Angular library. Import it from the main package:
 
 ```typescript
-import { ButtonComponent } from 'quanta-kit-angular';
+import { ButtonComponent } from "quanta-kit-angular";
 ```
 
 ## Basic Usage
 
 ```html
-<qk-button variant="primary" size="md" (clicked)="handleClick($event)">
-  Click me
-</qk-button>
+<qk-button variant="primary" size="md" (clicked)="handleClick($event)"> Click me </qk-button>
 ```
 
 ## API Reference
 
 ### Inputs
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `variant` | `ButtonVariant` | `'primary'` | Visual style variant |
-| `size` | `ButtonSize` | `'md'` | Button size |
-| `type` | `ButtonType` | `'button'` | HTML button type |
-| `disabled` | `boolean` | `false` | Whether button is disabled |
-| `loading` | `boolean` | `false` | Whether button is in loading state |
-| `hideTextOnLoading` | `boolean` | `false` | Hide text content when loading |
-| `fullWidth` | `boolean` | `false` | Take full width of container |
-| `rounded` | `boolean` | `false` | Fully rounded corners |
-| `square` | `boolean` | `false` | No border radius |
-| `customClass` | `string` | `''` | Custom CSS classes |
-| `ariaLabel` | `string` | `''` | ARIA label for accessibility |
-| `ariaPressed` | `boolean \| null` | `null` | ARIA pressed state |
-| `testId` | `string` | `''` | Test ID attribute |
+| Property            | Type              | Default     | Description                        |
+| ------------------- | ----------------- | ----------- | ---------------------------------- |
+| `variant`           | `ButtonVariant`   | `'primary'` | Visual style variant               |
+| `size`              | `ButtonSize`      | `'md'`      | Button size                        |
+| `type`              | `ButtonType`      | `'button'`  | HTML button type                   |
+| `disabled`          | `boolean`         | `false`     | Whether button is disabled         |
+| `loading`           | `boolean`         | `false`     | Whether button is in loading state |
+| `hideTextOnLoading` | `boolean`         | `false`     | Hide text content when loading     |
+| `fullWidth`         | `boolean`         | `false`     | Take full width of container       |
+| `rounded`           | `boolean`         | `false`     | Fully rounded corners              |
+| `square`            | `boolean`         | `false`     | No border radius                   |
+| `customClass`       | `string`          | `''`        | Custom CSS classes                 |
+| `ariaLabel`         | `string`          | `''`        | ARIA label for accessibility       |
+| `ariaPressed`       | `boolean \| null` | `null`      | ARIA pressed state                 |
+| `testId`            | `string`          | `''`        | Test ID attribute                  |
 
 ### Outputs
 
-| Event | Type | Description |
-|-------|------|-------------|
-| `clicked` | `EventEmitter<MouseEvent>` | Emitted when button is clicked |
+| Event     | Type                       | Description                        |
+| --------- | -------------------------- | ---------------------------------- |
+| `clicked` | `EventEmitter<MouseEvent>` | Emitted when button is clicked     |
 | `focused` | `EventEmitter<FocusEvent>` | Emitted when button receives focus |
-| `blurred` | `EventEmitter<FocusEvent>` | Emitted when button loses focus |
+| `blurred` | `EventEmitter<FocusEvent>` | Emitted when button loses focus    |
 
 ### Types
 
 ```typescript
-type ButtonVariant = 
-  | 'primary' | 'secondary' | 'success' | 'danger' 
-  | 'warning' | 'info' | 'light' | 'dark'
-  | 'outline-primary' | 'outline-secondary' | 'outline-success' 
-  | 'outline-danger' | 'outline-warning' | 'outline-info' 
-  | 'outline-light' | 'outline-dark';
+type ButtonVariant = "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "light" | "dark" | "outline-primary" | "outline-secondary" | "outline-success" | "outline-danger" | "outline-warning" | "outline-info" | "outline-light" | "outline-dark";
 
-type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-type ButtonType = 'button' | 'submit' | 'reset';
+type ButtonType = "button" | "submit" | "reset";
 ```
 
 ## Examples
@@ -142,9 +135,7 @@ type ButtonType = 'button' | 'submit' | 'reset';
 <qk-button [loading]="true">Loading...</qk-button>
 
 <!-- Loading with hidden text -->
-<qk-button [loading]="true" [hideTextOnLoading]="true">
-  Processing...
-</qk-button>
+<qk-button [loading]="true" [hideTextOnLoading]="true"> Processing... </qk-button>
 
 <!-- Disabled state -->
 <qk-button [disabled]="true">Disabled</qk-button>
@@ -197,12 +188,7 @@ export class MyComponent {
 ```
 
 ```html
-<qk-button 
-  (clicked)="handleClick($event)"
-  (focused)="handleFocus($event)"
-  (blurred)="handleBlur($event)">
-  Interactive Button
-</qk-button>
+<qk-button (clicked)="handleClick($event)" (focused)="handleFocus($event)" (blurred)="handleBlur($event)"> Interactive Button </qk-button>
 ```
 
 ### Accessibility
@@ -214,9 +200,7 @@ export class MyComponent {
 </qk-button>
 
 <!-- Toggle button -->
-<qk-button [ariaPressed]="isPressed" (clicked)="toggle()">
-  Toggle
-</qk-button>
+<qk-button [ariaPressed]="isPressed" (clicked)="toggle()"> Toggle </qk-button>
 
 <!-- Test ID for testing -->
 <qk-button testId="submit-button">Submit</qk-button>
@@ -226,16 +210,14 @@ export class MyComponent {
 
 ```html
 <!-- Custom CSS classes -->
-<qk-button customClass="my-custom-style another-class">
-  Custom Styled
-</qk-button>
+<qk-button customClass="my-custom-style another-class"> Custom Styled </qk-button>
 ```
 
 ```scss
 // Override styles
 .my-custom-style {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  
+
   &:hover {
     transform: translateY(-2px);
   }

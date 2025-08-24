@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type ChipVariant = 'assist' | 'filter' | 'input' | 'suggestion';
@@ -11,7 +17,7 @@ export type ChipElevation = 'flat' | 'elevated';
   imports: [CommonModule],
   templateUrl: './chip.component.html',
   styleUrls: ['./chip.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipComponent {
   @Input() variant: ChipVariant = 'assist';
@@ -64,7 +70,7 @@ export class ChipComponent {
     if (this.removeAriaLabel) {
       return this.removeAriaLabel;
     }
-    
+
     // Provide a meaningful default for the remove button
     return this.ariaLabel ? `Remove ${this.ariaLabel}` : 'Remove chip';
   }
@@ -74,7 +80,7 @@ export class ChipComponent {
       'qk-chip',
       `qk-chip--${this.variant}`,
       `qk-chip--${this.size}`,
-      `qk-chip--${this.elevation}`
+      `qk-chip--${this.elevation}`,
     ];
 
     if (this.disabled) classes.push('qk-chip--disabled');
@@ -91,7 +97,7 @@ export class ChipComponent {
 
   handleClick(event: MouseEvent): void {
     if (this.disabled || !this.clickable) return;
-    
+
     // If this is a removable chip, only handle click if it's not on the remove button
     if (this.removable) {
       const target = event.target as HTMLElement;
@@ -100,7 +106,7 @@ export class ChipComponent {
     }
 
     this.clicked.emit(event);
-    
+
     if (this.variant === 'filter') {
       this.selected = !this.selected;
       this.selectionChange.emit(this.selected);

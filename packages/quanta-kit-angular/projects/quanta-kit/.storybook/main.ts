@@ -1,25 +1,22 @@
 import type { StorybookConfig } from '@storybook/angular';
 
 const config: StorybookConfig = {
-  "stories": [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-coverage',
   ],
-  "addons": [
-    "@storybook/addon-docs",
-    "@storybook/addon-a11y",
-    "@storybook/addon-coverage"
-  ],
-  "framework": {
-    "name": "@storybook/angular",
-    "options": {}
+  framework: {
+    name: '@storybook/angular',
+    options: {},
   },
-  "webpackFinal": async (config: any) => {
+  webpackFinal: async (config: any) => {
     // Disable performance warnings for Storybook builds
     config.performance = {
       hints: false,
     };
-    
+
     // Optimize chunks for better performance
     if (config.optimization) {
       config.optimization.splitChunks = {
@@ -39,8 +36,8 @@ const config: StorybookConfig = {
         },
       };
     }
-    
+
     return config;
-  }
+  },
 };
 export default config;

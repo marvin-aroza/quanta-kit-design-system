@@ -85,6 +85,7 @@ npm run watch
 ### Code Style and Best Practices
 
 #### Angular Library Conventions
+
 - Follow the [Angular Style Guide](https://angular.io/guide/styleguide)
 - Follow [Angular Library Best Practices](https://angular.io/guide/creating-libraries)
 - Use TypeScript strict mode
@@ -92,6 +93,7 @@ npm run watch
 - Use reactive programming patterns with RxJS
 
 #### Component Library Guidelines
+
 - Follow atomic design principles (atoms, molecules, organisms)
 - Ensure all components are reusable and composable
 - Implement proper accessibility (WCAG) standards
@@ -102,11 +104,13 @@ npm run watch
 - Document component props, events, and slots thoroughly
 
 #### Code Formatting
+
 - The project uses Prettier for code formatting
 - Configuration is included in `package.json`
 - Code will be automatically formatted on commit using Husky hooks
 
 #### Testing Guidelines
+
 - Write unit tests for all components and services
 - Create comprehensive Storybook tests for component interactions
 - Test accessibility compliance for all components
@@ -115,6 +119,7 @@ npm run watch
 - Test files should be named `*.spec.ts`
 
 #### Storybook Standards
+
 - Create stories for all component variants and states
 - Include comprehensive documentation in story descriptions
 - Use Storybook controls for interactive component testing
@@ -131,11 +136,13 @@ Create branches using the following format:
 ```
 
 **Examples:**
+
 - `feat/qka123-button-component`
 - `fix/qka456-dropdown-accessibility-issue`
 - `docs/qka789-storybook-documentation-update`
 
 **Types:**
+
 - `feat` - New components or features
 - `fix` - Bug fixes in components
 - `docs` - Documentation or Storybook updates
@@ -159,11 +166,13 @@ Follow the conventional commit format:
 ```
 
 **Structure:**
+
 - **type**: The type of change (feat, fix, docs, style, refactor, test, chore)
 - **scope**: The ticket number (e.g., QKA123)
 - **description**: A brief description of the change
 
 **Examples:**
+
 ```
 feat(QKA123): add button component with variants
 
@@ -181,23 +190,27 @@ test(QKA303): add accessibility tests for form components
 ### Pull Request Process
 
 1. **Pull latest changes** (ensure you're working with the latest code from the default `main` branch):
+
 ```bash
 git checkout main
 git pull origin main
 ```
 
 2. **Create and switch to your feature branch**:
+
 ```bash
 git checkout -b feat/qka123-your-feature-description
 ```
 
 3. **Make your changes and commit**:
+
 ```bash
 git add .
 git commit -m "feat(QKA123): add your feature description"
 ```
 
 4. **Push to the repository**:
+
 ```bash
 git push --set-upstream origin feat/qka123-your-feature-description
 ```
@@ -221,16 +234,20 @@ Your PR description should include:
 7. **Related Issues**: Reference any related issues or tickets
 
 **PR Title Format:**
+
 ```
 [QKA123] Brief description of the change
 ```
 
 **Example PR Description:**
+
 ```markdown
 ## Task Description
+
 Adds a new Button component with multiple variants, sizes, and states to the QuantaKit library.
 
 ## Changes Made
+
 - Created Button component with primary, secondary, and ghost variants
 - Implemented different sizes (small, medium, large)
 - Added disabled and loading states
@@ -239,6 +256,7 @@ Adds a new Button component with multiple variants, sizes, and states to the Qua
 - Included unit tests for all component functionality
 
 ## Testing
+
 - All unit tests pass
 - Storybook stories created and tested for all variants
 - Accessibility tested with screen readers
@@ -246,15 +264,18 @@ Adds a new Button component with multiple variants, sizes, and states to the Qua
 - Responsive behavior confirmed across viewports
 
 ## Storybook Screenshots
+
 [Include screenshots of the component stories]
 
 ## Accessibility
+
 - ARIA labels implemented
 - Keyboard navigation support
 - Color contrast compliance verified
 - Screen reader compatibility tested
 
 ## Related Issues
+
 Closes #QKA123
 ```
 
@@ -270,6 +291,7 @@ Closes #QKA123
 ## Getting Help
 
 ### Documentation
+
 - [Angular Documentation](https://angular.io/docs)
 - [Angular Library Guide](https://angular.io/guide/creating-libraries)
 - [Storybook Documentation](https://storybook.js.org/docs)
@@ -278,12 +300,15 @@ Closes #QKA123
 - [Project README](./README.md)
 
 ### Community Support
+
 - Create an issue for bugs, component requests, or feature requests
 - Join discussions in existing issues
 - Reach out to maintainers for guidance on component design patterns
 
 ### Reporting Issues
+
 When reporting issues, please include:
+
 - Angular version
 - Node.js version
 - Browser and version
@@ -294,7 +319,9 @@ When reporting issues, please include:
 - Console errors (if any)
 
 ### Component Requests
+
 When requesting new components:
+
 - Describe the component's purpose and use cases
 - Provide design specifications or mockups
 - List required props, events, and variants

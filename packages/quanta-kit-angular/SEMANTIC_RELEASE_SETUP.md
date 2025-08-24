@@ -73,6 +73,7 @@ graph LR
 ### 3. GitHub Actions Workflow (`.github/workflows/ci.yml`)
 
 Key jobs added:
+
 - **Release Job**: Builds library, publishes to npm, deploys Storybook
 - **Reverse Merge Job**: Creates PR to sync main → develop
 
@@ -114,19 +115,20 @@ Key jobs added:
 
 Based on conventional commits:
 
-| Commit Type | Release Type | Example |
-|-------------|--------------|---------|
-| `feat:` | Minor | `feat(TICKET-123): add new component` |
-| `fix:` | Patch | `fix(TICKET-456): resolve button styling` |
-| `BREAKING CHANGE:` | Major | `feat!: remove deprecated API` |
-| `docs:` | Patch | `docs(readme): update installation guide` |
-| `perf:` | Patch | `perf(TICKET-789): optimize bundle size` |
+| Commit Type        | Release Type | Example                                   |
+| ------------------ | ------------ | ----------------------------------------- |
+| `feat:`            | Minor        | `feat(TICKET-123): add new component`     |
+| `fix:`             | Patch        | `fix(TICKET-456): resolve button styling` |
+| `BREAKING CHANGE:` | Major        | `feat!: remove deprecated API`            |
+| `docs:`            | Patch        | `docs(readme): update installation guide` |
+| `perf:`            | Patch        | `perf(TICKET-789): optimize bundle size`  |
 
 ## 🔑 Required Setup
 
 ### 1. NPM Token Configuration
 
 1. **Generate NPM Token:**
+
    ```bash
    npm login
    npm token create --access=automation
@@ -146,6 +148,7 @@ Based on conventional commits:
 ### 3. Branch Protection (Optional)
 
 Protect the `main` branch:
+
 - Go to Settings → Branches
 - Add protection rule for `main`
 - Enable "Require pull request reviews"
@@ -155,6 +158,7 @@ Protect the `main` branch:
 ### Build Outputs
 
 1. **Library Build**: `dist/quanta-kit/`
+
    ```
    dist/quanta-kit/
    ├── package.json
@@ -273,6 +277,7 @@ ls -la storybook-static/
 ## 📊 Benefits
 
 ### Automation Benefits
+
 - ✅ **Zero-touch releases** - No manual version bumping
 - ✅ **Consistent versioning** - Semantic versioning enforced
 - ✅ **Automated documentation** - Storybook always up-to-date
@@ -280,6 +285,7 @@ ls -la storybook-static/
 - ✅ **Branch synchronization** - Develop branch stays current
 
 ### Developer Experience
+
 - ✅ **Clear commit standards** - Conventional commits enforced
 - ✅ **Automated changelogs** - Generated from commits
 - ✅ **Fast feedback** - CI/CD provides quick validation

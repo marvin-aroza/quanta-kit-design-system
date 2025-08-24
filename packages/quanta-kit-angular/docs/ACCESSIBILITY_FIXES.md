@@ -3,23 +3,28 @@
 ## Issues Resolved
 
 ### 1. Nested Interactive Elements (Serious)
+
 **Problem:** The tooltip wrapper div had `role="button"` and `tabindex="0"` even when containing interactive elements like buttons, creating nested interactive controls that confuse screen readers.
 
-**Solution:** 
+**Solution:**
+
 - Component now detects interactive children after view initialization
 - Uses Angular signals (`hasInteractiveChildren`, `needsTabIndex`, `needsRole`) for reactive state
 - Only applies `role="button"` and `tabindex` when content is non-interactive
 
 ### 2. Invalid ARIA Attributes (Critical)
+
 **Problem:** `aria-expanded` was being applied to div elements without proper roles, violating ARIA specifications.
 
 **Solution:**
+
 - `aria-expanded` is now only applied when the wrapper also has `role="button"`
 - `aria-describedby` is also conditional to avoid invalid ARIA usage
 
 ## Technical Implementation
 
 ### Signal-Based Accessibility State
+
 ```typescript
 // Signals for accessibility
 hasInteractiveChildren = signal(false);
@@ -28,6 +33,7 @@ needsRole = computed(() => !this.hasInteractiveChildren());
 ```
 
 ### Interactive Children Detection
+
 ```typescript
 private detectInteractiveChildren(): void {
   const interactiveElements = this.triggerElement.nativeElement.querySelectorAll(
@@ -38,30 +44,32 @@ private detectInteractiveChildren(): void {
 ```
 
 ### Conditional ARIA Attributes
+
 ```typescript
-[attr.aria-describedby]="needsRole() && isVisible() ? tooltipId : null"
-[attr.aria-expanded]="needsRole() ? isVisible() : null"
-[attr.tabindex]="needsTabIndex() ? triggerTabIndex : null"
-[attr.role]="needsRole() ? 'button' : null"
+[attr.aria - describedby] = "needsRole() && isVisible() ? tooltipId : null"[attr.aria - expanded] = "needsRole() ? isVisible() : null"[attr.tabindex] = "needsTabIndex() ? triggerTabIndex : null"[attr.role] = "needsRole() ? 'button' : null";
 ```
 
 ## Result
 
 ### ✅ With Interactive Children (e.g., button)
+
 ```html
 <div class="qk-tooltip-trigger">
   <button>Button with tooltip</button>
 </div>
 ```
+
 - No `role`, `tabindex`, or `aria-expanded` on wrapper
 - Button handles its own focus and interaction
 
 ### ✅ With Non-Interactive Content (e.g., text)
+
 ```html
 <div class="qk-tooltip-trigger" role="button" tabindex="0" aria-expanded="false">
   <span>Text with tooltip</span>
 </div>
 ```
+
 - Proper ARIA attributes on wrapper
 - Wrapper acts as the interactive element
 

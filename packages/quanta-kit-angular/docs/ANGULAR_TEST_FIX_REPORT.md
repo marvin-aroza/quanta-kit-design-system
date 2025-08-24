@@ -1,12 +1,15 @@
 # Angular Test Configuration Fix Report
 
 ## Overview
+
 This report details the complete process of fixing build and test issues in the `quanta-kit-angular` project, from initial TypeScript configuration errors to successfully running tests with Opera browser.
 
 ## Initial Issues Encountered
 
 ### 1. TypeScript Configuration Error
+
 **Problem**: `inlineSources` option error in `tsconfig.lib.json`
+
 ```
 Option 'inlineSources can only be used when either option '--inlineSourceMap' or option '--sourceMap' is provided.
 ```
@@ -14,19 +17,24 @@ Option 'inlineSources can only be used when either option '--inlineSourceMap' or
 **Root Cause**: The `inlineSources: true` option was enabled without the required `sourceMap` option.
 
 ### 2. Browser Compatibility Issue
+
 **Problem**: User didn't have Chrome installed for `ng test` command
+
 - Project was configured with `karma-chrome-launcher`
 - User had Opera browser available instead
 
 ### 3. Missing Test Dependencies
+
 **Problem**: Zone.js configuration issues preventing Angular tests from running
 
 ## Solutions Implemented
 
 ### Step 1: Fix TypeScript Configuration
+
 **File**: `d:\PROJECTS\FREELANCE\GITHUB\DELL\Portfolio\quanta-kit-angular\projects\quanta-kit\tsconfig.lib.json`
 
 **Change Made**:
+
 ```json
 "compilerOptions": {
   "outDir": "../../out-tsc/lib",
@@ -43,7 +51,9 @@ Option 'inlineSources can only be used when either option '--inlineSourceMap' or
 ### Step 2: Configure Opera Browser for Testing
 
 #### 2.1 Install Opera Launcher
+
 **Command Executed**:
+
 ```bash
 npm install --save-dev karma-opera-launcher
 ```
@@ -51,7 +61,9 @@ npm install --save-dev karma-opera-launcher
 **Result**: Added Opera support to Karma test runner.
 
 #### 2.2 Detect Opera Installation Path
+
 **Command Used**:
+
 ```powershell
 Get-ChildItem "C:\Users\$env:USERNAME\AppData\Local\Programs\Opera*" -Recurse -Filter "opera.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
 ```
@@ -59,33 +71,37 @@ Get-ChildItem "C:\Users\$env:USERNAME\AppData\Local\Programs\Opera*" -Recurse -F
 **Detected Path**: `C:\Users\$USERNAME\AppData\Local\Programs\Opera\120.0.5543.93\opera.exe`
 
 #### 2.3 Create Karma Configuration
+
 **File Created**: `d:\PROJECTS\FREELANCE\GITHUB\DELL\Portfolio\quanta-kit-angular\projects\quanta-kit\karma.conf.js`
 
 **Key Configuration**:
+
 ```javascript
 module.exports = function (config) {
   // Set Opera binary path
-  process.env.OPERA_BIN = 'C:\\Users\\$USERNAME\\AppData\\Local\\Programs\\Opera\\120.0.5543.93\\opera.exe';
-  
+  process.env.OPERA_BIN = "C:\\Users\\$USERNAME\\AppData\\Local\\Programs\\Opera\\120.0.5543.93\\opera.exe";
+
   config.set({
-    basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    basePath: "",
+    frameworks: ["jasmine", "@angular-devkit/build-angular"],
     plugins: [
-      require('karma-jasmine'),
-      require('karma-opera-launcher'),    // ← Opera launcher
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage')
+      require("karma-jasmine"),
+      require("karma-opera-launcher"), // ← Opera launcher
+      require("karma-jasmine-html-reporter"),
+      require("karma-coverage"),
     ],
-    browsers: ['Opera'],                  // ← Use Opera browser
+    browsers: ["Opera"], // ← Use Opera browser
     // ... other configurations
   });
 };
 ```
 
 #### 2.4 Update Angular Configuration
+
 **File**: `d:\PROJECTS\FREELANCE\GITHUB\DELL\Portfolio\quanta-kit-angular\angular.json`
 
 **Change Made**:
+
 ```json
 "test": {
   "builder": "@angular/build:karma",
@@ -100,32 +116,30 @@ module.exports = function (config) {
 ### Step 3: Fix Zone.js Dependencies
 
 #### 3.1 Install Required Dependencies
+
 **Commands Executed**:
+
 ```bash
 npm install --save-dev @angular/platform-browser-dynamic
 npm install --save-dev zone.js
 ```
 
 #### 3.2 Create Test Setup File
+
 **File Created**: `d:\PROJECTS\FREELANCE\GITHUB\DELL\Portfolio\quanta-kit-angular\projects\quanta-kit\src\test.ts`
 
 **Content**:
+
 ```typescript
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-import 'zone.js';
-import 'zone.js/testing';
-import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
+import "zone.js";
+import "zone.js/testing";
+import { getTestBed } from "@angular/core/testing";
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from "@angular/platform-browser-dynamic/testing";
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting(),
-);
+getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 ```
 
 **Note**: Initially used `zone.js/dist/zone` imports, but updated to `zone.js` and `zone.js/testing` due to package export changes in newer versions.
@@ -133,9 +147,11 @@ getTestBed().initTestEnvironment(
 ## Testing and Validation
 
 ### Final Test Execution
+
 **Command**: `npm test`
 
 **Result**: ✅ **SUCCESS**
+
 ```
 Opera 120.0.0.0 (Windows 10): Executed 1 of 1 SUCCESS (0.126 secs / 0.033 secs)
 TOTAL: 1 SUCCESS
@@ -143,11 +159,11 @@ TOTAL: 1 SUCCESS
 
 ## Package Dependencies Added
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `karma-opera-launcher` | Latest | Enable Opera browser for Karma testing |
-| `@angular/platform-browser-dynamic` | Latest | Angular testing platform support |
-| `zone.js` | Latest | Zone.js for Angular change detection in tests |
+| Package                             | Version | Purpose                                       |
+| ----------------------------------- | ------- | --------------------------------------------- |
+| `karma-opera-launcher`              | Latest  | Enable Opera browser for Karma testing        |
+| `@angular/platform-browser-dynamic` | Latest  | Angular testing platform support              |
+| `zone.js`                           | Latest  | Zone.js for Angular change detection in tests |
 
 ## Files Modified
 
@@ -167,7 +183,7 @@ TOTAL: 1 SUCCESS
 
 ### Initial Attempts and Resolutions
 
-1. **Firefox Launcher Trial**: 
+1. **Firefox Launcher Trial**:
    - Installed `karma-firefox-launcher`
    - Failed because Firefox was not installed on the system
 
@@ -187,6 +203,7 @@ TOTAL: 1 SUCCESS
 ## Final Status
 
 ✅ **All Issues Resolved**
+
 - TypeScript compilation errors fixed
 - Tests running successfully with Opera browser
 - Proper Angular testing environment configured
@@ -195,6 +212,7 @@ TOTAL: 1 SUCCESS
 ## Commands for Future Reference
 
 ### Install Dependencies
+
 ```bash
 npm install --save-dev karma-opera-launcher
 npm install --save-dev @angular/platform-browser-dynamic
@@ -202,11 +220,13 @@ npm install --save-dev zone.js
 ```
 
 ### Run Tests
+
 ```bash
 npm test
 ```
 
 ### Detect Opera Path (Windows PowerShell)
+
 ```powershell
 Get-ChildItem "C:\Users\$env:USERNAME\AppData\Local\Programs\Opera*" -Recurse -Filter "opera.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
 ```

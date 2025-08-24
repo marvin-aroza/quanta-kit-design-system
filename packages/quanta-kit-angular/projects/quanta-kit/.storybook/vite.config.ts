@@ -7,19 +7,17 @@ export default defineConfig({
       '@angular/common',
       '@angular/platform-browser',
       'rxjs',
-      'zone.js'
+      'zone.js',
     ],
-    exclude: [
-      '@angular/animations/browser'
-    ]
+    exclude: ['@angular/animations/browser'],
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': JSON.stringify('production'),
   },
   server: {
     fs: {
-      strict: false
-    }
+      strict: false,
+    },
   },
   build: {
     rollupOptions: {
@@ -27,9 +25,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['@angular/core', '@angular/common'],
-          rxjs: ['rxjs']
-        }
-      }
-    }
-  }
+          rxjs: ['rxjs'],
+        },
+      },
+    },
+  },
 });

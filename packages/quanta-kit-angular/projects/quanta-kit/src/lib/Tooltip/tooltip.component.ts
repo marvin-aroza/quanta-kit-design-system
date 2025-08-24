@@ -12,11 +12,23 @@ import {
   OnInit,
   signal,
   computed,
-  effect
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end';
+export type TooltipPosition =
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left-start'
+  | 'left-end'
+  | 'right-start'
+  | 'right-end';
 export type TooltipTrigger = 'hover' | 'focus' | 'click' | 'manual';
 export type TooltipType = 'plain' | 'rich';
 
@@ -26,7 +38,7 @@ export type TooltipType = 'plain' | 'rich';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tooltip.component.html',
-  styleUrls: ['./tooltip.component.scss']
+  styleUrls: ['./tooltip.component.scss'],
 })
 export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() text: string = '';
@@ -46,19 +58,24 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() tooltipHide = new EventEmitter<void>();
   @Output() tooltipToggle = new EventEmitter<boolean>();
 
-  @ViewChild('triggerElement', { static: true }) triggerElement!: ElementRef<HTMLElement>;
+  @ViewChild('triggerElement', { static: true })
+  triggerElement!: ElementRef<HTMLElement>;
   @ViewChild('tooltipElement') tooltipElement?: ElementRef<HTMLElement>;
 
   // Signals for reactive state management
   isVisible = signal(false);
   tooltipId = `qk-tooltip-${Date.now()}`;
-  
+
   // Simple accessibility state
   hasInteractiveChildren = signal(false);
 
   // Computed class and style strings
   get tooltipClasses(): string {
-    const classes = ['qk-tooltip', `qk-tooltip--${this.position}`, `qk-tooltip--${this.type}`];
+    const classes = [
+      'qk-tooltip',
+      `qk-tooltip--${this.position}`,
+      `qk-tooltip--${this.type}`,
+    ];
     if (this.customClass) classes.push(this.customClass);
     if (this.persistent) classes.push('qk-tooltip--persistent');
     return classes.join(' ');
@@ -90,8 +107,11 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hasInteractiveChildren.set(false);
       return;
     }
-    
-    const interactiveElements = this.triggerElement.nativeElement.querySelectorAll('button, a, input, select, textarea');
+
+    const interactiveElements =
+      this.triggerElement.nativeElement.querySelectorAll(
+        'button, a, input, select, textarea',
+      );
     this.hasInteractiveChildren.set(interactiveElements.length > 0);
   }
 
@@ -102,35 +122,35 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   // Trigger event handlers
   onTriggerMouseEnter(): void {
     if (this.disabled || this.trigger !== 'hover') return;
-    
+
     this.clearTimeouts();
     this.scheduleShow();
   }
 
   onTriggerMouseLeave(): void {
     if (this.disabled || this.trigger !== 'hover') return;
-    
+
     this.clearTimeouts();
     this.scheduleHide();
   }
 
   onTriggerFocus(event?: FocusEvent): void {
     if (this.disabled || this.trigger !== 'focus') return;
-    
+
     this.clearTimeouts();
     this.scheduleShow();
   }
 
   onTriggerBlur(event?: FocusEvent): void {
     if (this.disabled || this.trigger !== 'focus') return;
-    
+
     this.clearTimeouts();
     this.scheduleHide();
   }
 
   onTriggerClick(event?: MouseEvent): void {
     if (this.disabled || this.trigger !== 'click') return;
-    
+
     this.toggle();
   }
 
@@ -149,7 +169,7 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
   // Public API methods
   show(): void {
     if (this.disabled || this.isVisible()) return;
-    
+
     this.clearTimeouts();
     this.isVisible.set(true);
     this.tooltipShow.emit();
@@ -158,7 +178,7 @@ export class TooltipComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hide(): void {
     if (!this.isVisible()) return;
-    
+
     this.clearTimeouts();
     this.isVisible.set(false);
     this.tooltipHide.emit();
