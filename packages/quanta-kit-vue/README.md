@@ -15,17 +15,15 @@ npm install quanta-kit-vue
 ```vue
 <template>
   <div>
-    <Button variant="primary" @click="handleClick">
-      Click me!
-    </Button>
+    <Button variant="primary" @click="handleClick"> Click me! </Button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Button } from 'quanta-kit-vue';
+import { Button } from "quanta-kit-vue";
 
 const handleClick = () => {
-  console.log('Button clicked!');
+  console.log("Button clicked!");
 };
 </script>
 ```
@@ -34,10 +32,10 @@ const handleClick = () => {
 
 ```typescript
 // Import specific components
-import { Button } from 'quanta-kit-vue';
+import { Button } from "quanta-kit-vue";
 
 // Import component types
-import type { ButtonProps, ButtonVariant } from 'quanta-kit-vue';
+import type { ButtonProps, ButtonVariant } from "quanta-kit-vue";
 ```
 
 ## Components
@@ -67,15 +65,15 @@ A versatile button component with multiple variants and sizes.
   <Button variant="secondary">Secondary</Button>
   <Button variant="outline">Outline</Button>
   <Button variant="ghost">Ghost</Button>
-  
+
   <!-- Different sizes -->
   <Button size="small">Small</Button>
   <Button size="medium">Medium</Button>
   <Button size="large">Large</Button>
-  
+
   <!-- Disabled state -->
   <Button disabled>Disabled</Button>
-  
+
   <!-- With event handler -->
   <Button @click="handleClick">Click me</Button>
 </template>

@@ -1,28 +1,28 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
-import Button from './Button.vue';
+import type { Meta, StoryObj } from "@storybook/vue3";
+import Button from "./Button.vue";
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: "Components/Button",
   component: Button,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'ghost'],
+      control: { type: "select" },
+      options: ["primary", "secondary", "outline", "ghost"],
     },
     size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
+      control: { type: "select" },
+      options: ["small", "medium", "large"],
     },
     disabled: {
-      control: { type: 'boolean' },
+      control: { type: "boolean" },
     },
     type: {
-      control: { type: 'select' },
-      options: ['button', 'submit', 'reset'],
+      control: { type: "select" },
+      options: ["button", "submit", "reset"],
     },
   },
 };
@@ -32,7 +32,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    variant: 'primary',
+    variant: "primary",
   },
   render: (args) => ({
     components: { Button },
@@ -45,7 +45,7 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary',
+    variant: "secondary",
   },
   render: (args) => ({
     components: { Button },
@@ -58,7 +58,7 @@ export const Secondary: Story = {
 
 export const Outline: Story = {
   args: {
-    variant: 'outline',
+    variant: "outline",
   },
   render: (args) => ({
     components: { Button },
@@ -71,7 +71,7 @@ export const Outline: Story = {
 
 export const Ghost: Story = {
   args: {
-    variant: 'ghost',
+    variant: "ghost",
   },
   render: (args) => ({
     components: { Button },
@@ -84,7 +84,7 @@ export const Ghost: Story = {
 
 export const Small: Story = {
   args: {
-    size: 'small',
+    size: "small",
   },
   render: (args) => ({
     components: { Button },
@@ -97,7 +97,7 @@ export const Small: Story = {
 
 export const Large: Story = {
   args: {
-    size: 'large',
+    size: "large",
   },
   render: (args) => ({
     components: { Button },

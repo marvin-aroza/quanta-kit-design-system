@@ -1,2 +1,7 @@
-export { default } from './Button.vue';
-export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './types';
+export { default } from "./Button.vue";
+export type {
+  ButtonProps,
+  ButtonVariant,
+  ButtonSize,
+  ButtonType,
+} from "./types";

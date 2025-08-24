@@ -1,6 +1,6 @@
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
-export type ButtonSize = 'small' | 'medium' | 'large';
-export type ButtonType = 'button' | 'submit' | 'reset';
+export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
+export type ButtonSize = "small" | "medium" | "large";
+export type ButtonType = "button" | "submit" | "reset";
 
 export interface ButtonProps {
   /**

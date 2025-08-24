@@ -5,6 +5,7 @@
 The **quanta-kit-vue** package is properly configured as a Vue 3 component library with the following features:
 
 ### 📦 Package Configuration
+
 - **Name**: `quanta-kit-vue`
 - **Version**: `0.1.0`
 - **Main Entry**: `dist/index.umd.js` (CommonJS)
@@ -13,12 +14,14 @@ The **quanta-kit-vue** package is properly configured as a Vue 3 component libra
 - **CSS**: `dist/quanta-kit-vue.css` (Compiled styles)
 
 ### 🔧 Build System
+
 - **Build Tool**: Vite (with Vue 3 plugin)
 - **TypeScript**: Fully configured with type generation
 - **CSS**: Scoped styles with Vue's CSS modules
 - **Output Formats**: ES modules, UMD, and TypeScript declarations
 
 ### 📋 Available Scripts
+
 - `npm run build` - Build the library for production
 - `npm run dev` - Development mode with Vite
 - `npm run lint` - ESLint with Vue and TypeScript support
@@ -26,6 +29,7 @@ The **quanta-kit-vue** package is properly configured as a Vue 3 component libra
 - `npm run storybook` - Component documentation (port 6008)
 
 ### 🧩 Components
+
 - **Button**: Fully functional Vue 3 component with:
   - Props: `variant`, `size`, `disabled`, `type`, `class`
   - Events: `@click`
@@ -49,16 +53,17 @@ npm install quanta-kit-vue
 </template>
 
 <script setup lang="ts">
-import { Button } from 'quanta-kit-vue';
-import 'quanta-kit-vue/dist/style.css';
+import { Button } from "quanta-kit-vue";
+import "quanta-kit-vue/dist/style.css";
 
 const handleClick = () => {
-  console.log('Button clicked!');
+  console.log("Button clicked!");
 };
 </script>
 ```
 
 ### 🏗️ Integration with Monorepo
+
 - ✅ Turbo build support
 - ✅ Workspace configuration
 - ✅ Consistent with Angular and React packages
@@ -67,6 +72,7 @@ const handleClick = () => {
 - ✅ Clean library structure (no unnecessary app files)
 
 ### 📁 Clean Structure
+
 ```
 src/
 ├── components/
@@ -81,7 +87,9 @@ src/
 ```
 
 ### 🎯 Ready for Distribution
+
 The package is production-ready with:
+
 - Proper entry points for different module systems
 - TypeScript definitions
 - Minified and optimized builds
