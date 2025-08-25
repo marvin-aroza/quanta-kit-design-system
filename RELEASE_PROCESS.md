@@ -5,16 +5,19 @@
 This monorepo contains three component libraries and their documentation sites:
 
 ### NPM Packages
+
 - `quanta-kit-react` - React component library
 - `quanta-kit-vue` - Vue component library
 - `quanta-kit-angular` - Angular component library
 
 ### Documentation Sites
+
 - React docs app (Next.js)
 - Vue docs app (Vue CLI)
 - Angular docs app (Angular CLI)
 
 ### Storybook Sites
+
 - React Storybook
 - Vue Storybook
 - Angular Storybook
@@ -24,14 +27,17 @@ This monorepo contains three component libraries and their documentation sites:
 ### 1. Creating a Release
 
 #### Step 1: Create a Changeset
+
 ```bash
 npm run changeset
 ```
+
 - Select which packages changed
 - Choose the type of change (patch/minor/major)
 - Write a description of the changes
 
 #### Step 2: Commit and Push
+
 ```bash
 git add .
 git commit -m "feat: add new feature to components"
@@ -39,6 +45,7 @@ git push origin your-branch
 ```
 
 #### Step 3: Create Pull Request
+
 - Create PR to `monorepo-release` branch (for testing)
 - GitHub Actions will run tests and builds
 - Once approved and merged, release process starts automatically
@@ -52,7 +59,7 @@ When code is merged to `monorepo-release` branch:
    - Builds all Storybooks
    - Ensures everything compiles correctly
 
-2. **NPM Publishing** 
+2. **NPM Publishing**
    - Changesets automatically creates version bumps
    - Publishes packages to NPM registry
    - Creates GitHub releases with changelogs
@@ -65,7 +72,9 @@ When code is merged to `monorepo-release` branch:
 ### 3. Access Released Content
 
 #### NPM Packages
+
 Install the packages in your projects:
+
 ```bash
 npm install quanta-kit-react
 npm install quanta-kit-vue
@@ -73,13 +82,16 @@ npm install quanta-kit-angular
 ```
 
 #### GitHub Pages Sites
+
 After deployment, access documentation at:
+
 - **Storybooks**: `https://[username].github.io/quanta-kit-design-system/`
 - **Documentation**: `https://[username].github.io/quanta-kit-design-system/` (separate branch)
 
 ## Manual Release Commands
 
 ### Version and Publish Packages
+
 ```bash
 # Preview version changes
 npm run version-packages
@@ -89,6 +101,7 @@ npm run release
 ```
 
 ### Build Documentation
+
 ```bash
 # Build all Storybooks
 npm run build-storybook
@@ -100,17 +113,19 @@ npm run build
 ## Development Workflow
 
 ### Local Development
+
 ```bash
 # Start all dev servers
 npm run dev
 
 # Access apps at:
 # React docs: http://localhost:3000
-# Vue docs: http://localhost:8081  
+# Vue docs: http://localhost:8081
 # Angular docs: http://localhost:4201
 ```
 
 ### Testing
+
 ```bash
 # Run linting
 npm run lint
@@ -147,16 +162,19 @@ This project uses [Changesets](https://github.com/changesets/changesets) for ver
 ## Troubleshooting
 
 ### NPM Publish Fails
+
 - Check NPM_TOKEN is valid and has publish permissions
 - Ensure package names are available on NPM registry
 - Verify package.json files have correct metadata
 
-### GitHub Pages Deploy Fails  
+### GitHub Pages Deploy Fails
+
 - Check GitHub Pages is enabled in repository settings
 - Verify GITHUB_TOKEN permissions include Pages write access
 - Ensure build outputs are in expected directories
 
 ### Storybook Build Fails
+
 - Run `npm run build-storybook` locally to debug
 - Check Storybook configurations in each package
 - Verify all stories compile correctly
@@ -164,6 +182,7 @@ This project uses [Changesets](https://github.com/changesets/changesets) for ver
 ## Support
 
 For issues with the release process:
+
 1. Check GitHub Actions logs for detailed error messages
 2. Verify all required secrets are configured
 3. Test builds locally before pushing to main
