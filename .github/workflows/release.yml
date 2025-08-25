@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  test:
-    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,9 +26,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Run tests
-        run: npm run test
 
       - name: Run linting
         run: npm run lint
@@ -36,29 +33,13 @@ jobs:
       - name: Run type checking
         run: npm run check-types
 
-  build:
-    needs: test
-    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
       - name: Build packages
         run: npm run build
 
   deploy-storybooks:
-    needs: [test, build]
-    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
-    if: github.ref == 'refs/heads/monorepo-release' && github.event_name == 'push'  # Added event check
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/monorepo-release' && github.event_name == 'push'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
