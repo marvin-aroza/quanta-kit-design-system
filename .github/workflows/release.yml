@@ -1,0 +1,246 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Run type checking
+        run: npm run check-types
+
+      - name: Build packages
+        run: npm run build
+
+  deploy-storybooks:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all Storybooks
+        run: |
+          # Build React Storybook
+          echo "🔨 Building React Storybook..."
+          cd packages/quanta-kit-react
+          npm run build-storybook
+          cd ../..
+          
+          # Build Vue Storybook  
+          echo "🔨 Building Vue Storybook..."
+          cd packages/quanta-kit-vue
+          npm run build-storybook
+          cd ../..
+          
+          # Build Angular Storybook
+          echo "🔨 Building Angular Storybook..."
+          cd packages/quanta-kit-angular
+          npm run build-storybook
+          cd ../..
+
+      - name: Prepare Storybook deployment
+        run: |
+          mkdir -p storybook-deploy
+          
+          # Copy React Storybook
+          if [ -d "packages/quanta-kit-react/storybook-static" ]; then
+            echo "✅ Copying React Storybook..."
+            mkdir -p storybook-deploy/react
+            cp -r packages/quanta-kit-react/storybook-static/* storybook-deploy/react/
+          else
+            echo "❌ React Storybook not found"
+            exit 1
+          fi
+          
+          # Copy Vue Storybook
+          if [ -d "packages/quanta-kit-vue/storybook-static" ]; then
+            echo "✅ Copying Vue Storybook..."
+            mkdir -p storybook-deploy/vue
+            cp -r packages/quanta-kit-vue/storybook-static/* storybook-deploy/vue/
+          else
+            echo "❌ Vue Storybook not found"
+            exit 1
+          fi
+          
+          # Copy Angular Storybook
+          if [ -d "packages/quanta-kit-angular/storybook-static" ]; then
+            echo "✅ Copying Angular Storybook..."
+            mkdir -p storybook-deploy/angular
+            cp -r packages/quanta-kit-angular/storybook-static/* storybook-deploy/angular/
+          else
+            echo "❌ Angular Storybook not found"
+            exit 1
+          fi
+
+      - name: Create main navigation page
+        run: |
+          cat > storybook-deploy/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Quanta Kit Design System - Storybooks</title>
+              <style>
+                  body { 
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                      margin: 0; 
+                      padding: 40px; 
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      min-height: 100vh;
+                      color: white;
+                  }
+                  .container { max-width: 800px; margin: 0 auto; text-align: center; }
+                  .header { margin-bottom: 60px; }
+                  .header h1 { font-size: 3rem; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+                  .header p { font-size: 1.2rem; opacity: 0.9; }
+                  .storybook-grid { 
+                      display: grid; 
+                      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+                      gap: 30px; 
+                      margin-bottom: 60px; 
+                  }
+                  .storybook-card { 
+                      background: rgba(255,255,255,0.1); 
+                      backdrop-filter: blur(10px);
+                      border-radius: 16px; 
+                      padding: 30px; 
+                      transition: all 0.3s ease;
+                      border: 1px solid rgba(255,255,255,0.2);
+                  }
+                  .storybook-card:hover { 
+                      transform: translateY(-8px); 
+                      background: rgba(255,255,255,0.15);
+                      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                  }
+                  .storybook-card h3 { 
+                      font-size: 1.5rem; 
+                      margin-bottom: 16px; 
+                      color: white;
+                  }
+                  .storybook-card p { 
+                      opacity: 0.8; 
+                      margin-bottom: 24px; 
+                      line-height: 1.6;
+                  }
+                  .storybook-button { 
+                      display: inline-block; 
+                      padding: 14px 28px; 
+                      background: rgba(255,255,255,0.9); 
+                      color: #4c1d95; 
+                      text-decoration: none; 
+                      border-radius: 12px; 
+                      font-weight: 600; 
+                      transition: all 0.3s ease;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                  }
+                  .storybook-button:hover { 
+                      background: white; 
+                      transform: translateY(-2px);
+                      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                  }
+                  .footer {
+                      margin-top: 60px;
+                      opacity: 0.7;
+                      font-size: 0.9rem;
+                  }
+                  .tech-badge {
+                      display: inline-block;
+                      padding: 4px 12px;
+                      background: rgba(255,255,255,0.2);
+                      border-radius: 20px;
+                      font-size: 0.8rem;
+                      margin: 0 4px;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <div class="header">
+                      <h1>🎨 Quanta Kit</h1>
+                      <p>Design System Component Libraries</p>
+                      <div>
+                          <span class="tech-badge">React</span>
+                          <span class="tech-badge">Vue</span>
+                          <span class="tech-badge">Angular</span>
+                      </div>
+                  </div>
+                  
+                  <div class="storybook-grid">
+                      <div class="storybook-card">
+                          <h3>⚛️ React</h3>
+                          <p>Interactive components built with React 19 and TypeScript</p>
+                          <a href="./react/" class="storybook-button">View React Storybook</a>
+                      </div>
+                      
+                      <div class="storybook-card">
+                          <h3>🟢 Vue</h3>
+                          <p>Modern Vue 3 components with Composition API</p>
+                          <a href="./vue/" class="storybook-button">View Vue Storybook</a>
+                      </div>
+                      
+                      <div class="storybook-card">
+                          <h3>🅰️ Angular</h3>
+                          <p>Enterprise-ready Angular 18+ components</p>
+                          <a href="./angular/" class="storybook-button">View Angular Storybook</a>
+                      </div>
+                  </div>
+                  
+                  <div class="footer">
+                      <p>Built with ❤️ using Storybook • Updated automatically from main branch</p>
+                  </div>
+              </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-deploy
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,41 @@
+<div class="content">
+  <h1>Quanta Kit Angular Documentation</h1>
+  <p>Welcome to the Quanta Kit Angular component library documentation.</p>
+  
+  <section style="margin: 2rem 0;">
+    <h2>Button Component Examples</h2>
+    <p>The Button components will be imported once the package is properly linked.</p>
+    
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+      <button class="qk-button qk-button--primary qk-button--medium" (click)="onPrimaryClick()">
+        Primary Button
+      </button>
+      <button class="qk-button qk-button--secondary qk-button--medium" (click)="onSecondaryClick()">
+        Secondary Button
+      </button>
+      <button class="qk-button qk-button--outline qk-button--medium" (click)="onOutlineClick()">
+        Outline Button
+      </button>
+      <button class="qk-button qk-button--ghost qk-button--medium" (click)="onGhostClick()">
+        Ghost Button
+      </button>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+      <button class="qk-button qk-button--primary qk-button--small">Small Button</button>
+      <button class="qk-button qk-button--primary qk-button--medium">Medium Button</button>
+      <button class="qk-button qk-button--primary qk-button--large">Large Button</button>
+    </div>
+    
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <button class="qk-button qk-button--primary qk-button--medium qk-button--disabled" disabled>
+        Disabled Button
+      </button>
+      <button class="qk-button qk-button--primary qk-button--medium" type="submit">
+        Submit Button
+      </button>
+    </div>
+  </section>
+</div>
+
+<router-outlet />
