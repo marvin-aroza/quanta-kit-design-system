@@ -90,9 +90,6 @@ jobs:
     if: github.ref == 'refs/heads/monorepo-release'
     needs: test
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -109,64 +106,9 @@ jobs:
       - name: Build Storybooks
         run: npm run build-storybook
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Create Storybook index
+      - name: Create Storybook distribution
         run: |
           mkdir -p storybook-dist
-          echo '<!DOCTYPE html>
-          <html>
-          <head>
-            <title>Quanta Kit Design System</title>
-            <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
-              .section { margin: 3rem 0; }
-              .link { display: block; padding: 20px; margin: 10px 0; text-decoration: none; color: #333; border-radius: 8px; }
-              .storybook-link { background: #f0f8ff; border-left: 4px solid #0066cc; }
-              .storybook-link:hover { background: #e6f3ff; }
-              .docs-link { background: #f5f5f5; border-left: 4px solid #666; }
-              .docs-link:hover { background: #e0e0e0; }
-            </style>
-          </head>
-          <body>
-            <h1>Quanta Kit Design System</h1>
-            
-            <div class="section">
-              <h2>🏗️ Storybook Documentation</h2>
-              <p>Interactive component documentation and playground</p>
-              <a href="./react/" class="link storybook-link">
-                <strong>React Components</strong><br>
-                Storybook for React component library
-              </a>
-              <a href="./vue/" class="link storybook-link">
-                <strong>Vue Components</strong><br>
-                Storybook for Vue component library
-              </a>
-              <a href="./angular/" class="link storybook-link">
-                <strong>Angular Components</strong><br>
-                Storybook for Angular component library
-              </a>
-            </div>
-            
-            <div class="section">
-              <h2>📚 Documentation Sites</h2>
-              <p>Framework-specific usage examples and guides</p>
-              <a href="./docs/react/" class="link docs-link">
-                <strong>React Documentation</strong><br>
-                Examples and usage for React components
-              </a>
-              <a href="./docs/vue/" class="link docs-link">
-                <strong>Vue Documentation</strong><br>
-                Examples and usage for Vue components
-              </a>
-              <a href="./docs/angular/" class="link docs-link">
-                <strong>Angular Documentation</strong><br>
-                Examples and usage for Angular components
-              </a>
-            </div>
-          </body>
-          </html>' > storybook-dist/index.html
 
       - name: Copy Storybook builds
         run: |
@@ -174,14 +116,116 @@ jobs:
           cp -r packages/quanta-kit-vue/storybook-static storybook-dist/vue || echo "Vue Storybook not found"
           cp -r packages/quanta-kit-angular/storybook-static storybook-dist/angular || echo "Angular Storybook not found"
 
-      - name: Upload Storybook artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy Storybooks to GitHub Pages (subdirectory)
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: storybook-dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: storybook-dist
+          destination_dir: storybook
+          keep_files: true
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  # Deploy Main Navigation (must be last to preserve index)
+  deploy-main-nav:
+    name: Deploy Main Navigation
+    if: github.ref == 'refs/heads/monorepo-release'
+    needs: [test, deploy-storybooks, deploy-docs]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create main navigation index
+        run: |
+          mkdir -p main-nav
+          cat > main-nav/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Quanta Kit Design System</title>
+            <style>
+              body { 
+                font-family: system-ui, -apple-system, sans-serif; 
+                max-width: 1200px; 
+                margin: 2rem auto; 
+                padding: 2rem;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                min-height: 100vh;
+              }
+              .header { text-align: center; margin-bottom: 3rem; }
+              .header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+              .header p { font-size: 1.2rem; opacity: 0.9; }
+              .sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+              .section { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem; backdrop-filter: blur(10px); }
+              .section h2 { margin-top: 0; font-size: 1.5rem; }
+              .link { 
+                display: block; 
+                padding: 1rem; 
+                margin: 0.5rem 0; 
+                background: rgba(255,255,255,0.1); 
+                border-radius: 8px; 
+                text-decoration: none; 
+                color: white; 
+                transition: all 0.3s;
+              }
+              .link:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+              .storybook-link { border-left: 4px solid #ff6b6b; }
+              .docs-link { border-left: 4px solid #4ecdc4; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <h1>🚀 Quanta Kit Design System</h1>
+              <p>Interactive components and comprehensive documentation</p>
+            </div>
+            
+            <div class="sections">
+              <div class="section">
+                <h2>📖 Storybook Components</h2>
+                <p>Interactive component playground and documentation</p>
+                <a href="./storybook/react/" class="link storybook-link">
+                  <strong>React Storybook</strong><br>
+                  Interactive React components
+                </a>
+                <a href="./storybook/vue/" class="link storybook-link">
+                  <strong>Vue Storybook</strong><br>
+                  Interactive Vue components
+                </a>
+                <a href="./storybook/angular/" class="link storybook-link">
+                  <strong>Angular Storybook</strong><br>
+                  Interactive Angular components
+                </a>
+              </div>
+              
+              <div class="section">
+                <h2>📚 Documentation Sites</h2>
+                <p>Framework-specific usage examples and guides</p>
+                <a href="./docs/react/" class="link docs-link">
+                  <strong>React Documentation</strong><br>
+                  Examples and usage for React components
+                </a>
+                <a href="./docs/vue/" class="link docs-link">
+                  <strong>Vue Documentation</strong><br>
+                  Examples and usage for Vue components
+                </a>
+                <a href="./docs/angular/" class="link docs-link">
+                  <strong>Angular Documentation</strong><br>
+                  Examples and usage for Angular components
+                </a>
+              </div>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Deploy main navigation to GitHub Pages (root)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: main-nav
+          keep_files: true
 
   # Deploy Documentation Sites
   deploy-docs:
