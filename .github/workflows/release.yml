@@ -7,13 +7,13 @@ on:
     branches: [monorepo-release]
 
 permissions:
-  contents: read
+  contents: write  # Changed from 'read' to 'write' for proper GitHub Pages deployment
   pages: write
   id-token: write
 
 jobs:
   test:
-    runs-on: ubuntu-20
+    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
 
   build:
     needs: test
-    runs-on: ubuntu-20
+    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,8 +57,8 @@ jobs:
 
   deploy-storybooks:
     needs: [test, build]
-    runs-on: ubuntu-20
-    if: github.ref == 'refs/heads/monorepo-release'
+    runs-on: ubuntu-latest  # Fixed: was ubuntu-20
+    if: github.ref == 'refs/heads/monorepo-release' && github.event_name == 'push'  # Added event check
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -249,9 +249,14 @@ jobs:
           </html>
           EOF
 
-      - name: Deploy Storybooks to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: storybook-deploy
-          cname: false
+          path: storybook-deploy
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
