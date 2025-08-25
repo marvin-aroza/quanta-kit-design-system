@@ -7,62 +7,47 @@ on:
     branches: [monorepo-release]
 
 permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
-  # Test and Build all packages
   test:
-    name: Test and Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint
+      - name: Run tests
+        run: npm run test
+
+      - name: Run linting
         run: npm run lint
 
-      - name: Type check
+      - name: Run type checking
         run: npm run check-types
 
-      - name: Build packages
-        run: npm run build
-
-      - name: Build Storybooks
-        run: npm run build-storybook
-
-  # Release NPM packages using Changesets
-  release:
-    name: Release NPM Packages
-    if: github.ref == 'refs/heads/monorepo-release'
+  build:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
@@ -70,26 +55,10 @@ jobs:
       - name: Build packages
         run: npm run build
 
-      - name: Disable Husky for automated commits
-        run: echo 'export HUSKY=0' >> $GITHUB_ENV
-
-      - name: Create Release Pull Request or Publish to NPM
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: npm run release
-          commit: "chore(release): publish packages [skip ci]"
-          title: "chore(release): publish packages"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  # Deploy Storybooks to GitHub Pages
   deploy-storybooks:
-    name: Deploy Storybooks
+    needs: [test, build]
+    runs-on: ubuntu-20
     if: github.ref == 'refs/heads/monorepo-release'
-    needs: test
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -97,268 +66,192 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Storybooks
-        run: npm run build-storybook
-
-      - name: Create Storybook distribution
+      - name: Build all Storybooks
         run: |
-          mkdir -p storybook-dist
+          # Build React Storybook
+          echo "🔨 Building React Storybook..."
+          cd packages/quanta-kit-react
+          npm run build-storybook
+          cd ../..
+          
+          # Build Vue Storybook  
+          echo "🔨 Building Vue Storybook..."
+          cd packages/quanta-kit-vue
+          npm run build-storybook
+          cd ../..
+          
+          # Build Angular Storybook
+          echo "🔨 Building Angular Storybook..."
+          cd packages/quanta-kit-angular
+          npm run build-storybook
+          cd ../..
 
-      - name: Copy Storybook builds
+      - name: Prepare Storybook deployment
         run: |
-          cp -r packages/quanta-kit-react/storybook-static storybook-dist/react || echo "React Storybook not found"
-          cp -r packages/quanta-kit-vue/storybook-static storybook-dist/vue || echo "Vue Storybook not found"
-          cp -r packages/quanta-kit-angular/storybook-static storybook-dist/angular || echo "Angular Storybook not found"
+          mkdir -p storybook-deploy
+          
+          # Copy React Storybook
+          if [ -d "packages/quanta-kit-react/storybook-static" ]; then
+            echo "✅ Copying React Storybook..."
+            mkdir -p storybook-deploy/react
+            cp -r packages/quanta-kit-react/storybook-static/* storybook-deploy/react/
+          else
+            echo "❌ React Storybook not found"
+            exit 1
+          fi
+          
+          # Copy Vue Storybook
+          if [ -d "packages/quanta-kit-vue/storybook-static" ]; then
+            echo "✅ Copying Vue Storybook..."
+            mkdir -p storybook-deploy/vue
+            cp -r packages/quanta-kit-vue/storybook-static/* storybook-deploy/vue/
+          else
+            echo "❌ Vue Storybook not found"
+            exit 1
+          fi
+          
+          # Copy Angular Storybook
+          if [ -d "packages/quanta-kit-angular/storybook-static" ]; then
+            echo "✅ Copying Angular Storybook..."
+            mkdir -p storybook-deploy/angular
+            cp -r packages/quanta-kit-angular/storybook-static/* storybook-deploy/angular/
+          else
+            echo "❌ Angular Storybook not found"
+            exit 1
+          fi
 
-      - name: Deploy Storybooks to GitHub Pages (subdirectory)
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: storybook-dist
-          destination_dir: storybook
-          keep_files: true
-
-  # Deploy Main Navigation (must be last to preserve index)
-  deploy-main-nav:
-    name: Deploy Main Navigation
-    if: github.ref == 'refs/heads/monorepo-release'
-    needs: [test, deploy-storybooks, deploy-docs, deploy-angular-docs-firebase]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Create main navigation index
+      - name: Create main navigation page
         run: |
-          mkdir -p main-nav
-          cat > main-nav/index.html << 'EOF'
+          cat > storybook-deploy/index.html << 'EOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Quanta Kit Design System</title>
-            <style>
-              body { 
-                font-family: system-ui, -apple-system, sans-serif; 
-                max-width: 1200px; 
-                margin: 2rem auto; 
-                padding: 2rem;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                min-height: 100vh;
-              }
-              .header { text-align: center; margin-bottom: 3rem; }
-              .header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-              .header p { font-size: 1.2rem; opacity: 0.9; }
-              .sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-              .section { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem; backdrop-filter: blur(10px); }
-              .section h2 { margin-top: 0; font-size: 1.5rem; }
-              .link { 
-                display: block; 
-                padding: 1rem; 
-                margin: 0.5rem 0; 
-                background: rgba(255,255,255,0.1); 
-                border-radius: 8px; 
-                text-decoration: none; 
-                color: white; 
-                transition: all 0.3s;
-              }
-              .link:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
-              .storybook-link { border-left: 4px solid #ff6b6b; }
-              .docs-link { border-left: 4px solid #4ecdc4; }
-            </style>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Quanta Kit Design System - Storybooks</title>
+              <style>
+                  body { 
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                      margin: 0; 
+                      padding: 40px; 
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      min-height: 100vh;
+                      color: white;
+                  }
+                  .container { max-width: 800px; margin: 0 auto; text-align: center; }
+                  .header { margin-bottom: 60px; }
+                  .header h1 { font-size: 3rem; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+                  .header p { font-size: 1.2rem; opacity: 0.9; }
+                  .storybook-grid { 
+                      display: grid; 
+                      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+                      gap: 30px; 
+                      margin-bottom: 60px; 
+                  }
+                  .storybook-card { 
+                      background: rgba(255,255,255,0.1); 
+                      backdrop-filter: blur(10px);
+                      border-radius: 16px; 
+                      padding: 30px; 
+                      transition: all 0.3s ease;
+                      border: 1px solid rgba(255,255,255,0.2);
+                  }
+                  .storybook-card:hover { 
+                      transform: translateY(-8px); 
+                      background: rgba(255,255,255,0.15);
+                      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                  }
+                  .storybook-card h3 { 
+                      font-size: 1.5rem; 
+                      margin-bottom: 16px; 
+                      color: white;
+                  }
+                  .storybook-card p { 
+                      opacity: 0.8; 
+                      margin-bottom: 24px; 
+                      line-height: 1.6;
+                  }
+                  .storybook-button { 
+                      display: inline-block; 
+                      padding: 14px 28px; 
+                      background: rgba(255,255,255,0.9); 
+                      color: #4c1d95; 
+                      text-decoration: none; 
+                      border-radius: 12px; 
+                      font-weight: 600; 
+                      transition: all 0.3s ease;
+                      text-transform: uppercase;
+                      letter-spacing: 0.5px;
+                  }
+                  .storybook-button:hover { 
+                      background: white; 
+                      transform: translateY(-2px);
+                      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+                  }
+                  .footer {
+                      margin-top: 60px;
+                      opacity: 0.7;
+                      font-size: 0.9rem;
+                  }
+                  .tech-badge {
+                      display: inline-block;
+                      padding: 4px 12px;
+                      background: rgba(255,255,255,0.2);
+                      border-radius: 20px;
+                      font-size: 0.8rem;
+                      margin: 0 4px;
+                  }
+              </style>
           </head>
           <body>
-            <div class="header">
-              <h1>🚀 Quanta Kit Design System</h1>
-              <p>Interactive components and comprehensive documentation</p>
-            </div>
-            
-            <div class="sections">
-              <div class="section">
-                <h2>📖 Storybook Components</h2>
-                <p>Interactive component playground and documentation</p>
-                <a href="./storybook/react/" class="link storybook-link">
-                  <strong>React Storybook</strong><br>
-                  Interactive React components
-                </a>
-                <a href="./storybook/vue/" class="link storybook-link">
-                  <strong>Vue Storybook</strong><br>
-                  Interactive Vue components
-                </a>
-                <a href="./storybook/angular/" class="link storybook-link">
-                  <strong>Angular Storybook</strong><br>
-                  Interactive Angular components
-                </a>
+              <div class="container">
+                  <div class="header">
+                      <h1>🎨 Quanta Kit</h1>
+                      <p>Design System Component Libraries</p>
+                      <div>
+                          <span class="tech-badge">React</span>
+                          <span class="tech-badge">Vue</span>
+                          <span class="tech-badge">Angular</span>
+                      </div>
+                  </div>
+                  
+                  <div class="storybook-grid">
+                      <div class="storybook-card">
+                          <h3>⚛️ React</h3>
+                          <p>Interactive components built with React 19 and TypeScript</p>
+                          <a href="./react/" class="storybook-button">View React Storybook</a>
+                      </div>
+                      
+                      <div class="storybook-card">
+                          <h3>🟢 Vue</h3>
+                          <p>Modern Vue 3 components with Composition API</p>
+                          <a href="./vue/" class="storybook-button">View Vue Storybook</a>
+                      </div>
+                      
+                      <div class="storybook-card">
+                          <h3>🅰️ Angular</h3>
+                          <p>Enterprise-ready Angular 18+ components</p>
+                          <a href="./angular/" class="storybook-button">View Angular Storybook</a>
+                      </div>
+                  </div>
+                  
+                  <div class="footer">
+                      <p>Built with ❤️ using Storybook • Updated automatically from monorepo-release branch</p>
+                  </div>
               </div>
-              
-              <div class="section">
-                <h2>📚 Documentation Sites</h2>
-                <p>Framework-specific usage examples and guides</p>
-                <a href="./docs/react/" class="link docs-link">
-                  <strong>React Documentation</strong><br>
-                  Examples and usage for React components
-                </a>
-                <a href="./docs/vue/" class="link docs-link">
-                  <strong>Vue Documentation</strong><br>
-                  Examples and usage for Vue components
-                </a>
-                <a href="./docs/angular/" class="link docs-link">
-                  <strong>Angular Documentation</strong><br>
-                  Examples and usage for Angular components
-                </a>
-              </div>
-            </div>
           </body>
           </html>
           EOF
 
-      - name: Deploy main navigation to GitHub Pages (root)
+      - name: Deploy Storybooks to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: main-nav
-          keep_files: true
-
-  # Deploy Documentation Sites
-  deploy-docs:
-    name: Deploy Documentation Sites
-    if: github.ref == 'refs/heads/monorepo-release'
-    needs: [test, deploy-storybooks]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build packages (needed for docs)
-        run: npm run build
-
-      - name: Build React docs
-        run: |
-          cd apps/quanta-kit-react-docs
-          npm run build || echo "React docs build failed, creating placeholder"
-          
-      - name: Build Vue docs
-        run: |
-          cd apps/quanta-kit-vue-docs
-          npm run build || echo "Vue docs build failed, creating placeholder"
-
-      - name: Build Angular docs
-        run: |
-          cd apps/quanta-kit-angular-docs
-          npm run build:firebase || echo "Angular docs build failed, will skip Firebase deployment"
-
-      - name: Create docs index
-        run: |
-          mkdir -p docs-dist
-          echo '<!DOCTYPE html>
-          <html>
-          <head>
-            <title>Quanta Kit Design System - Documentation</title>
-            <style>
-              body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
-              .docs-link { display: block; padding: 20px; margin: 10px 0; background: #f0f8ff; text-decoration: none; color: #333; border-radius: 8px; border-left: 4px solid #0066cc; }
-              .docs-link:hover { background: #e6f3ff; }
-            </style>
-          </head>
-          <body>
-            <h1>Quanta Kit Design System</h1>
-            <h2>Documentation Sites</h2>
-            <a href="./react/" class="docs-link">
-              <strong>React Documentation</strong><br>
-              Examples and usage for React components
-            </a>
-            <a href="./vue/" class="docs-link">
-              <strong>Vue Documentation</strong><br>
-              Examples and usage for Vue components
-            </a>
-            <a href="https://quanta-kit-angular-docs.web.app/" class="docs-link" target="_blank">
-              <strong>Angular Documentation</strong><br>
-              Examples and usage for Angular components (Firebase)
-            </a>
-          </body>
-          </html>' > docs-dist/index.html
-
-      - name: Copy documentation builds
-        run: |
-          mkdir -p docs-dist/react docs-dist/vue
-          
-          # Copy React docs (Next.js exports to 'out' directory)
-          if [ -d "apps/quanta-kit-react-docs/out" ]; then
-            cp -r apps/quanta-kit-react-docs/out/* docs-dist/react/
-            echo "✅ React docs copied successfully"
-          else
-            echo "❌ React docs not found, creating placeholder"
-            echo '<h1>React Documentation</h1><p>Coming soon...</p>' > docs-dist/react/index.html
-          fi
-          
-          # Copy Vue docs  
-          if [ -d "apps/quanta-kit-vue-docs/dist" ]; then
-            cp -r apps/quanta-kit-vue-docs/dist/* docs-dist/vue/
-            echo "✅ Vue docs copied successfully"
-          else
-            echo "❌ Vue docs not found, creating placeholder"
-            echo '<h1>Vue Documentation</h1><p>Coming soon...</p>' > docs-dist/vue/index.html
-          fi
-
-      - name: Deploy docs to main GitHub Pages (subdirectory)
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs-dist
-          destination_dir: docs
-          keep_files: true
-
-  # Deploy Angular Documentation to Firebase
-  deploy-angular-docs-firebase:
-    name: Deploy Angular Docs to Firebase
-    if: github.ref == 'refs/heads/monorepo-release'
-    needs: [test, deploy-storybooks]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build packages (needed for Angular docs)
-        run: npm run build
-
-      - name: Install Angular docs dependencies
-        run: |
-          cd apps/quanta-kit-angular-docs
-          npm install
-
-      - name: Build Angular docs for Firebase
-        run: |
-          cd apps/quanta-kit-angular-docs
-          npm run build:firebase
-
-      - name: Deploy to Firebase
-        run: |
-          cd apps/quanta-kit-angular-docs
-          npm install -g firebase-tools
-          firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}" --project quanta-kit-angular-docs
+          publish_dir: storybook-deploy
+          cname: false
