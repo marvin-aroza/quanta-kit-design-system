@@ -1,18 +1,23 @@
 # GitHub Pages Deployment Fix
 
 ## Issue
+
 GitHub Pages deployment failing with error:
+
 ```
 Missing environment. Ensure your workflow's deployment job has an environment.
 ```
 
 ## Root Cause
+
 The `actions/deploy-pages@v4` action requires the job to specify a `github-pages` environment.
 
 ## Solution Applied ✅
 
 ### Updated `deploy-storybooks` Job
+
 Added environment configuration to the job:
+
 ```yaml
 deploy-storybooks:
   name: Deploy Storybooks
@@ -45,6 +50,7 @@ If the environment approach doesn't work, we can switch to the same approach use
 ## Prerequisites for GitHub Pages
 
 ### Repository Settings Required:
+
 1. **Enable GitHub Pages**:
    - Go to repository Settings → Pages
    - Source: "Deploy from a branch" or "GitHub Actions"
@@ -64,12 +70,14 @@ If the environment approach doesn't work, we can switch to the same approach use
 ## Testing the Fix
 
 ### On Next Pipeline Run:
+
 1. Push changes to `monorepo-release` branch
 2. Monitor "Deploy Storybooks" job in GitHub Actions
 3. Check for successful completion of `actions/deploy-pages@v4`
 4. Verify GitHub Pages site is accessible
 
 ### Manual Verification:
+
 1. Check repository Settings → Pages for deployment status
 2. Visit the GitHub Pages URL
 3. Test all Storybook links (React, Vue, Angular)
@@ -77,6 +85,7 @@ If the environment approach doesn't work, we can switch to the same approach use
 ## Fallback Plan
 
 If the current fix doesn't work, we can:
+
 1. Switch to `peaceiris/actions-gh-pages@v3` (proven to work)
 2. Use separate branches for different deployments
 3. Use external hosting (Netlify, Vercel) for Storybooks
