@@ -1,31 +1,37 @@
 # Firebase Deployment Setup for Angular Docs
 
 ## Overview
+
 The Angular documentation site is now deployed to Firebase Hosting instead of GitHub Pages for better performance and additional features.
 
 ## Configuration Changes Made
 
 ### 1. Package.json Updates
+
 - Added `firebase-tools` as a dev dependency
 - Added Firebase-specific build and deploy scripts:
   - `build:firebase`: Builds Angular app for Firebase deployment
   - `deploy:firebase`: Deploys to Firebase hosting
 
 ### 2. Angular Configuration
+
 - Removed `baseHref: "/docs/angular/"` from angular.json production config
 - Angular now builds for root path deployment on Firebase
 
 ### 3. Firebase Configuration Files
 
 #### firebase.json
+
 - Configures public directory as `dist/quanta-kit-angular-docs/browser`
 - Sets up SPA routing with catch-all rewrite to index.html
 - Configures caching headers for optimal performance
 
 #### .firebaserc
+
 - Sets default project as `quanta-kit-angular-docs`
 
 ### 4. GitHub Actions Workflow
+
 - Added new job `deploy-angular-docs-firebase`
 - Builds Angular docs using `npm run build:firebase`
 - Deploys to Firebase using `firebase deploy`
@@ -34,6 +40,7 @@ The Angular documentation site is now deployed to Firebase Hosting instead of Gi
 ## Required Secrets
 
 ### FIREBASE_TOKEN
+
 You need to add a Firebase deployment token as a GitHub secret:
 
 1. Install Firebase CLI locally: `npm install -g firebase-tools`
