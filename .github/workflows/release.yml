@@ -318,8 +318,8 @@ jobs:
           fi
           
           # Copy Angular docs
-          if [ -d "apps/quanta-kit-angular-docs/dist/quanta-kit-angular-docs" ]; then
-            cp -r apps/quanta-kit-angular-docs/dist/quanta-kit-angular-docs/* docs-dist/angular/
+          if [ -d "apps/quanta-kit-angular-docs/dist/quanta-kit-angular-docs/browser" ]; then
+            cp -r apps/quanta-kit-angular-docs/dist/quanta-kit-angular-docs/browser/* docs-dist/angular/
             echo "✅ Angular docs copied successfully"
           else
             echo "❌ Angular docs not found, creating placeholder"
