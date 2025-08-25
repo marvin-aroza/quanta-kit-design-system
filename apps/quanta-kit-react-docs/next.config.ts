@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
   experimental: {
     turbo: undefined,
   },
-  output: "standalone",
+  output: "export",
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  }
 };
 
 export default nextConfig;
