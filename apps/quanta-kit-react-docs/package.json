@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "echo 'Build temporarily disabled due to Next.js/React compatibility issues'",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
