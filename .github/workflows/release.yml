@@ -70,13 +70,16 @@ jobs:
       - name: Build packages
         run: npm run build
 
+      - name: Disable Husky for automated commits
+        run: echo 'export HUSKY=0' >> $GITHUB_ENV
+
       - name: Create Release Pull Request or Publish to NPM
         id: changesets
         uses: changesets/action@v1
         with:
           publish: npm run release
-          commit: "chore: release packages"
-          title: "chore: release packages"
+          commit: "chore(release): publish packages [skip ci]"
+          title: "chore(release): publish packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -87,6 +90,9 @@ jobs:
     if: github.ref == 'refs/heads/monorepo-release'
     needs: test
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -112,28 +118,53 @@ jobs:
           echo '<!DOCTYPE html>
           <html>
           <head>
-            <title>Quanta Kit Design System - Storybooks</title>
+            <title>Quanta Kit Design System</title>
             <style>
               body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
-              .storybook-link { display: block; padding: 20px; margin: 10px 0; background: #f5f5f5; text-decoration: none; color: #333; border-radius: 8px; }
-              .storybook-link:hover { background: #e0e0e0; }
+              .section { margin: 3rem 0; }
+              .link { display: block; padding: 20px; margin: 10px 0; text-decoration: none; color: #333; border-radius: 8px; }
+              .storybook-link { background: #f0f8ff; border-left: 4px solid #0066cc; }
+              .storybook-link:hover { background: #e6f3ff; }
+              .docs-link { background: #f5f5f5; border-left: 4px solid #666; }
+              .docs-link:hover { background: #e0e0e0; }
             </style>
           </head>
           <body>
             <h1>Quanta Kit Design System</h1>
-            <h2>Storybook Documentation</h2>
-            <a href="./react/" class="storybook-link">
-              <strong>React Components</strong><br>
-              Storybook for React component library
-            </a>
-            <a href="./vue/" class="storybook-link">
-              <strong>Vue Components</strong><br>
-              Storybook for Vue component library
-            </a>
-            <a href="./angular/" class="storybook-link">
-              <strong>Angular Components</strong><br>
-              Storybook for Angular component library
-            </a>
+            
+            <div class="section">
+              <h2>🏗️ Storybook Documentation</h2>
+              <p>Interactive component documentation and playground</p>
+              <a href="./react/" class="link storybook-link">
+                <strong>React Components</strong><br>
+                Storybook for React component library
+              </a>
+              <a href="./vue/" class="link storybook-link">
+                <strong>Vue Components</strong><br>
+                Storybook for Vue component library
+              </a>
+              <a href="./angular/" class="link storybook-link">
+                <strong>Angular Components</strong><br>
+                Storybook for Angular component library
+              </a>
+            </div>
+            
+            <div class="section">
+              <h2>📚 Documentation Sites</h2>
+              <p>Framework-specific usage examples and guides</p>
+              <a href="./docs/react/" class="link docs-link">
+                <strong>React Documentation</strong><br>
+                Examples and usage for React components
+              </a>
+              <a href="./docs/vue/" class="link docs-link">
+                <strong>Vue Documentation</strong><br>
+                Examples and usage for Vue components
+              </a>
+              <a href="./docs/angular/" class="link docs-link">
+                <strong>Angular Documentation</strong><br>
+                Examples and usage for Angular components
+              </a>
+            </div>
           </body>
           </html>' > storybook-dist/index.html
 
@@ -226,10 +257,10 @@ jobs:
           cp -r apps/quanta-kit-vue-docs/dist docs-dist/vue || echo "Vue docs not found"
           cp -r apps/quanta-kit-angular-docs/dist/quanta-kit-angular-docs docs-dist/angular || echo "Angular docs not found"
 
-      - name: Deploy docs to separate GitHub Pages
+      - name: Deploy docs to main GitHub Pages (subdirectory)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs-dist
-          publish_branch: gh-pages-test
-          destination_dir: .
+          destination_dir: docs
+          keep_files: true

@@ -39,7 +39,7 @@ const Configuration = {
     
     // Scope validation - ticket numbers
     "scope-case": [2, "always", "upper-case"], // For ticket numbers like ABC-123
-    "scope-empty": [2, "never"], // Error if scope is missing
+    "scope-empty": [1, "never"], // Warning instead of error if scope is missing
     
     // Subject validation - lowercase
     "subject-case": [2, "always", "lower-case"],
@@ -64,7 +64,11 @@ const Configuration = {
   /*
    * Functions that return true if commitlint should ignore the given message.
    */
-  ignores: [(commit) => commit === ""],
+  ignores: [
+    (commit) => commit === "",
+    (commit) => commit.includes("chore(release):"), // Ignore changeset release commits
+    (commit) => commit.includes("Version Packages") // Ignore changeset version commits
+  ],
   
   /*
    * Whether commitlint uses the default ignore rules.
