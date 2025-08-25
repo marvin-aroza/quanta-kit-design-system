@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
   },
   output: "export",
   trailingSlash: true,
+  basePath: "/docs/react",
+  assetPrefix: "/docs/react",
   images: {
     unoptimized: true,
   },
