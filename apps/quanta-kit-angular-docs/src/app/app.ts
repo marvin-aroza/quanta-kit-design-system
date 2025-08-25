@@ -9,4 +9,20 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('quanta-kit-angular-docs');
+
+  onPrimaryClick() {
+    alert('Primary button clicked!');
+  }
+
+  onSecondaryClick() {
+    alert('Secondary button clicked!');
+  }
+
+  onOutlineClick() {
+    alert('Outline button clicked!');
+  }
+
+  onGhostClick() {
+    alert('Ghost button clicked!');
+  }
 }

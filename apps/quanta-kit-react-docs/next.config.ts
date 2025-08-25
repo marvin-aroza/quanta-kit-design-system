@@ -7,8 +7,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Disable static generation to avoid prerendering issues
-  generateStaticParams: false,
   experimental: {
     turbo: undefined,
   },
