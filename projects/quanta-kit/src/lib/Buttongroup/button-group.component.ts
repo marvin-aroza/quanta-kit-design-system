@@ -6,7 +6,7 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 @Component({
-  selector: 'qk-button',
+  selector: 'qk-button-group',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -29,12 +29,12 @@ export type ButtonType = 'button' | 'submit' | 'reset';
       <ng-content select="[slot=icon-right]"></ng-content>
     </button>
   `,
-  styleUrls: ['./buttongroup.component.scss'], // ✅ now SCSS, not CSS
+  styleUrls: ['./button-group.component.scss'], // ✅ now SCSS, not CSS
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
-export class ButtonComponent {
+export class ButtonGroupComponent {
   /** Button variant/style */
   @Input() variant: ButtonVariant = 'primary' ;
 
@@ -65,6 +65,15 @@ export class ButtonComponent {
   /** Test ID for testing purposes */
   @Input() testId = '';
 
+  /** Whether the button should take full width */
+  @Input() fullWidth = false;
+
+ /** Whether the button has rounded corners */
+ @Input() rounded = false;
+
+/** Whether the button has no border radius (square) */
+ @Input() square = false;
+ 
   /** Click event emitter */
   @Output() clicked = new EventEmitter<MouseEvent>();
 
@@ -84,6 +93,10 @@ export class ButtonComponent {
     if (this.loading) classes.push('qk-btn--loading');
     if (this.disabled) classes.push('qk-btn--disabled');
     if (this.customClass) classes.push(this.customClass);
+    
+    if (this.fullWidth) classes.push('qk-btn--full-width');
+    if (this.rounded) classes.push('qk-btn--rounded');
+    if (this.square) classes.push('qk-btn--square');
 
     return classes.join(' ');
   }

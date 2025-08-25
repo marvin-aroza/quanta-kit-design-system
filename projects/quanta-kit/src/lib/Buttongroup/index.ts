@@ -1,2 +1,2 @@
-export * from './buttongroup.component';
-export { ButtonComponent as QkButton } from './buttongroup.component';
+export * from './button-group.component';
+export { ButtonGroupComponent as QkButtonGroup } from './button-group.component';
