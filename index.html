@@ -1,152 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-
-    <title>@storybook/angular - Storybook</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quanta Kit Design System</title>
+  <style>
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      max-width: 1200px; 
+      margin: 2rem auto; 
+      padding: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+    }
+    .header { text-align: center; margin-bottom: 3rem; }
+    .header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    .header p { font-size: 1.2rem; opacity: 0.9; }
+    .sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .section { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem; backdrop-filter: blur(10px); }
+    .section h2 { margin-top: 0; font-size: 1.5rem; }
+    .link { 
+      display: block; 
+      padding: 1rem; 
+      margin: 0.5rem 0; 
+      background: rgba(255,255,255,0.1); 
+      border-radius: 8px; 
+      text-decoration: none; 
+      color: white; 
+      transition: all 0.3s;
+    }
+    .link:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    .storybook-link { border-left: 4px solid #ff6b6b; }
+    .docs-link { border-left: 4px solid #4ecdc4; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🚀 Quanta Kit Design System</h1>
+    <p>Interactive components and comprehensive documentation</p>
+  </div>
+  
+  <div class="sections">
+    <div class="section">
+      <h2>📖 Storybook Components</h2>
+      <p>Interactive component playground and documentation</p>
+      <a href="./storybook/react/" class="link storybook-link">
+        <strong>React Storybook</strong><br>
+        Interactive React components
+      </a>
+      <a href="./storybook/vue/" class="link storybook-link">
+        <strong>Vue Storybook</strong><br>
+        Interactive Vue components
+      </a>
+      <a href="./storybook/angular/" class="link storybook-link">
+        <strong>Angular Storybook</strong><br>
+        Interactive Angular components
+      </a>
+    </div>
     
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    
-    <style>
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-regular.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: italic;
-        font-weight: 400;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-italic.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-bold.woff2') format('woff2');
-      }
-
-      @font-face {
-        font-family: 'Nunito Sans';
-        font-style: italic;
-        font-weight: 700;
-        font-display: swap;
-        src: url('./sb-common-assets/nunito-sans-bold-italic.woff2') format('woff2');
-      }
-    </style>
-
-    <link href="./sb-manager/runtime.js" rel="modulepreload" />
-
-    
-    <link href="./sb-addons/storybook-core-server-presets-0/common-manager-bundle.js" rel="modulepreload" />
-    
-    <link href="./sb-addons/docs-1/manager-bundle.js" rel="modulepreload" />
-    
-    <link href="./sb-addons/a11y-2/manager-bundle.js" rel="modulepreload" />
-       
-
-    <style>
-      #storybook-root[hidden] {
-        display: none !important;
-      }
-    </style>
-
-    
-  </head>
-  <body>
-    <div id="root"></div>
-
-    
-    <script>
-      
-        
-          window['FEATURES'] = {
-  "argTypeTargetsV7": true,
-  "legacyDecoratorFileOrder": false,
-  "disallowImplicitActionsInRenderV8": true,
-  "viewport": true,
-  "highlight": true,
-  "controls": true,
-  "interactions": true,
-  "actions": true,
-  "backgrounds": true,
-  "outline": true,
-  "measure": true
-};
-        
-      
-        
-          window['REFS'] = {};
-        
-      
-        
-          window['LOGLEVEL'] = "info";
-        
-      
-        
-          window['DOCS_OPTIONS'] = {
-  "defaultName": "Docs"
-};
-        
-      
-        
-          window['CONFIG_TYPE'] = "PRODUCTION";
-        
-      
-        
-      
-        
-      
-        
-          window['TAGS_OPTIONS'] = {
-  "dev-only": {
-    "excludeFromDocsStories": true
-  },
-  "docs-only": {
-    "excludeFromSidebar": true
-  },
-  "test-only": {
-    "excludeFromSidebar": true,
-    "excludeFromDocsStories": true
-  }
-};
-        
-      
-        
-          window['STORYBOOK_RENDERER'] = "angular";
-        
-      
-        
-          window['STORYBOOK_BUILDER'] = "@storybook/builder-webpack5";
-        
-      
-        
-          window['STORYBOOK_FRAMEWORK'] = "@storybook/angular";
-        
-      
-    </script>
-    
-
-    <script type="module">
-      import './sb-manager/globals-runtime.js';
-
-      
-        import './sb-addons/storybook-core-server-presets-0/common-manager-bundle.js';
-      
-        import './sb-addons/docs-1/manager-bundle.js';
-      
-        import './sb-addons/a11y-2/manager-bundle.js';
-      
-
-      import './sb-manager/runtime.js';
-    </script>
-  </body>
+    <div class="section">
+      <h2>📚 Documentation Sites</h2>
+      <p>Framework-specific usage examples and guides</p>
+      <a href="./docs/react/" class="link docs-link">
+        <strong>React Documentation</strong><br>
+        Examples and usage for React components
+      </a>
+      <a href="./docs/vue/" class="link docs-link">
+        <strong>Vue Documentation</strong><br>
+        Examples and usage for Vue components
+      </a>
+      <a href="./docs/angular/" class="link docs-link">
+        <strong>Angular Documentation</strong><br>
+        Examples and usage for Angular components
+      </a>
+    </div>
+  </div>
+</body>
 </html>
