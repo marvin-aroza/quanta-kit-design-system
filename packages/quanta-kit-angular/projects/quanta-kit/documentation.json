@@ -1524,21 +1524,21 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<TooltipComponent>",
-                "defaultValue": "{\n  title: 'Components/Tooltip',\n  component: TooltipComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [TooltipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Tooltip component provides contextual information when users hover, focus, or click on an element.\nBased on Material Design 3 guidelines for tooltips.\n\n## Features\n- Multiple positions (top, bottom, left, right)\n- Different trigger types (hover, click, focus)\n- Plain and rich content support\n- Customizable delays and styling\n- Accessibility support with ARIA attributes\n- Keyboard navigation\n\n## Usage\n\\`\\`\\`html\n<qk-tooltip text=\"Helpful information\" position=\"top\">\n  <button>Hover me</button>\n</qk-tooltip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    text: {\n      control: 'text',\n      description: 'Tooltip text content',\n    },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],\n      description: 'Position of the tooltip relative to trigger',\n    },\n    trigger: {\n      control: 'select',\n      options: ['hover', 'click', 'focus'] as TooltipTrigger[],\n      description: 'How the tooltip is triggered',\n    },\n    type: {\n      control: 'select',\n      options: ['plain', 'rich'] as TooltipType[],\n      description: 'Type of tooltip content',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the tooltip is disabled',\n    },\n    showDelay: {\n      control: 'number',\n      description: 'Delay before showing tooltip (ms)',\n    },\n    hideDelay: {\n      control: 'number',\n      description: 'Delay before hiding tooltip (ms)',\n    },\n    persistent: {\n      control: 'boolean',\n      description: 'Whether tooltip stays open until explicitly closed',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes',\n    },\n    maxWidth: {\n      control: 'text',\n      description: 'Maximum width of tooltip',\n    },\n    offset: {\n      control: 'number',\n      description: 'Distance from trigger element in pixels',\n    },\n  },\n  tags: ['autodocs'],\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Meta<ChipComponent>",
                 "defaultValue": "{\n  title: 'Components/Chip',\n  component: ChipComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [ChipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Chip component implements Material Design 3 chip variants for compact information display and user interaction.\n\n## Features\n- Four chip variants (assist, filter, input, suggestion)\n- Multiple sizes (sm, md)\n- Elevation options (flat, elevated)\n- Selection states for filter chips\n- Removable functionality for input chips\n- Icon and avatar support\n- Accessibility features with ARIA attributes\n- Keyboard navigation support\n\n## Usage\n\\`\\`\\`html\n<qk-chip variant=\"filter\" [selected]=\"isSelected\" (selectionChange)=\"onSelectionChange($event)\">\n  Filter Option\n</qk-chip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\n      description: 'The type of chip',\n    },\n    size: {\n      control: 'select',\n      options: ['sm', 'md'] as ChipSize[],\n      description: 'The size of the chip',\n    },\n    elevation: {\n      control: 'select',\n      options: ['flat', 'elevated'] as ChipElevation[],\n      description: 'The elevation level of the chip',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the chip is disabled',\n    },\n    selected: {\n      control: 'boolean',\n      description: 'Whether the chip is selected (filter chips only)',\n    },\n    removable: {\n      control: 'boolean',\n      description: 'Whether the chip can be removed (input chips only)',\n    },\n    hasLeadingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a leading icon',\n    },\n    hasTrailingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a trailing icon',\n    },\n    hasAvatar: {\n      control: 'boolean',\n      description: 'Whether the chip has an avatar',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes to apply',\n    },\n    ariaLabel: {\n      control: 'text',\n      description: 'ARIA label for accessibility',\n    },\n    removeAriaLabel: {\n      control: 'text',\n      description: 'ARIA label for the remove button',\n    },\n    testId: {\n      control: 'text',\n      description: 'Test ID for testing purposes',\n    },\n    clicked: {\n      action: 'clicked',\n      description: 'Event emitted when chip is clicked',\n    },\n    removed: {\n      action: 'removed',\n      description: 'Event emitted when chip is removed',\n    },\n    focused: {\n      action: 'focused',\n      description: 'Event emitted when chip receives focus',\n    },\n    blurred: {\n      action: 'blurred',\n      description: 'Event emitted when chip loses focus',\n    },\n    selectionChange: {\n      action: 'selectionChange',\n      description: 'Event emitted when chip selection changes',\n    },\n  },\n  args: {\n    clicked: fn(),\n    removed: fn(),\n    focused: fn(),\n    blurred: fn(),\n    selectionChange: fn(),\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<TooltipComponent>",
+                "defaultValue": "{\n  title: 'Components/Tooltip',\n  component: TooltipComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [TooltipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Tooltip component provides contextual information when users hover, focus, or click on an element.\nBased on Material Design 3 guidelines for tooltips.\n\n## Features\n- Multiple positions (top, bottom, left, right)\n- Different trigger types (hover, click, focus)\n- Plain and rich content support\n- Customizable delays and styling\n- Accessibility support with ARIA attributes\n- Keyboard navigation\n\n## Usage\n\\`\\`\\`html\n<qk-tooltip text=\"Helpful information\" position=\"top\">\n  <button>Hover me</button>\n</qk-tooltip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    text: {\n      control: 'text',\n      description: 'Tooltip text content',\n    },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],\n      description: 'Position of the tooltip relative to trigger',\n    },\n    trigger: {\n      control: 'select',\n      options: ['hover', 'click', 'focus'] as TooltipTrigger[],\n      description: 'How the tooltip is triggered',\n    },\n    type: {\n      control: 'select',\n      options: ['plain', 'rich'] as TooltipType[],\n      description: 'Type of tooltip content',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the tooltip is disabled',\n    },\n    showDelay: {\n      control: 'number',\n      description: 'Delay before showing tooltip (ms)',\n    },\n    hideDelay: {\n      control: 'number',\n      description: 'Delay before hiding tooltip (ms)',\n    },\n    persistent: {\n      control: 'boolean',\n      description: 'Whether tooltip stays open until explicitly closed',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes',\n    },\n    maxWidth: {\n      control: 'text',\n      description: 'Maximum width of tooltip',\n    },\n    offset: {\n      control: 'number',\n      description: 'Distance from trigger element in pixels',\n    },\n  },\n  tags: ['autodocs'],\n}"
             },
             {
                 "name": "Primary",
@@ -1684,8 +1684,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<TooltipComponent>",
-                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "rawtype": "StoryObj<ChipComponent>",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -1695,8 +1695,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ChipComponent>",
-                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "rawtype": "StoryObj<TooltipComponent>",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2011,19 +2011,6 @@
                     "kind": 183
                 }
             ],
-            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<TooltipComponent>",
-                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
             "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
                 {
                     "name": "Story",
@@ -2031,6 +2018,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<ChipComponent>",
                     "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<TooltipComponent>",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",

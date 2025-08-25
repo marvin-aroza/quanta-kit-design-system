@@ -16,36 +16,55 @@ export default function Home() {
           height={38}
           priority
         />
-        
+
         <h1>Quanta Kit React Documentation</h1>
         <p>Welcome to the Quanta Kit React component library documentation.</p>
-        
-        <section style={{ margin: '2rem 0' }}>
+
+        <section style={{ margin: "2rem 0" }}>
           <h2>Button Component Examples</h2>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-            <Button variant="primary" onClick={() => alert('Primary clicked!')}>
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              flexWrap: "wrap",
+              marginBottom: "1rem",
+            }}
+          >
+            <Button variant="primary" onClick={() => alert("Primary clicked!")}>
               Primary Button
             </Button>
-            <Button variant="secondary" onClick={() => alert('Secondary clicked!')}>
+            <Button
+              variant="secondary"
+              onClick={() => alert("Secondary clicked!")}
+            >
               Secondary Button
             </Button>
-            <Button variant="outline" onClick={() => alert('Outline clicked!')}>
+            <Button variant="outline" onClick={() => alert("Outline clicked!")}>
               Outline Button
             </Button>
-            <Button variant="ghost" onClick={() => alert('Ghost clicked!')}>
+            <Button variant="ghost" onClick={() => alert("Ghost clicked!")}>
               Ghost Button
             </Button>
           </div>
-          
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              flexWrap: "wrap",
+              marginBottom: "1rem",
+            }}
+          >
             <Button size="small">Small Button</Button>
             <Button size="medium">Medium Button</Button>
             <Button size="large">Large Button</Button>
           </div>
-          
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <Button disabled>Disabled Button</Button>
-            <Button variant="primary" type="submit">Submit Button</Button>
+            <Button variant="primary" type="submit">
+              Submit Button
+            </Button>
           </div>
         </section>
         <ol>

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "monorepo-release",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "quanta-kit-react-docs",
+    "quanta-kit-vue-docs", 
+    "quanta-kit-angular-docs"
+  ]
+}
