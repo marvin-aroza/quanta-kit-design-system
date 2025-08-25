@@ -6,7 +6,7 @@
   "linked": [],
   "access": "public",
   "baseBranch": "monorepo-release",
-  "updateInternalDependencies": "patch",
+  "updateInternalDependencies": "minor",
   "ignore": [
     "quanta-kit-react-docs",
     "quanta-kit-vue-docs", 
