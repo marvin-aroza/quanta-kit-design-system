@@ -1,0 +1,89 @@
+<title>Quanta Kit Angular</title>
+<script>
+  function updateBrandTitle() {
+    const angularSvg = `
+      <svg width="20" height="20" viewBox="0 0 250 250" style="margin-right: 8px;">
+        <path fill="#DD0031" d="M125,30L31.9,63.2l14.2,123.1L125,230l78.9-43.7l14.2-123.1L125,30z"/>
+        <path fill="#C3002F" d="M125,30v22.2l-0.1,77.1l0,0.1v86.3l-0.1,0.1l0.1,0l79-43.9L218.1,63.2L125,30z"/>
+        <path fill="#FFFFFF" d="M125,52.1L66.8,182.6h21.7l11.7-29.2h49.4l11.7,29.2H183L125,52.1z M142,135.4H108l17-40.9L142,135.4z"/>
+      </svg>
+    `;
+    
+    // Try multiple selectors that different Storybook versions use
+    const selectors = [
+      '[data-testid="brand-link"]',
+      '.sidebar-header a',
+      '.css-1wa3eu0 a',
+      '.sidebar-brand a',
+      '.brand a',
+      '[class*="brand"] a',
+      'nav a[href*="storybook"]',
+      '.sidebar-container a:first-child',
+      '.os-content a:first-child'
+    ];
+    
+    for (const selector of selectors) {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(element => {
+        if (element && element.textContent && element.textContent.toLowerCase().includes('storybook')) {
+          console.log('Found brand element:', element);
+          element.innerHTML = angularSvg + 'Quanta Kit Angular';
+          element.title = 'Quanta Kit Angular';
+          element.style.display = 'flex';
+          element.style.alignItems = 'center';
+          element.style.fontWeight = '600';
+        }
+      });
+    }
+    
+    // Also try to find any element with "Storybook" text
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+      if (link.textContent && link.textContent.trim() === 'Storybook') {
+        console.log('Found Storybook text:', link);
+        link.innerHTML = angularSvg + 'Quanta Kit Angular';
+        link.title = 'Quanta Kit Angular';
+        link.style.display = 'flex';
+        link.style.alignItems = 'center';
+        link.style.fontWeight = '600';
+      }
+    });
+  }
+  
+  // Try multiple times with different timing
+  document.addEventListener('DOMContentLoaded', function() {
+    updateBrandTitle();
+    setTimeout(updateBrandTitle, 100);
+    setTimeout(updateBrandTitle, 500);
+    setTimeout(updateBrandTitle, 1000);
+    setTimeout(updateBrandTitle, 2000);
+    setTimeout(updateBrandTitle, 3000);
+  });
+  
+  window.addEventListener('load', function() {
+    setTimeout(updateBrandTitle, 500);
+    setTimeout(updateBrandTitle, 1000);
+  });
+  
+  // Watch for DOM changes (in case Storybook renders dynamically)
+  if (window.MutationObserver) {
+    const observer = new MutationObserver(function(mutations) {
+      let shouldUpdate = false;
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+          shouldUpdate = true;
+        }
+      });
+      if (shouldUpdate) {
+        setTimeout(updateBrandTitle, 100);
+      }
+    });
+    
+    setTimeout(function() {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    }, 1000);
+  }
+</script>

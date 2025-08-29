@@ -1,0 +1,729 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ release-prod, main, develop ]
+  pull_request:
+    branches: [ release-prod, main, develop ]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  pages: write
+  id-token: write
+  actions: write
+
+jobs:
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm ls || true
+
+    - name: Cache node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+  audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Run security audit
+      run: |
+        npm audit
+        
+    - name: Generate audit report
+      run: |
+        npm audit --json > audit-report.json || true
+        
+    - name: Upload audit report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-audit-report
+        path: audit-report.json
+        retention-days: 30
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Build application
+      run: |
+        npm run build
+        npm run build-storybook
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          storybook-static/
+        retention-days: 7
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: [install, build, audit]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v2
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Install additional dependencies for testing
+      run: |
+        npm install -g http-server wait-on
+        sudo apt-get update && sudo apt-get install -y bc
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Clean dist directory to avoid Jest conflicts
+      run: rm -rf dist/
+
+    - name: Run Jest Tests with Coverage
+      id: jest-tests
+      continue-on-error: true
+      run: |
+        echo "🧪 Running Jest tests with coverage..."
+        npm run test:coverage
+      env:
+        CI: true
+
+    - name: Build Storybook for testing
+      run: |
+        npm run build-storybook
+      env:
+        CI: true
+
+    - name: Start Storybook server
+      run: |
+        http-server storybook-static --port 6006 --silent &
+        wait-on http://localhost:6006 --timeout 30000
+      env:
+        CI: true
+
+    - name: Run Storybook tests
+      id: storybook-tests
+      continue-on-error: true
+      run: |
+        npm run test-storybook
+      env:
+        CI: true
+
+    - name: Set test status
+      run: |
+        # Check Jest test results
+        if [ "${{ steps.jest-tests.outcome }}" = "failure" ]; then
+          echo "JEST_TESTS_FAILED=true" >> $GITHUB_ENV
+          echo "❌ Jest tests failed"
+        else
+          echo "JEST_TESTS_FAILED=false" >> $GITHUB_ENV
+          echo "✅ Jest tests passed"
+        fi
+        
+        # Check Storybook test results
+        if [ "${{ steps.storybook-tests.outcome }}" = "failure" ]; then
+          echo "STORYBOOK_TESTS_FAILED=true" >> $GITHUB_ENV
+          echo "❌ Storybook tests failed"
+        else
+          echo "STORYBOOK_TESTS_FAILED=false" >> $GITHUB_ENV
+          echo "✅ Storybook tests passed"
+        fi
+
+    - name: Check Jest test coverage threshold
+      run: |
+        # Check Jest coverage if it exists
+        if [ -f "coverage/lcov.info" ]; then
+          echo "Checking Jest test coverage..."
+          
+          # Debug: Show what coverage files exist
+          echo "Coverage files found:"
+          find coverage/ -type f -name "*.html" -o -name "*.info" -o -name "*.json" 2>/dev/null || echo "No coverage files found"
+          
+          # Extract coverage from lcov.info
+          echo "Extracting coverage from lcov.info..."
+          
+          # Parse lcov.info for coverage extraction
+          if [ -f "coverage/lcov.info" ]; then
+            # Extract lines coverage
+            LF_FOUND=$(grep -c "LF:" coverage/lcov.info || echo "0")
+            LH_FOUND=$(grep -c "LH:" coverage/lcov.info || echo "0")
+            
+            if [ "$LF_FOUND" -gt 0 ] && [ "$LH_FOUND" -gt 0 ]; then
+              # Calculate coverage from lcov.info
+              TOTAL_LINES=$(grep "LF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_LINES=$(grep "LH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_FUNCTIONS=$(grep "FNF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_FUNCTIONS=$(grep "FNH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              TOTAL_BRANCHES=$(grep "BRF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              HIT_BRANCHES=$(grep "BRH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}' || echo "0")
+              
+              # Calculate percentages (handle 0/0 = 100% case)
+              if [ "$TOTAL_LINES" -gt 0 ]; then
+                JEST_LINES_COVERAGE=$(echo "scale=1; $HIT_LINES * 100 / $TOTAL_LINES" | bc -l || echo "0")
+              else
+                JEST_LINES_COVERAGE="100"  # No lines to cover = 100% coverage
+              fi
+              
+              if [ "$TOTAL_FUNCTIONS" -gt 0 ]; then
+                JEST_FUNCTIONS_COVERAGE=$(echo "scale=1; $HIT_FUNCTIONS * 100 / $TOTAL_FUNCTIONS" | bc -l || echo "0")
+              else
+                JEST_FUNCTIONS_COVERAGE="100"  # No functions to cover = 100% coverage
+              fi
+              
+              if [ "$TOTAL_BRANCHES" -gt 0 ]; then
+                JEST_BRANCHES_COVERAGE=$(echo "scale=1; $HIT_BRANCHES * 100 / $TOTAL_BRANCHES" | bc -l || echo "0")
+              else
+                JEST_BRANCHES_COVERAGE="100"  # No branches to cover = 100% coverage
+              fi
+              
+              # For statements, use lines as fallback
+              JEST_STATEMENTS_COVERAGE="$JEST_LINES_COVERAGE"
+              
+              echo "Calculated coverage from lcov.info:"
+              echo "Lines: $HIT_LINES/$TOTAL_LINES = ${JEST_LINES_COVERAGE}%"
+              echo "Functions: $HIT_FUNCTIONS/$TOTAL_FUNCTIONS = ${JEST_FUNCTIONS_COVERAGE}%"
+              echo "Branches: $HIT_BRANCHES/$TOTAL_BRANCHES = ${JEST_BRANCHES_COVERAGE}%"
+              echo "Statements: ${JEST_STATEMENTS_COVERAGE}%"
+              
+            else
+              echo "⚠️ lcov.info exists but appears to be empty or malformed"
+              # Fallback to HTML parsing
+              if [ -f "coverage/jest/lcov-report/index.html" ]; then
+                echo "Trying HTML parsing as fallback..."
+                cat coverage/jest/lcov-report/index.html | grep -E "(Lines|Functions|Branches|Statements)" | head -10
+                
+                JEST_LINES_COVERAGE=$(grep -oP 'Lines.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_FUNCTIONS_COVERAGE=$(grep -oP 'Functions.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_BRANCHES_COVERAGE=$(grep -oP 'Branches.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+                JEST_STATEMENTS_COVERAGE=$(grep -oP 'Statements.*?([0-9.]+)%' coverage/jest/lcov-report/index.html | grep -oP '[0-9.]+(?=%)' | head -1 || echo "0")
+              else
+                JEST_LINES_COVERAGE="0"
+                JEST_FUNCTIONS_COVERAGE="0"
+                JEST_BRANCHES_COVERAGE="0"
+                JEST_STATEMENTS_COVERAGE="0"
+              fi
+            fi
+            
+            echo "Jest Coverage Summary:" | tee coverage-jest-summary.txt
+            echo "Lines: ${JEST_LINES_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Functions: ${JEST_FUNCTIONS_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Branches: ${JEST_BRANCHES_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            echo "Statements: ${JEST_STATEMENTS_COVERAGE}%" | tee -a coverage-jest-summary.txt
+            
+            # Check if Jest coverage meets 90% threshold
+            if (( $(echo "$JEST_LINES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_FUNCTIONS_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_BRANCHES_COVERAGE >= 90" | bc -l) )) && \
+               (( $(echo "$JEST_STATEMENTS_COVERAGE >= 90" | bc -l) )); then
+              echo "✅ Jest coverage thresholds met (90% minimum)" | tee -a coverage-jest-summary.txt
+              echo "JEST_COVERAGE_STATUS=✅ PASSED" >> $GITHUB_ENV
+            else
+              echo "❌ Jest coverage below 90% threshold:" | tee -a coverage-jest-summary.txt
+              echo "Lines: ${JEST_LINES_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Functions: ${JEST_FUNCTIONS_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Branches: ${JEST_BRANCHES_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "Statements: ${JEST_STATEMENTS_COVERAGE}% (required: 90%)" | tee -a coverage-jest-summary.txt
+              echo "JEST_COVERAGE_STATUS=❌ FAILED" >> $GITHUB_ENV
+              echo "⚠️ Coverage is below threshold, but continuing pipeline for reporting..."
+            fi
+            
+            # Save coverage values for PR comment
+            echo "JEST_LINES_COVERAGE=${JEST_LINES_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_FUNCTIONS_COVERAGE=${JEST_FUNCTIONS_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_BRANCHES_COVERAGE=${JEST_BRANCHES_COVERAGE}" >> $GITHUB_ENV
+            echo "JEST_STATEMENTS_COVERAGE=${JEST_STATEMENTS_COVERAGE}" >> $GITHUB_ENV
+          else
+            echo "❌ No lcov.info file found"
+            echo "JEST_COVERAGE_STATUS=❌ NO REPORT" >> $GITHUB_ENV
+            echo "JEST_LINES_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+            echo "JEST_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+          fi
+        else
+          echo "⚠️  No Jest coverage report found, skipping threshold check"
+          echo "JEST_COVERAGE_STATUS=⚠️ NO REPORT" >> $GITHUB_ENV
+          echo "JEST_LINES_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_FUNCTIONS_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_BRANCHES_COVERAGE=0" >> $GITHUB_ENV
+          echo "JEST_STATEMENTS_COVERAGE=0" >> $GITHUB_ENV
+        fi
+        
+        echo "Coverage check completed. Status: ${JEST_COVERAGE_STATUS:-UNKNOWN}"
+
+    - name: Generate Coverage Report for PR
+      if: github.event_name == 'pull_request'
+      run: |
+        # Create comprehensive coverage report for PR comment
+        echo "## 📊 Test Results & Coverage Report" > coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        
+        # Add test execution status for both test types
+        echo "### 🧪 Test Execution Status" >> coverage-pr-report.md
+        echo "| Test Type | Status | Result |" >> coverage-pr-report.md
+        echo "|-----------|--------|--------|" >> coverage-pr-report.md
+        
+        # Jest test status
+        if [ "${JEST_TESTS_FAILED}" = "true" ]; then
+          echo "| Jest Unit Tests | ❌ FAILED | Some tests did not pass |" >> coverage-pr-report.md
+        else
+          echo "| Jest Unit Tests | ✅ PASSED | All tests executed successfully |" >> coverage-pr-report.md
+        fi
+        
+        # Storybook test status
+        if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+          echo "| Storybook Tests | ❌ FAILED | Some tests did not pass |" >> coverage-pr-report.md
+        else
+          echo "| Storybook Tests | ✅ PASSED | All tests executed successfully |" >> coverage-pr-report.md
+        fi
+        
+        echo "" >> coverage-pr-report.md
+        
+        echo "### 📊 Jest Unit Test Coverage" >> coverage-pr-report.md
+        echo "| Metric | Coverage | Status |" >> coverage-pr-report.md
+        echo "|--------|----------|--------|" >> coverage-pr-report.md
+        
+        # Add Jest coverage rows
+        JEST_LINES_STATUS="❌"
+        JEST_FUNCTIONS_STATUS="❌"
+        JEST_BRANCHES_STATUS="❌"
+        JEST_STATEMENTS_STATUS="❌"
+        
+        if (( $(echo "${JEST_LINES_COVERAGE:-0} >= 90" | bc -l) )); then JEST_LINES_STATUS="✅"; fi
+        if (( $(echo "${JEST_FUNCTIONS_COVERAGE:-0} >= 90" | bc -l) )); then JEST_FUNCTIONS_STATUS="✅"; fi
+        if (( $(echo "${JEST_BRANCHES_COVERAGE:-0} >= 90" | bc -l) )); then JEST_BRANCHES_STATUS="✅"; fi
+        if (( $(echo "${JEST_STATEMENTS_COVERAGE:-0} >= 90" | bc -l) )); then JEST_STATEMENTS_STATUS="✅"; fi
+        
+        echo "| Lines | ${JEST_LINES_COVERAGE:-N/A}% | ${JEST_LINES_STATUS} |" >> coverage-pr-report.md
+        echo "| Functions | ${JEST_FUNCTIONS_COVERAGE:-N/A}% | ${JEST_FUNCTIONS_STATUS} |" >> coverage-pr-report.md
+        echo "| Branches | ${JEST_BRANCHES_COVERAGE:-N/A}% | ${JEST_BRANCHES_STATUS} |" >> coverage-pr-report.md
+        echo "| Statements | ${JEST_STATEMENTS_COVERAGE:-N/A}% | ${JEST_STATEMENTS_STATUS} |" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "**Coverage Status:** ${JEST_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        echo "### Summary" >> coverage-pr-report.md
+        echo "- **Minimum Required Coverage:** 90%" >> coverage-pr-report.md
+        echo "- **Jest Unit Tests:** $(if [ "${JEST_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
+        echo "- **Storybook Tests:** $(if [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then echo "❌ FAILED"; else echo "✅ PASSED"; fi)" >> coverage-pr-report.md
+        echo "- **Coverage Report:** ${JEST_COVERAGE_STATUS:-⚠️ NO REPORT}" >> coverage-pr-report.md
+        echo "" >> coverage-pr-report.md
+        if [ "${JEST_TESTS_FAILED}" = "true" ] || [ "${STORYBOOK_TESTS_FAILED}" = "true" ]; then
+          echo "> ❌ **Pipeline will fail due to test failures.** Please fix the failing tests before merging." >> coverage-pr-report.md
+        else
+          echo "> 🎯 All tests passed. Coverage metrics must meet the 90% threshold for this PR to be approved." >> coverage-pr-report.md
+        fi
+        
+        echo "Generated coverage report:"
+        cat coverage-pr-report.md
+
+    - name: Comment Coverage Report on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          
+          try {
+            // Read the coverage report
+            const coverageReport = fs.readFileSync('coverage-pr-report.md', 'utf8');
+            
+            // Find existing coverage comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const existingComment = comments.find(comment => 
+              comment.body.includes('📊 Code Coverage Report')
+            );
+            
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: coverageReport
+              });
+              console.log('Updated existing coverage comment');
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: coverageReport
+              });
+              console.log('Created new coverage comment');
+            }
+          } catch (error) {
+            console.error('Failed to post coverage comment:', error.message);
+            // Don't fail the workflow if commenting fails
+            console.log('Continuing workflow despite comment failure...');
+          }
+        
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./coverage/jest/lcov.info
+        fail_ci_if_error: false
+        name: jest-coverage-node-22
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-coverage-reports
+        path: |
+          coverage/
+        retention-days: 7
+
+    - name: Fail pipeline if tests failed
+      if: steps.jest-tests.outcome == 'failure' || steps.storybook-tests.outcome == 'failure'
+      run: |
+        echo "❌ Pipeline failed due to test failures"
+        if [ "${{ steps.jest-tests.outcome }}" = "failure" ]; then
+          echo "- Jest tests failed"
+        fi
+        if [ "${{ steps.storybook-tests.outcome }}" = "failure" ]; then
+          echo "- Storybook tests failed"
+        fi
+        echo "Coverage report has been posted to the PR with details"
+        echo "Please fix the failing tests before merging"
+        exit 1
+
+  deploy-storybook:
+    name: Deploy Storybook to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: [install, build, audit, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Build Storybook
+      run: npm run build-storybook
+
+    - name: Verify Storybook build output
+      run: |
+        echo "Checking Storybook build output..."
+        ls -la storybook-static/ || echo "storybook-static folder not found"
+        echo "Checking index.html..."
+        ls -la storybook-static/index.html || echo "Storybook index.html not found"
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Upload Storybook artifacts
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./storybook-static
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+    - name: Create Storybook Deployment Summary
+      run: |
+        echo "📚 **Storybook Deployment Summary**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Build:** Successful" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Deploy:** GitHub Pages" >> $GITHUB_STEP_SUMMARY
+        echo "🌐 **URL:** ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📅 **Deploy Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+
+  release:
+    name: Semantic Release & NPM Deploy
+    runs-on: ubuntu-latest
+    needs: [install, build, audit, test]
+    if: github.ref == 'refs/heads/release-prod' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout release-prod branch
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Restore node modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-22-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-22-
+
+    - name: Install dependencies (fallback)
+      run: npm ci
+
+    - name: Build Angular library
+      run: npm run build
+
+    - name: Verify library build output
+      run: |
+        echo "Checking library build output..."
+        ls -la dist/
+        ls -la dist/quanta-kit/ || echo "quanta-kit folder not found"
+        echo "Checking package.json in dist..."
+        cat dist/quanta-kit/package.json | head -10 || echo "package.json not found"
+
+    - name: Run Semantic Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        HUSKY: 0
+      run: |
+        echo "🚀 Running semantic release..."
+        git config core.hooksPath /dev/null
+        npm run semantic-release
+        git config --unset core.hooksPath
+
+    - name: Pull semantic-release changes
+      run: |
+        echo "📥 Pulling semantic-release commits..."
+        git pull origin release-prod
+
+    - name: Get the new version
+      id: version
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "new_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "📦 New version: $VERSION"
+
+    - name: Create Release Summary
+      run: |
+        echo "🚀 **Release Summary**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Version:** ${{ steps.version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Library Build:** Successful" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Tests:** Passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Security Audit:** Completed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **NPM Package:** Published to registry" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Semantic Release:** Completed" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **NPM Package:** https://www.npmjs.com/package/quanta-kit" >> $GITHUB_STEP_SUMMARY
+        echo "🏷️ **GitHub Release:** https://github.com/marvin-aroza/quanta-kit-angular/releases/tag/v${{ steps.version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "ℹ️ **Note:** Storybook is deployed separately on main branch updates" >> $GITHUB_STEP_SUMMARY
+        echo "📅 **Deploy Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **NPM Package:** https://www.npmjs.com/package/quanta-kit" >> $GITHUB_STEP_SUMMARY
+        echo "🏷️ **GitHub Release:** https://github.com/marvin-aroza/quanta-kit-angular/releases/tag/v${{ steps.version.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📅 **Deploy Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+
+  reverse-merge:
+    name: Reverse Merge to Main
+    runs-on: ubuntu-latest
+    needs: [release]
+    if: github.ref == 'refs/heads/release-prod' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout release-prod branch
+      uses: actions/checkout@v5
+      with:
+        ref: release-prod
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Create reverse merge branch
+      run: |
+        # Create a new branch for the reverse merge
+        TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+        BRANCH_NAME="reverse-merge/release-prod-to-main-${TIMESTAMP}"
+        
+        echo "🔄 Creating reverse merge branch: $BRANCH_NAME"
+        git checkout -b $BRANCH_NAME
+        
+        echo "📤 Pushing reverse merge branch..."
+        git push origin $BRANCH_NAME
+        
+        echo "MERGE_BRANCH=$BRANCH_NAME" >> $GITHUB_ENV
+
+    - name: Create Pull Request for Reverse Merge
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const branchName = process.env.MERGE_BRANCH;
+          
+          try {
+            const { data: pullRequest } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔄 Reverse Merge: Sync release-prod changes to main',
+              head: branchName,
+              base: 'main',
+              body: `## 🔄 Automatic Reverse Merge
+          
+          This PR automatically syncs the latest release changes from release-prod back to main.
+          
+          ### 📋 Changes Include:
+          - ✅ Updated package.json version
+          - ✅ Updated library package.json version
+          - ✅ Updated CHANGELOG.md  
+          - ✅ Release commit from semantic-release
+          
+          ### 🎯 Purpose:
+          Keep the main branch in sync with the latest released version to ensure:
+          - Consistent version numbers across branches
+          - Up-to-date changelog for future development
+          - Clean git history
+          
+          **This PR can be safely merged automatically.**`,
+              maintainer_can_modify: true
+            });
+            
+            console.log(`Created pull request #${pullRequest.number}`);
+            
+          } catch (error) {
+            console.log('PR creation failed, creating issue instead...');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔄 Manual Action Required: Reverse Merge main to develop',
+              body: `## 🔄 Reverse Merge Required
+          
+          **Branch:** ${branchName}
+          **Action:** Please create a PR manually: https://github.com/${context.repo.owner}/${context.repo.repo}/compare/develop...${branchName}
+          
+          The automated reverse merge failed due to branch protection. Please create and merge the PR manually to sync develop with main.`,
+              labels: ['automation', 'merge-required']
+            });
+          }
+
+    - name: Create Reverse Merge Summary
+      run: |
+        echo "🔄 **Reverse Merge Summary**" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Branch Created:** $MERGE_BRANCH" >> $GITHUB_STEP_SUMMARY
+        echo "✅ **Pull Request:** Created automatically for main → develop sync" >> $GITHUB_STEP_SUMMARY
+        echo "📦 **Version Updates:** Ready to sync to develop" >> $GITHUB_STEP_SUMMARY
+        echo "📝 **Changelog:** Updated and ready to merge" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🎯 **Next Steps:** Review and merge the reverse merge PR" >> $GITHUB_STEP_SUMMARY
+        echo "🔑 **Note:** Using GitHub Actions token for automation" >> $GITHUB_STEP_SUMMARY
