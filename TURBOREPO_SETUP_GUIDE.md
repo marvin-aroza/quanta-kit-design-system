@@ -94,10 +94,7 @@ npm install turbo --save-dev
     "node": ">=18"
   },
   "packageManager": "npm@10.9.2",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": ["apps/*", "packages/*"]
 }
 ```
 
@@ -231,15 +228,15 @@ npx @changesets/cli init
 {
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],           // Wait for dependencies to build first
+      "dependsOn": ["^build"], // Wait for dependencies to build first
       "outputs": ["dist/**", ".next/**"] // Cache these directories
     },
     "dev": {
-      "cache": false,      // Don't cache dev servers
-      "persistent": true   // Keep running
+      "cache": false, // Don't cache dev servers
+      "persistent": true // Keep running
     },
     "lint": {
-      "dependsOn": ["^build"]  // Lint after dependencies are built
+      "dependsOn": ["^build"] // Lint after dependencies are built
     }
   }
 }
@@ -298,7 +295,7 @@ name: Release Pipeline
 
 on:
   push:
-    branches: [monorepo-release]  # Staging branch
+    branches: [monorepo-release] # Staging branch
   pull_request:
     branches: [monorepo-release]
 
@@ -308,7 +305,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:           # Build all packages
+  build: # Build all packages
   deploy-storybooks: # Deploy Storybooks to GitHub Pages
 ```
 
@@ -334,7 +331,7 @@ npm run dev
 
 # This runs:
 # - React Storybook on port 6006
-# - Vue Storybook on port 6007  
+# - Vue Storybook on port 6007
 # - Angular Storybook on port 6008
 # - All documentation sites
 ```
@@ -351,10 +348,10 @@ export interface ButtonProps {
   children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  variant = 'primary', 
-  size = 'medium', 
-  children 
+export const Button: React.FC<ButtonProps> = ({
+  variant = 'primary',
+  size = 'medium',
+  children
 }) => {
   return (
     <button className={`btn btn--${variant} btn--${size}`}>
@@ -368,16 +365,16 @@ export const Button: React.FC<ButtonProps> = ({
 
 ```typescript
 // packages/quanta-kit-react/src/components/Button/Button.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './Button';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Button } from "./Button";
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: "Components/Button",
   component: Button,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 };
 
 export default meta;
@@ -385,8 +382,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    variant: 'primary',
-    children: 'Button',
+    variant: "primary",
+    children: "Button",
   },
 };
 ```
@@ -506,7 +503,7 @@ When changes are merged to `main`:
 # Install React components
 npm install @quanta-kit/react
 
-# Install Vue components  
+# Install Vue components
 npm install @quanta-kit/vue
 
 # Install Angular components
@@ -517,7 +514,7 @@ npm install @quanta-kit/angular
 
 ```tsx
 // React usage
-import { Button } from '@quanta-kit/react';
+import { Button } from "@quanta-kit/react";
 
 function App() {
   return <Button variant="primary">Click me</Button>;
@@ -531,13 +528,13 @@ function App() {
 </template>
 
 <script setup>
-import { QuantaButton } from '@quanta-kit/vue';
+import { QuantaButton } from "@quanta-kit/vue";
 </script>
 ```
 
 ```typescript
 // Angular usage
-import { QuantaKitModule } from '@quanta-kit/angular';
+import { QuantaKitModule } from "@quanta-kit/angular";
 
 @NgModule({
   imports: [QuantaKitModule],
@@ -641,4 +638,4 @@ npm install
 
 **Happy coding! 🚀**
 
-*This setup provides a robust, scalable foundation for maintaining a multi-framework design system with automated testing,
+\*This setup provides a robust, scalable foundation for maintaining a multi-framework design system with automated testing,
