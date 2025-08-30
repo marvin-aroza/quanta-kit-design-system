@@ -12,8 +12,11 @@ const nextConfig: NextConfig = {
   },
   output: "export",
   trailingSlash: true,
-  basePath: "/docs/react",
-  assetPrefix: "/docs/react",
+  // Only use basePath in production/build
+  ...(process.env.NODE_ENV === "production" && {
+    basePath: "/docs/react",
+    assetPrefix: "/docs/react",
+  }),
   images: {
     unoptimized: true,
   },

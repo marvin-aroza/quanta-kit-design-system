@@ -1454,21 +1454,21 @@
                 "name": "Disabled",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    disabled: true,\r\n    size: 'md',\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\">\r\n      Disabled Button\r\n    </qk-button>`,\r\n  }),\r\n}"
-            },
-            {
-                "name": "Disabled",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\r\n  args: {\r\n    text: 'This tooltip is disabled',\r\n    position: 'top',\r\n    trigger: 'hover',\r\n    disabled: true,\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `\r\n      <div style=\"padding: 50px; text-align: center;\">\r\n        <qk-tooltip \r\n          [text]=\"text\" \r\n          [position]=\"position\" \r\n          [trigger]=\"trigger\"\r\n          [disabled]=\"disabled\">\r\n          <button style=\"padding: 8px 16px; background: #666; color: white; border: none; border-radius: 4px; cursor: not-allowed;\">\r\n            Disabled Tooltip\r\n          </button>\r\n        </qk-tooltip>\r\n      </div>\r\n    `,\r\n  }),\r\n}"
+            },
+            {
+                "name": "Disabled",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    variant: 'primary',\r\n    disabled: true,\r\n    size: 'md',\r\n  },\r\n  render: (args) => ({\r\n    props: args,\r\n    template: `<qk-button \r\n      [variant]=\"variant\" \r\n      [size]=\"size\" \r\n      [disabled]=\"disabled\">\r\n      Disabled Button\r\n    </qk-button>`,\r\n  }),\r\n}"
             },
             {
                 "name": "FilterChip",
@@ -1514,11 +1514,11 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<ButtonComponent>",
-                "defaultValue": "{\r\n  title: 'Components/Button',\r\n  component: ButtonComponent,\r\n  tags: ['autodocs'],\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ButtonComponent],\r\n    }),\r\n  ],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\r\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\r\n\r\n## Features\r\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\r\n- Various sizes (xs, sm, md, lg, xl)\r\n- Loading state with spinner\r\n- Disabled state\r\n- Full width option\r\n- Rounded and square variations\r\n- Accessibility support with ARIA attributes\r\n- Event emissions for click, focus, and blur\r\n- Icon slot support (left and right)\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\r\n  Click me\r\n</qk-button>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\">\r\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\r\n  Save Changes\r\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\r\n</qk-button>\r\n\\`\\`\\`\r\n        `,\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: [\r\n        'primary',\r\n        'secondary',\r\n        'success',\r\n        'danger',\r\n        'warning',\r\n        'info',\r\n        'light',\r\n        'dark',\r\n        'outline-primary',\r\n        'outline-secondary',\r\n        'outline-success',\r\n        'outline-danger',\r\n        'outline-warning',\r\n        'outline-info',\r\n        'outline-light',\r\n        'outline-dark',\r\n      ] as ButtonVariant[],\r\n      description: 'The visual style variant of the button',\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\r\n      description: 'The size of the button',\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['button', 'submit', 'reset'] as ButtonType[],\r\n      description: 'The HTML type attribute of the button',\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is disabled',\r\n    },\r\n    loading: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is in loading state',\r\n    },\r\n    hideTextOnLoading: {\r\n      control: 'boolean',\r\n      description: 'Whether to hide text content when loading',\r\n    },\r\n    fullWidth: {\r\n      control: 'boolean',\r\n      description: 'Whether the button should take full width',\r\n    },\r\n    rounded: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has rounded corners',\r\n    },\r\n    square: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has no border radius',\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply',\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility',\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes',\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when button is clicked',\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when button receives focus',\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when button loses focus',\r\n    },\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n  },\r\n}"
+                "type": "Meta<ChipComponent>",
+                "defaultValue": "{\r\n  title: 'Components/Chip',\r\n  component: ChipComponent,\r\n  tags: ['autodocs'],\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ChipComponent],\r\n    }),\r\n  ],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Chip component implements Material Design 3 chip variants for compact information display and user interaction.\r\n\r\n## Features\r\n- Four chip variants (assist, filter, input, suggestion)\r\n- Multiple sizes (sm, md)\r\n- Elevation options (flat, elevated)\r\n- Selection states for filter chips\r\n- Removable functionality for input chips\r\n- Icon and avatar support\r\n- Accessibility features with ARIA attributes\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-chip variant=\"filter\" [selected]=\"isSelected\" (selectionChange)=\"onSelectionChange($event)\">\r\n  Filter Option\r\n</qk-chip>\r\n\\`\\`\\`\r\n        `,\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\r\n      description: 'The type of chip',\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['sm', 'md'] as ChipSize[],\r\n      description: 'The size of the chip',\r\n    },\r\n    elevation: {\r\n      control: 'select',\r\n      options: ['flat', 'elevated'] as ChipElevation[],\r\n      description: 'The elevation level of the chip',\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is disabled',\r\n    },\r\n    selected: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is selected (filter chips only)',\r\n    },\r\n    removable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip can be removed (input chips only)',\r\n    },\r\n    hasLeadingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a leading icon',\r\n    },\r\n    hasTrailingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a trailing icon',\r\n    },\r\n    hasAvatar: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has an avatar',\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply',\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility',\r\n    },\r\n    removeAriaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for the remove button',\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes',\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when chip is clicked',\r\n    },\r\n    removed: {\r\n      action: 'removed',\r\n      description: 'Event emitted when chip is removed',\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when chip receives focus',\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when chip loses focus',\r\n    },\r\n    selectionChange: {\r\n      action: 'selectionChange',\r\n      description: 'Event emitted when chip selection changes',\r\n    },\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn(),\r\n  },\r\n}"
             },
             {
                 "name": "meta",
@@ -1534,11 +1534,11 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<ChipComponent>",
-                "defaultValue": "{\r\n  title: 'Components/Chip',\r\n  component: ChipComponent,\r\n  tags: ['autodocs'],\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ChipComponent],\r\n    }),\r\n  ],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Chip component implements Material Design 3 chip variants for compact information display and user interaction.\r\n\r\n## Features\r\n- Four chip variants (assist, filter, input, suggestion)\r\n- Multiple sizes (sm, md)\r\n- Elevation options (flat, elevated)\r\n- Selection states for filter chips\r\n- Removable functionality for input chips\r\n- Icon and avatar support\r\n- Accessibility features with ARIA attributes\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-chip variant=\"filter\" [selected]=\"isSelected\" (selectionChange)=\"onSelectionChange($event)\">\r\n  Filter Option\r\n</qk-chip>\r\n\\`\\`\\`\r\n        `,\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\r\n      description: 'The type of chip',\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['sm', 'md'] as ChipSize[],\r\n      description: 'The size of the chip',\r\n    },\r\n    elevation: {\r\n      control: 'select',\r\n      options: ['flat', 'elevated'] as ChipElevation[],\r\n      description: 'The elevation level of the chip',\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is disabled',\r\n    },\r\n    selected: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip is selected (filter chips only)',\r\n    },\r\n    removable: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip can be removed (input chips only)',\r\n    },\r\n    hasLeadingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a leading icon',\r\n    },\r\n    hasTrailingIcon: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has a trailing icon',\r\n    },\r\n    hasAvatar: {\r\n      control: 'boolean',\r\n      description: 'Whether the chip has an avatar',\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply',\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility',\r\n    },\r\n    removeAriaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for the remove button',\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes',\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when chip is clicked',\r\n    },\r\n    removed: {\r\n      action: 'removed',\r\n      description: 'Event emitted when chip is removed',\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when chip receives focus',\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when chip loses focus',\r\n    },\r\n    selectionChange: {\r\n      action: 'selectionChange',\r\n      description: 'Event emitted when chip selection changes',\r\n    },\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    removed: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n    selectionChange: fn(),\r\n  },\r\n}"
+                "type": "Meta<ButtonComponent>",
+                "defaultValue": "{\r\n  title: 'Components/Button',\r\n  component: ButtonComponent,\r\n  tags: ['autodocs'],\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [ButtonComponent],\r\n    }),\r\n  ],\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: `\r\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\r\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\r\n\r\n## Features\r\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\r\n- Various sizes (xs, sm, md, lg, xl)\r\n- Loading state with spinner\r\n- Disabled state\r\n- Full width option\r\n- Rounded and square variations\r\n- Accessibility support with ARIA attributes\r\n- Event emissions for click, focus, and blur\r\n- Icon slot support (left and right)\r\n- Keyboard navigation support\r\n\r\n## Usage\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\r\n  Click me\r\n</qk-button>\r\n\\`\\`\\`\r\n\r\n## With Icons\r\n\\`\\`\\`html\r\n<qk-button variant=\"primary\">\r\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\r\n  Save Changes\r\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\r\n</qk-button>\r\n\\`\\`\\`\r\n        `,\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    variant: {\r\n      control: 'select',\r\n      options: [\r\n        'primary',\r\n        'secondary',\r\n        'success',\r\n        'danger',\r\n        'warning',\r\n        'info',\r\n        'light',\r\n        'dark',\r\n        'outline-primary',\r\n        'outline-secondary',\r\n        'outline-success',\r\n        'outline-danger',\r\n        'outline-warning',\r\n        'outline-info',\r\n        'outline-light',\r\n        'outline-dark',\r\n      ] as ButtonVariant[],\r\n      description: 'The visual style variant of the button',\r\n    },\r\n    size: {\r\n      control: 'select',\r\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\r\n      description: 'The size of the button',\r\n    },\r\n    type: {\r\n      control: 'select',\r\n      options: ['button', 'submit', 'reset'] as ButtonType[],\r\n      description: 'The HTML type attribute of the button',\r\n    },\r\n    disabled: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is disabled',\r\n    },\r\n    loading: {\r\n      control: 'boolean',\r\n      description: 'Whether the button is in loading state',\r\n    },\r\n    hideTextOnLoading: {\r\n      control: 'boolean',\r\n      description: 'Whether to hide text content when loading',\r\n    },\r\n    fullWidth: {\r\n      control: 'boolean',\r\n      description: 'Whether the button should take full width',\r\n    },\r\n    rounded: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has rounded corners',\r\n    },\r\n    square: {\r\n      control: 'boolean',\r\n      description: 'Whether the button has no border radius',\r\n    },\r\n    customClass: {\r\n      control: 'text',\r\n      description: 'Custom CSS classes to apply',\r\n    },\r\n    ariaLabel: {\r\n      control: 'text',\r\n      description: 'ARIA label for accessibility',\r\n    },\r\n    testId: {\r\n      control: 'text',\r\n      description: 'Test ID for testing purposes',\r\n    },\r\n    clicked: {\r\n      action: 'clicked',\r\n      description: 'Event emitted when button is clicked',\r\n    },\r\n    focused: {\r\n      action: 'focused',\r\n      description: 'Event emitted when button receives focus',\r\n    },\r\n    blurred: {\r\n      action: 'blurred',\r\n      description: 'Event emitted when button loses focus',\r\n    },\r\n  },\r\n  args: {\r\n    clicked: fn(),\r\n    focused: fn(),\r\n    blurred: fn(),\r\n  },\r\n}"
             },
             {
                 "name": "Primary",
@@ -1673,8 +1673,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonComponent>",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "rawtype": "StoryObj<ChipComponent>",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -1695,8 +1695,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ChipComponent>",
-                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "rawtype": "StoryObj<ButtonComponent>",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -1998,13 +1998,13 @@
                     "kind": 192
                 }
             ],
-            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
+            "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
-                    "rawtype": "StoryObj<ButtonComponent>",
-                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                    "rawtype": "StoryObj<ChipComponent>",
+                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -2024,13 +2024,13 @@
                     "kind": 183
                 }
             ],
-            "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
+            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
-                    "rawtype": "StoryObj<ChipComponent>",
-                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "rawtype": "StoryObj<ButtonComponent>",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
