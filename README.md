@@ -26,7 +26,7 @@ This Turborepo includes the following packages and applications:
 ### Component Libraries
 
 - **`@quanta-kit/react`**: React component library with TypeScript
-- **`@quanta-kit/vue`**: Vue 3 component library with Composition API  
+- **`@quanta-kit/vue`**: Vue 3 component library with Composition API
 - **`@quanta-kit/angular`**: Angular component library with latest features
 - **`design-tokens`**: Shared design tokens across all frameworks
 
@@ -39,8 +39,9 @@ This Turborepo includes the following packages and applications:
 ### Storybook Integration
 
 Each component library includes its own Storybook:
+
 - 🅰️ **Angular Storybook**: Interactive Angular component playground
-- ⚛️ **React Storybook**: Interactive React component playground  
+- ⚛️ **React Storybook**: Interactive React component playground
 - 🟢 **Vue Storybook**: Interactive Vue component playground
 
 ### Shared Configurations
@@ -58,6 +59,7 @@ npm run dev
 ```
 
 This starts:
+
 - React Storybook on `http://localhost:6006`
 - Vue Storybook on `http://localhost:6007`
 - Angular Storybook on `http://localhost:6008`
@@ -75,7 +77,7 @@ npm run build
 # Build only React components
 turbo build --filter=@quanta-kit/react
 
-# Build only Vue components  
+# Build only Vue components
 turbo build --filter=@quanta-kit/vue
 
 # Build only Angular components
@@ -118,7 +120,7 @@ npm install @quanta-kit/angular
 #### React
 
 ```tsx
-import { Button, Card, Input } from '@quanta-kit/react';
+import { Button, Card, Input } from "@quanta-kit/react";
 
 function App() {
   return (
@@ -141,23 +143,23 @@ function App() {
 </template>
 
 <script setup>
-import { QuantaCard, QuantaInput, QuantaButton } from '@quanta-kit/vue';
+import { QuantaCard, QuantaInput, QuantaButton } from "@quanta-kit/vue";
 </script>
 ```
 
 #### Angular
 
 ```typescript
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   template: `
     <quanta-card>
       <quanta-input placeholder="Enter your name"></quanta-input>
       <quanta-button variant="primary">Submit</quanta-button>
     </quanta-card>
-  `
+  `,
 })
 export class AppComponent {}
 ```
@@ -167,11 +169,13 @@ export class AppComponent {}
 ### Making Changes
 
 1. **Create a feature branch**:
+
    ```bash
    git checkout -b feature/new-component
    ```
 
 2. **Make your changes** and add a changeset:
+
    ```bash
    npm run changeset
    ```
@@ -186,6 +190,7 @@ export class AppComponent {}
 ### Staging Deployment
 
 1. **Merge to staging branch**:
+
    ```bash
    git checkout monorepo-release
    git merge feature/new-component
@@ -197,6 +202,7 @@ export class AppComponent {}
 ### Production Release
 
 1. **Merge to main**:
+
    ```bash
    git checkout main
    git merge monorepo-release
@@ -211,11 +217,13 @@ export class AppComponent {}
 ## 🌐 Live Documentation
 
 ### Storybooks (Production)
+
 - 🅰️ **Angular**: [View Angular Storybook](https://your-username.github.io/quanta-kit-design-system/angular/)
 - ⚛️ **React**: [View React Storybook](https://your-username.github.io/quanta-kit-design-system/react/)
 - 🟢 **Vue**: [View Vue Storybook](https://your-username.github.io/quanta-kit-design-system/vue/)
 
 ### Documentation Sites
+
 - **React Docs**: [View React Documentation](https://docs-react.vercel.app)
 - **Vue Docs**: [View Vue Documentation](https://docs-vue.vercel.app)
 - **Angular Docs**: [View Angular Documentation](https://docs-angular.vercel.app)
@@ -263,17 +271,17 @@ quanta-kit-design-system/
 
 ## 📋 Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start all development servers |
-| `npm run build` | Build all packages and apps |
-| `npm run lint` | Lint all packages |
-| `npm run check-types` | Run TypeScript type checking |
-| `npm run storybook` | Start all Storybooks |
-| `npm run build-storybook` | Build all Storybooks for production |
-| `npm run changeset` | Create a new changeset |
+| Script                     | Description                          |
+| -------------------------- | ------------------------------------ |
+| `npm run dev`              | Start all development servers        |
+| `npm run build`            | Build all packages and apps          |
+| `npm run lint`             | Lint all packages                    |
+| `npm run check-types`      | Run TypeScript type checking         |
+| `npm run storybook`        | Start all Storybooks                 |
+| `npm run build-storybook`  | Build all Storybooks for production  |
+| `npm run changeset`        | Create a new changeset               |
 | `npm run version-packages` | Version packages based on changesets |
-| `npm run release` | Publish packages to NPM |
+| `npm run release`          | Publish packages to NPM              |
 
 ## 🔧 Tools & Technologies
 
