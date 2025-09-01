@@ -1,0 +1,135 @@
+.qk-btn--primary {
+  background-color: #053889;
+  border: 1px solid #053889;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;  // hand cursor for buttons
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;// smooth transition for hover and active states
+
+  &:active:not(:disabled) {
+    background-color: #053889;
+    border-color: #053889;
+  }
+
+  &:disabled {// disabled state styles
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.qk-btn--delete{
+  background-color: #ed0909;
+  border: 1px solid #ed0909;
+  color:white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;  // hand cursor for buttons
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+&:hover:not(:disabled):not(.qk-btn--loading) {
+    background-color: #440101;// darker blue on hover
+    border-color: #440101;
+  }
+&:active:not(:disabled) {
+    background-color: #ed0909;
+    border-color: #ed0909;
+  }
+
+
+  /* Global state helpers */
+.qk-btn.qk-btn--disabled,
+.qk-btn.qk-btn--loading {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+}
+.qk-btn--edit{
+  background-color: #f2ff02;
+  border: 1px solid #f2ff02;
+  color:rgb(0, 0, 0);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;  // hand cursor for buttons
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  /* Global state helpers */
+.qk-btn.qk-btn--disabled,
+.qk-btn.qk-btn--loading {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+  &:disabled {// disabled state styles
+    opacity: 0.9;
+    cursor: not-allowed;
+  }
+}
+
+.qk-btn--info{
+  background-color: #14b0d3;
+  border: 1px solid #14b0d3;
+  color:rgb(0, 0, 0);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;  // hand cursor for buttons
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+&:hover:not(:disabled):not(.qk-btn--loading) {
+    background-color: #00d0ff;// darker blue on hover
+    border-color: #00d0ff;
+  }
+  /* Global state helpers */
+.qk-btn.qk-btn--disabled,
+.qk-btn.qk-btn--loading {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+  &:disabled {// disabled state styles
+    opacity: 0.9;
+    cursor: not-allowed;
+  }
+}
+.qk-btn-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: qk-btn-spin 1.5s linear infinite;
+}
+
+@keyframes qk-btn-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qk-btn {
+    transition: none;
+  }
+}
+.qk-btn--success{
+  background-color: #184a0a;
+  border: 1px solid #184a0a;
+  color:rgb(255, 255, 255);
+  padding: 0.5rem 3rem;
+  border-radius: 2rem;
+  
+  cursor: pointer;  // hand cursor for buttons
+  font-size: 14px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+&:hover:not(:disabled):not(.qk-btn--loading) {
+    background-color: #22c55e;// darker blue on hover
+    border-color: #22c55e;
+  } 
+}
+
