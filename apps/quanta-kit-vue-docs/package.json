@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --port 3002 --open",
     "build": "vue-cli-service build",
     "lint": "eslint . --ext .js,.vue,.ts --fix"
   },

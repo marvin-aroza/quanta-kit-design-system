@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "dev": "ng serve",
+    "dev": "ng serve --port 3003 --open",
     "build": "ng build",
     "build:firebase": "ng build --configuration production",
     "deploy:firebase": "firebase deploy --only hosting",
@@ -28,7 +28,6 @@
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
-    "firebase": "^12.1.0",
     "quanta-kit-angular": "file:../../packages/quanta-kit-angular/dist/quanta-kit",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -38,7 +37,6 @@
     "@angular/cli": "^20.1.3",
     "@angular/compiler-cli": "^20.1.0",
     "@types/jasmine": "~5.1.0",
-    "firebase-tools": "^13.20.2",
     "jasmine-core": "~5.8.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
