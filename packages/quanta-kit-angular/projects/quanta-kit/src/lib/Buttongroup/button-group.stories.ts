@@ -48,16 +48,36 @@ export const Simplebuttons: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Button group',
+        story: 'Simple button group',
       },
     },
   },
 };
 
 export const Buttonsizes: Story = {
+  args: {
+    size: 'xs',
+    disabled: false,
+    loading: false,
+  },
   render: () => ({
-    template: `<div>Button Sizes</div>`, // placeholder
+    template: `
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+    <qk-button-group size="xs" variant="primary">Primary</qk-button-group>
+    <qk-button-group size="sm" variant="edit">Edit</qk-button-group>
+    <qk-button-group size="md" variant="info">info</qk-button-group>
+    <qk-button-group size="lg" variant="delete">Delete</qk-button-group>
+    <qk-button-group size="xl" variant="default">Default</qk-button-group>
+     `, 
   }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Button sizes xs, sm, md, lg, xl',
+      },
+    },
+  },
+
 };
 
 export const Loadingbuttons: Story = {
@@ -72,6 +92,6 @@ export const Buttonicons: Story = {
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="white" viewBox="0 0 24 24">
     <path d="M20.285 6.709l-11.285 11.292-5.285-5.292 1.414-1.414 3.871 3.878 9.871-9.878z"/>
   </svg>
-  </qk-button-group>`, 
+  </qk-button-group>`,
   }),
 };

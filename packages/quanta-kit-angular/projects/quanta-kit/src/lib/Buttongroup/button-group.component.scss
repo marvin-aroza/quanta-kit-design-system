@@ -38,8 +38,6 @@
     background-color: #ed0909;
     border-color: #ed0909;
   }
-
-
   /* Global state helpers */
 .qk-btn.qk-btn--disabled,
 .qk-btn.qk-btn--loading {
@@ -94,6 +92,7 @@
     cursor: not-allowed;
   }
 }
+
 .qk-btn-spinner {
   display: inline-block;
   width: 1rem;
@@ -132,4 +131,28 @@
     border-color: #22c55e;
   } 
 }
+
+.qk-btn--xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 12px;
+}
+
+.qk-btn--sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 13px;
+}
+
+.qk-btn--md {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+}
+.qk-btn--lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 16px;
+}
+.qk-btn--xl {
+  padding: 1rem 2rem;
+  font-size: 18px;
+}
+
 

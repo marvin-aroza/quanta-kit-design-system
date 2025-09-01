@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { fn } from 'storybook/test';
-import { ButtonGroupComponent } from './button-group.component';
+import type { Meta, StoryObj } from "@storybook/angular";
+import { moduleMetadata } from "@storybook/angular";
+import { fn } from "storybook/test";
+import { ButtonGroupComponent } from "./button-group.component";
 
 const meta: Meta<ButtonGroupComponent> = {
-  title: 'Components/Buttongroup',
+  title: "Components/Buttongroup",
   component: ButtonGroupComponent,
   decorators: [
     moduleMetadata({
@@ -15,8 +15,8 @@ const meta: Meta<ButtonGroupComponent> = {
     disabled: false,
     loading: false,
     hideTextOnLoading: false,
-    ariaLabel: '',
-    testId: '',
+    ariaLabel: "",
+    testId: "",
     clicked: fn(),
     focused: fn(),
     blurred: fn(),
@@ -28,14 +28,13 @@ type Story = StoryObj<ButtonGroupComponent>;
 
 export const Buttongroup: Story = {
   args: {
-     variant: 'primary',
+    variant: "primary",
     disabled: false,
     loading: false,
   },
   render: (args) => ({
     props: args,
-    template: 
-    `<div class = "Container" style="display: flex; flex-wrap: wrap; gap: 8px; background: #d9d9d9ff; padding: 10px; border-radius: 10px; width:50%;">
+    template: `<div class = "Container" style="display: flex; flex-wrap: wrap; gap: 8px; background: #d9d9d9ff; padding: 10px; border-radius: 10px; width:50%;">
     <qk-button-group variant="primary">Primary</qk-button-group>
     <qk-button-group variant="delete">Delete</qk-button-group>
     <qk-button-group variant="edit">Edit</qk-button-group>
@@ -47,15 +46,14 @@ export const Buttongroup: Story = {
   </qk-button-group>
   </div>
 
-`
+`,
   }),
 
   parameters: {
-        docs: {
-            description: {
-                story: 'Button group'
-            }
-        }
-    }
+    docs: {
+      description: {
+        story: "Button group",
+      },
+    },
+  },
 };
-

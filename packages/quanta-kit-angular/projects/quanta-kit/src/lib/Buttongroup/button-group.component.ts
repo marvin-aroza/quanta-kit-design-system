@@ -17,7 +17,6 @@ export type ButtonVariant =
   | 'success';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-
 @Component({
   selector: 'qk-button-group',
   standalone: true,
