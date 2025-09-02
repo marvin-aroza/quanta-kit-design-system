@@ -68,7 +68,7 @@ export const Buttonsizes: Story = {
     <qk-button-group size="md" variant="info">info</qk-button-group>
     <qk-button-group size="lg" variant="delete">Delete</qk-button-group>
     <qk-button-group size="xl" variant="default">Default</qk-button-group>
-     `, 
+     `,
   }),
   parameters: {
     docs: {
@@ -77,13 +77,31 @@ export const Buttonsizes: Story = {
       },
     },
   },
-
 };
 
 export const Loadingbuttons: Story = {
+  args: {
+    loaderType: 'Loading',
+    disabled: false,
+    loading: true,
+  },
   render: () => ({
-    template: `<qk-button-group variant="primary" [loading]="true">Loading</qk-button-group>`, // placeholder
+    template: `<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+    <qk-button-group [loading]="true" loaderType="spinner">Loading</qk-button-group>
+    <qk-button-group [loading]="true" loaderType="spinner"></qk-button-group>
+    <qk-button-group [loading]="true" loaderType="dots">Loading</qk-button-group>
+    <qk-button-group [loading]="true" loaderType="dots"></qk-button-group>
+    <qk-button-group [loading]="true" loaderType="bar">Loading</qk-button-group>
+    <qk-button-group [loading]="true" loaderType="bar"></qk-button-group>
+`, // placeholder
   }),
+   parameters: {
+    docs: {
+      description: {
+        story: 'But Loading buttons with spinner, dots and bar loader',
+      },
+    },
+  },
 };
 
 export const Buttonicons: Story = {

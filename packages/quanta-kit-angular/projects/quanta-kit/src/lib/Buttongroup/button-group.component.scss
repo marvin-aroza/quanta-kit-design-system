@@ -155,4 +155,70 @@
   font-size: 18px;
 }
 
+/* Dots Loader */
+.qk-btn-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* space between dots */
+}
 
+.qk-btn-dots span {
+  width: 6px;
+  height: 6px;
+  background-color: currentColor; /* inherits text color */
+  border-radius: 50%; /* makes them circular */
+  display: inline-block;
+  animation: qk-bounce 0.6s infinite alternate;
+}
+
+.qk-btn-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.qk-btn-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes qk-bounce {
+  from {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.qk-btn-bar {
+  position: relative;
+  display: inline-block;
+  width: 40px;         /* length of the bar */
+  height: 4px;         /* thickness */
+  background: rgba(0, 0, 0, 0.1); /* faint track */
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.qk-btn-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40px;         /* start off-screen */
+  width: 40px;
+  height: 100%;
+  background-color: currentColor; /* uses button text color */
+  border-radius: 2px;
+  animation: qk-bar-fill 1.2s infinite linear;
+}
+
+@keyframes qk-bar-fill {
+  from {
+    left: -40px;
+    width: 40px;
+  }
+  to {
+    left: 100%;
+    width: 40px;
+  }
+}

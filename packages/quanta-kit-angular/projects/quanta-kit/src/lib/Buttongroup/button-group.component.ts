@@ -33,16 +33,29 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
       [attr.aria-pressed]="ariaPressed"
       [attr.data-testid]="testId"
     >
-      <span *ngIf="loading" class="qk-btn-spinner" aria-hidden="true"></span>
-      <ng-content select="[slot=icon-left]"></ng-content>
-      <span
-        class="qk-btn-content"
-        [class.qk-btn-content--hidden]="loading && hideTextOnLoading"
-      >
-        <ng-content></ng-content>
+       <ng-container *ngIf="loading">
+        <span *ngIf="loaderType === 'dots'" class="qk-btn-dots" aria-hidden="true">
+          <span></span><span></span><span></span>
       </span>
-      <ng-content select="[slot=icon-right]"></ng-content>
-    </button>
+
+      <span *ngIf="loaderType === 'bar'" class="qk-btn-bar" aria-hidden="true">
+          <span></span><span></span><span></span>
+      </span>
+
+      <span *ngIf="loaderType === 'spinner'" class="qk-btn-spinner" aria-hidden="true"></span>
+  </ng-container>
+
+  <ng-content select="[slot=icon-left]"></ng-content>
+
+  <span
+    class="qk-btn-content"
+    [class.qk-btn-content--hidden]="loading && hideTextOnLoading"
+  >
+    <ng-content></ng-content>
+  </span>
+
+  <ng-content select="[slot=icon-right]"></ng-content>
+  </button>
   `,
   styleUrls: ['./button-group.component.scss'], // ✅ now SCSS, not CSS
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +69,9 @@ export class ButtonGroupComponent {
 
   /** Button type attribute */
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
+
+  @Input() loaderType: 'spinner' | 'dots' | 'bar' | 'Loading' = 'spinner';
+
 
   /** Whether the button is disabled */
   @Input() disabled = false;
