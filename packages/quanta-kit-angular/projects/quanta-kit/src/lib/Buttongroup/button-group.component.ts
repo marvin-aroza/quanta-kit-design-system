@@ -7,12 +7,7 @@ import {
   Output,
 } from '@angular/core'; // Import necessary Angular core features
 
-export type ButtonVariant =
-  | 'primary'
-  | 'delete'
-  | 'edit'
-  | 'info'
-  | 'success';
+export type ButtonVariant = 'primary' | 'delete' | 'edit' | 'info' | 'success';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
