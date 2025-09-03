@@ -9,11 +9,13 @@
   [attr.aria-pressed]="ariaPressed"
   [attr.data-testid]="testId"
 >
-  <ng-container *ngIf="loading" >
-    <span *ngIf="loadingStyle === 'dots'" class="qk-btn-dots" aria-hidden="true"></span>
+  <ng-container *ngIf="loading">
+    <span *ngIf="loaderType === 'dots'" class="qk-btn-dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
     <span *ngIf="loaderType === 'bar'" class="qk-btn-bar" aria-hidden="true"></span>
-    <span *ngIf="loadingStyle === 'spinner'" class="qk-btn-spinner" aria-hidden="true"></span>
-  <ng-content select="[slot=icon-left]"></ng-content>
+    <span *ngIf="loaderType === 'spinner'" class="qk-btn-spinner" aria-hidden="true"></span>
+  </ng-container>
   <span class="qk-btn-content" [class.qk-btn-content--hidden]="loading && hideTextOnLoading">
     <ng-content></ng-content>
   </span>

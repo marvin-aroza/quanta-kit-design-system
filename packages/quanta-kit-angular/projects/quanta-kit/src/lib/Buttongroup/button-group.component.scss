@@ -34,16 +34,10 @@
     background-color: #440101;// darker blue on hover
     border-color: #440101;
   }
-&:active:not(:disabled) {
+&:active:not(:disabled):not(.qk-btn--loading){
     background-color: #ed0909;
     border-color: #ed0909;
   }
-  /* Global state helpers */
-.qk-btn.qk-btn--disabled,
-.qk-btn.qk-btn--loading {
-  pointer-events: none;
-  cursor: not-allowed;
-}
 
 }
 .qk-btn--edit{
@@ -56,17 +50,7 @@
   font-size: 14px;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
-  /* Global state helpers */
-.qk-btn.qk-btn--disabled,
-.qk-btn.qk-btn--loading {
-  pointer-events: none;
-  cursor: not-allowed;
-}
-  &:disabled {// disabled state styles
-    opacity: 0.9;
-    cursor: not-allowed;
   }
-}
 
 .qk-btn--info{
   background-color: #14b0d3;
@@ -81,16 +65,7 @@
     background-color: #00d0ff;// darker blue on hover
     border-color: #00d0ff;
   }
-  /* Global state helpers */
-.qk-btn.qk-btn--disabled,
-.qk-btn.qk-btn--loading {
-  pointer-events: none;
-  cursor: not-allowed;
-}
-  &:disabled {// disabled state styles
-    opacity: 0.9;
-    cursor: not-allowed;
-  }
+
 }
 
 .qk-btn-spinner {
@@ -115,12 +90,15 @@
   .qk-btn {
     transition: none;
   }
+.qk-btn-spinner {
+   animation: none;
+  }
 }
 .qk-btn--success{
   background-color: #184a0a;
   border: 1px solid #184a0a;
   color:rgb(255, 255, 255);
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 1rem;
   border-radius: 2rem;
   
   cursor: pointer;  // hand cursor for buttons
@@ -154,6 +132,13 @@
   padding: 1rem 2rem;
   font-size: 18px;
 }
+
+.qk-btn.qk-btn--disabled,
+.qk-btn.qk-btn--loading {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 
 /* Dots Loader */
 .qk-btn-dots {
@@ -222,3 +207,10 @@
     width: 40px;
   }
 }
+
+.qk-btn--full-width { width: 100%; }
+.qk-btn--rounded { border-radius: 9999px; }
+.qk-btn--square { border-radius: 0; }
+
+.qk-btn-content { display: inline-flex; align-items: center; }
+.qk-btn-content--hidden { visibility: hidden; }

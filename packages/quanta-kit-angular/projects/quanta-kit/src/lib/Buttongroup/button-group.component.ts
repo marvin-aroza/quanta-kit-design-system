@@ -12,8 +12,6 @@ export type ButtonVariant =
   | 'delete'
   | 'edit'
   | 'info'
-  | 'Default'
-  | 'loading'
   | 'success';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -77,7 +75,7 @@ export class ButtonGroupComponent {
   @Input() variant: ButtonVariant = 'primary';
 
   /** Button size */
-  @Input() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+  @Input() size: ButtonSize = 'md';
 
   /** Button type attribute */
   @Input() type: 'button' | 'submit' | 'reset' = 'button';

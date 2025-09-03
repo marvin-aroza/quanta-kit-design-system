@@ -32,8 +32,5 @@
     {
       "path": "./projects/quanta-kit/tsconfig.lib.json"
     },
-    {
-//      "path": "./projects/quanta-kit/tsconfig.spec.json"
-    }
   ]
 }
