@@ -13,7 +13,7 @@
     border-color: #053889;
   }
 
-  &:disabled {// disabled state styles
+  &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     pointer-events: none;
@@ -29,6 +29,12 @@
   cursor: pointer;  // hand cursor for buttons
   font-size: 14px;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+
+&:disabled {
+   opacity: 0.6;
+    cursor: not-allowed;
+   pointer-events: none;
+}
 
 &:hover:not(:disabled):not(.qk-btn--loading) {
     background-color: #440101;// darker blue on hover
@@ -93,6 +99,11 @@
 .qk-btn-spinner {
    animation: none;
   }
+
+  .qk-btn-dots span,
+  .qk-btn-bar::after {
+    animation: none;
+  }
 }
 .qk-btn--success{
   background-color: #184a0a;
@@ -108,6 +119,15 @@
     background-color: #22c55e;// darker blue on hover
     border-color: #22c55e;
   } 
+  &:active:not(:disabled):not(.qk-btn--loading) {
+    background-color: #166534;
+    border-color: #166534;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
 
 .qk-btn--xs {
@@ -132,13 +152,6 @@
   padding: 1rem 2rem;
   font-size: 18px;
 }
-
-.qk-btn.qk-btn--disabled,
-.qk-btn.qk-btn--loading {
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
 
 /* Dots Loader */
 .qk-btn-dots {
@@ -206,6 +219,12 @@
     left: 100%;
     width: 40px;
   }
+}
+
+.qk-btn.qk-btn--disabled,
+.qk-btn.qk-btn--loading {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .qk-btn--full-width { width: 100%; }

@@ -4,7 +4,7 @@ import { fn } from 'storybook/test';
 import { ButtonGroupComponent } from './button-group.component';
 
 const meta: Meta<ButtonGroupComponent> = {
-  title: 'Components/button-group',
+  title: 'Components/Button-group',
   component: ButtonGroupComponent,
   decorators: [
     moduleMetadata({

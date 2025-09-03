@@ -404,7 +404,7 @@
         },
         {
             "name": "ButtonGroupComponent",
-            "id": "component-ButtonGroupComponent-73afa5d22c70d7a989479b685bfd8c78a13300ad8389bfbb65231486c570552128291e462ff9cd010c3e2f2b4e1c3453a9998c2542e3a2d6805ee70e83e0d3c2",
+            "id": "component-ButtonGroupComponent-74c13bf9af2c931281e07c6f3b3e9453178effa106e5745f0e1b5164f1f004d464f5fa8ef0c7e5485d7b31c8049c1365d756207ac778e2720f7abe3e59233ee9",
             "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -429,7 +429,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nARIA label for accessibility",
                     "description": "<p>ARIA label for accessibility</p>\n",
-                    "line": 100,
+                    "line": 93,
                     "type": "string",
                     "decorators": []
                 },
@@ -440,7 +440,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nARIA pressed state for toggle buttons",
                     "description": "<p>ARIA pressed state for toggle buttons</p>\n",
-                    "line": 103,
+                    "line": 96,
                     "type": "boolean | null",
                     "decorators": []
                 },
@@ -451,7 +451,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nCustom CSS classes to apply",
                     "description": "<p>Custom CSS classes to apply</p>\n",
-                    "line": 97,
+                    "line": 90,
                     "type": "string",
                     "decorators": []
                 },
@@ -462,7 +462,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the button is disabled",
                     "description": "<p>Whether the button is disabled</p>\n",
-                    "line": 88,
+                    "line": 81,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -473,7 +473,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the button should take full width",
                     "description": "<p>Whether the button should take full width</p>\n",
-                    "line": 109,
+                    "line": 102,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -484,7 +484,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether to hide text content when loading",
                     "description": "<p>Whether to hide text content when loading</p>\n",
-                    "line": 94,
+                    "line": 87,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -493,7 +493,7 @@
                     "defaultValue": "'spinner'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 85,
+                    "line": 78,
                     "type": "\"spinner\" | \"dots\" | \"bar\" | \"Loading\"",
                     "decorators": []
                 },
@@ -504,7 +504,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the button is in loading state",
                     "description": "<p>Whether the button is in loading state</p>\n",
-                    "line": 91,
+                    "line": 84,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -515,7 +515,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the button has rounded corners",
                     "description": "<p>Whether the button has rounded corners</p>\n",
-                    "line": 112,
+                    "line": 105,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -526,8 +526,8 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nButton size",
                     "description": "<p>Button size</p>\n",
-                    "line": 80,
-                    "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+                    "line": 73,
+                    "type": "ButtonSize",
                     "decorators": []
                 },
                 {
@@ -537,7 +537,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nWhether the button has no border radius (square)",
                     "description": "<p>Whether the button has no border radius (square)</p>\n",
-                    "line": 115,
+                    "line": 108,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -548,7 +548,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nTest ID for testing purposes",
                     "description": "<p>Test ID for testing purposes</p>\n",
-                    "line": 106,
+                    "line": 99,
                     "type": "string",
                     "decorators": []
                 },
@@ -559,7 +559,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nButton type attribute",
                     "description": "<p>Button type attribute</p>\n",
-                    "line": 83,
+                    "line": 76,
                     "type": "\"button\" | \"submit\" | \"reset\"",
                     "decorators": []
                 },
@@ -570,7 +570,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nButton variant/style",
                     "description": "<p>Button variant/style</p>\n",
-                    "line": 77,
+                    "line": 70,
                     "type": "ButtonVariant",
                     "decorators": []
                 }
@@ -583,7 +583,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nBlur event emitter",
                     "description": "<p>Blur event emitter</p>\n",
-                    "line": 124,
+                    "line": 117,
                     "type": "EventEmitter"
                 },
                 {
@@ -593,7 +593,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nClick event emitter",
                     "description": "<p>Click event emitter</p>\n",
-                    "line": 118,
+                    "line": 111,
                     "type": "EventEmitter"
                 },
                 {
@@ -603,7 +603,7 @@
                     "deprecationMessage": "",
                     "rawdescription": "\nFocus event emitter",
                     "description": "<p>Focus event emitter</p>\n",
-                    "line": 121,
+                    "line": 114,
                     "type": "EventEmitter"
                 }
             ],
@@ -622,7 +622,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 154,
+                    "line": 147,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -650,7 +650,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 144,
+                    "line": 137,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -678,7 +678,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 150,
+                    "line": 143,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -708,11 +708,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common'; // Import CommonModule for Angular directives\nimport {\n  ChangeDetectionStrategy,\n  Component,\n  EventEmitter,\n  Input,\n  Output,\n} from '@angular/core'; // Import necessary Angular core features\n\nexport type ButtonVariant =\n  | 'primary'\n  | 'delete'\n  | 'edit'\n  | 'info'\n  | 'Default'\n  | 'loading'\n  | 'success';\nexport type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';\n\n@Component({\n  selector: 'qk-button-group',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    <button\n      [type]=\"type\"\n      [disabled]=\"disabled || loading\"\n      [class]=\"buttonClasses\"\n      (click)=\"handleClick($event)\"\n      (focus)=\"handleFocus($event)\"\n      (blur)=\"handleBlur($event)\"\n      [attr.aria-label]=\"ariaLabel\"\n      [attr.aria-pressed]=\"ariaPressed\"\n      [attr.data-testid]=\"testId\"\n    >\n      <ng-container *ngIf=\"loading\">\n        <span\n          *ngIf=\"loaderType === 'dots'\"\n          class=\"qk-btn-dots\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'bar'\"\n          class=\"qk-btn-bar\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'spinner'\"\n          class=\"qk-btn-spinner\"\n          aria-hidden=\"true\"\n        ></span>\n      </ng-container>\n\n      <ng-content select=\"[slot=icon-left]\"></ng-content>\n\n      <span\n        class=\"qk-btn-content\"\n        [class.qk-btn-content--hidden]=\"loading && hideTextOnLoading\"\n      >\n        <ng-content></ng-content>\n      </span>\n\n      <ng-content select=\"[slot=icon-right]\"></ng-content>\n    </button>\n  `,\n  styleUrls: ['./button-group.component.scss'], // ✅ now SCSS, not CSS\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class ButtonGroupComponent {\n  /** Button variant/style */\n  @Input() variant: ButtonVariant = 'primary';\n\n  /** Button size */\n  @Input() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';\n\n  /** Button type attribute */\n  @Input() type: 'button' | 'submit' | 'reset' = 'button';\n\n  @Input() loaderType: 'spinner' | 'dots' | 'bar' | 'Loading' = 'spinner';\n\n  /** Whether the button is disabled */\n  @Input() disabled = false;\n\n  /** Whether the button is in loading state */\n  @Input() loading = false;\n\n  /** Whether to hide text content when loading */\n  @Input() hideTextOnLoading = false;\n\n  /** Custom CSS classes to apply */\n  @Input() customClass = '';\n\n  /** ARIA label for accessibility */\n  @Input() ariaLabel = '';\n\n  /** ARIA pressed state for toggle buttons */\n  @Input() ariaPressed: boolean | null = null;\n\n  /** Test ID for testing purposes */\n  @Input() testId = '';\n\n  /** Whether the button should take full width */\n  @Input() fullWidth = false;\n\n  /** Whether the button has rounded corners */\n  @Input() rounded = false;\n\n  /** Whether the button has no border radius (square) */\n  @Input() square = false;\n\n  /** Click event emitter */\n  @Output() clicked = new EventEmitter<MouseEvent>();\n\n  /** Focus event emitter */\n  @Output() focused = new EventEmitter<FocusEvent>();\n\n  /** Blur event emitter */\n  @Output() blurred = new EventEmitter<FocusEvent>();\n\n  get buttonClasses(): string {\n    const classes = [\n      'qk-btn',\n      `qk-btn--${this.variant}`,\n      `qk-btn--${this.size}`,\n    ];\n\n    if (this.loading) classes.push('qk-btn--loading');\n    if (this.disabled) classes.push('qk-btn--disabled');\n    if (this.customClass) classes.push(this.customClass);\n\n    if (this.fullWidth) classes.push('qk-btn--full-width');\n    if (this.rounded) classes.push('qk-btn--rounded');\n    if (this.square) classes.push('qk-btn--square');\n\n    return classes.join(' ');\n  }\n\n  handleClick(event: MouseEvent): void {\n    if (!this.disabled && !this.loading) {\n      this.clicked.emit(event);\n    }\n  }\n\n  handleFocus(event: FocusEvent): void {\n    this.focused.emit(event);\n  }\n\n  handleBlur(event: FocusEvent): void {\n    this.blurred.emit(event);\n  }\n}\n",
+            "sourceCode": "import { CommonModule } from '@angular/common'; // Import CommonModule for Angular directives\nimport {\n  ChangeDetectionStrategy,\n  Component,\n  EventEmitter,\n  Input,\n  Output,\n} from '@angular/core'; // Import necessary Angular core features\n\nexport type ButtonVariant = 'primary' | 'delete' | 'edit' | 'info' | 'success';\nexport type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';\n\n@Component({\n  selector: 'qk-button-group',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    <button\n      [type]=\"type\"\n      [disabled]=\"disabled || loading\"\n      [class]=\"buttonClasses\"\n      (click)=\"handleClick($event)\"\n      (focus)=\"handleFocus($event)\"\n      (blur)=\"handleBlur($event)\"\n      [attr.aria-label]=\"ariaLabel\"\n      [attr.aria-pressed]=\"ariaPressed\"\n      [attr.data-testid]=\"testId\"\n    >\n      <ng-container *ngIf=\"loading\">\n        <span\n          *ngIf=\"loaderType === 'dots'\"\n          class=\"qk-btn-dots\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'bar'\"\n          class=\"qk-btn-bar\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'spinner'\"\n          class=\"qk-btn-spinner\"\n          aria-hidden=\"true\"\n        ></span>\n      </ng-container>\n\n      <ng-content select=\"[slot=icon-left]\"></ng-content>\n\n      <span\n        class=\"qk-btn-content\"\n        [class.qk-btn-content--hidden]=\"loading && hideTextOnLoading\"\n      >\n        <ng-content></ng-content>\n      </span>\n\n      <ng-content select=\"[slot=icon-right]\"></ng-content>\n    </button>\n  `,\n  styleUrls: ['./button-group.component.scss'], // ✅ now SCSS, not CSS\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class ButtonGroupComponent {\n  /** Button variant/style */\n  @Input() variant: ButtonVariant = 'primary';\n\n  /** Button size */\n  @Input() size: ButtonSize = 'md';\n\n  /** Button type attribute */\n  @Input() type: 'button' | 'submit' | 'reset' = 'button';\n\n  @Input() loaderType: 'spinner' | 'dots' | 'bar' | 'Loading' = 'spinner';\n\n  /** Whether the button is disabled */\n  @Input() disabled = false;\n\n  /** Whether the button is in loading state */\n  @Input() loading = false;\n\n  /** Whether to hide text content when loading */\n  @Input() hideTextOnLoading = false;\n\n  /** Custom CSS classes to apply */\n  @Input() customClass = '';\n\n  /** ARIA label for accessibility */\n  @Input() ariaLabel = '';\n\n  /** ARIA pressed state for toggle buttons */\n  @Input() ariaPressed: boolean | null = null;\n\n  /** Test ID for testing purposes */\n  @Input() testId = '';\n\n  /** Whether the button should take full width */\n  @Input() fullWidth = false;\n\n  /** Whether the button has rounded corners */\n  @Input() rounded = false;\n\n  /** Whether the button has no border radius (square) */\n  @Input() square = false;\n\n  /** Click event emitter */\n  @Output() clicked = new EventEmitter<MouseEvent>();\n\n  /** Focus event emitter */\n  @Output() focused = new EventEmitter<FocusEvent>();\n\n  /** Blur event emitter */\n  @Output() blurred = new EventEmitter<FocusEvent>();\n\n  get buttonClasses(): string {\n    const classes = [\n      'qk-btn',\n      `qk-btn--${this.variant}`,\n      `qk-btn--${this.size}`,\n    ];\n\n    if (this.loading) classes.push('qk-btn--loading');\n    if (this.disabled) classes.push('qk-btn--disabled');\n    if (this.customClass) classes.push(this.customClass);\n\n    if (this.fullWidth) classes.push('qk-btn--full-width');\n    if (this.rounded) classes.push('qk-btn--rounded');\n    if (this.square) classes.push('qk-btn--square');\n\n    return classes.join(' ');\n  }\n\n  handleClick(event: MouseEvent): void {\n    if (!this.disabled && !this.loading) {\n      this.clicked.emit(event);\n    }\n  }\n\n  handleFocus(event: FocusEvent): void {\n    this.focused.emit(event);\n  }\n\n  handleBlur(event: FocusEvent): void {\n    this.blurred.emit(event);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".qk-btn--primary {\r\n  background-color: #053889;\r\n  border: 1px solid #053889;\r\n  color: #ffffff;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;// smooth transition for hover and active states\r\n\r\n  &:active:not(:disabled) {\r\n    background-color: #053889;\r\n    border-color: #053889;\r\n  }\r\n\r\n  &:disabled {// disabled state styles\r\n    opacity: 0.6;\r\n    cursor: not-allowed;\r\n    pointer-events: none;\r\n  }\r\n}\r\n\r\n.qk-btn--delete{\r\n  background-color: #ed0909;\r\n  border: 1px solid #ed0909;\r\n  color:white;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #440101;// darker blue on hover\r\n    border-color: #440101;\r\n  }\r\n&:active:not(:disabled) {\r\n    background-color: #ed0909;\r\n    border-color: #ed0909;\r\n  }\r\n  /* Global state helpers */\r\n.qk-btn.qk-btn--disabled,\r\n.qk-btn.qk-btn--loading {\r\n  pointer-events: none;\r\n  cursor: not-allowed;\r\n}\r\n\r\n}\r\n.qk-btn--edit{\r\n  background-color: #f2ff02;\r\n  border: 1px solid #f2ff02;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n  /* Global state helpers */\r\n.qk-btn.qk-btn--disabled,\r\n.qk-btn.qk-btn--loading {\r\n  pointer-events: none;\r\n  cursor: not-allowed;\r\n}\r\n  &:disabled {// disabled state styles\r\n    opacity: 0.9;\r\n    cursor: not-allowed;\r\n  }\r\n}\r\n\r\n.qk-btn--info{\r\n  background-color: #14b0d3;\r\n  border: 1px solid #14b0d3;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #00d0ff;// darker blue on hover\r\n    border-color: #00d0ff;\r\n  }\r\n  /* Global state helpers */\r\n.qk-btn.qk-btn--disabled,\r\n.qk-btn.qk-btn--loading {\r\n  pointer-events: none;\r\n  cursor: not-allowed;\r\n}\r\n  &:disabled {// disabled state styles\r\n    opacity: 0.9;\r\n    cursor: not-allowed;\r\n  }\r\n}\r\n\r\n.qk-btn-spinner {\r\n  display: inline-block;\r\n  width: 1rem;\r\n  height: 1rem;\r\n  border: 2px solid transparent;\r\n  border-top: 2px solid currentColor;\r\n  border-radius: 50%;\r\n  animation: qk-btn-spin 1.5s linear infinite;\r\n}\r\n\r\n@keyframes qk-btn-spin {\r\n  0% {\r\n    transform: rotate(0deg);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n@media (prefers-reduced-motion: reduce) {\r\n  .qk-btn {\r\n    transition: none;\r\n  }\r\n}\r\n.qk-btn--success{\r\n  background-color: #184a0a;\r\n  border: 1px solid #184a0a;\r\n  color:rgb(255, 255, 255);\r\n  padding: 0.5rem 3rem;\r\n  border-radius: 2rem;\r\n  \r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #22c55e;// darker blue on hover\r\n    border-color: #22c55e;\r\n  } \r\n}\r\n\r\n.qk-btn--xs {\r\n  padding: 0.25rem 0.5rem;\r\n  font-size: 12px;\r\n}\r\n\r\n.qk-btn--sm {\r\n  padding: 0.375rem 0.75rem;\r\n  font-size: 13px;\r\n}\r\n\r\n.qk-btn--md {\r\n  padding: 0.5rem 1rem;\r\n  font-size: 14px;\r\n}\r\n.qk-btn--lg {\r\n  padding: 0.75rem 1.5rem;\r\n  font-size: 16px;\r\n}\r\n.qk-btn--xl {\r\n  padding: 1rem 2rem;\r\n  font-size: 18px;\r\n}\r\n\r\n/* Dots Loader */\r\n.qk-btn-dots {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 4px; /* space between dots */\r\n}\r\n\r\n.qk-btn-dots span {\r\n  width: 6px;\r\n  height: 6px;\r\n  background-color: currentColor; /* inherits text color */\r\n  border-radius: 50%; /* makes them circular */\r\n  display: inline-block;\r\n  animation: qk-bounce 0.6s infinite alternate;\r\n}\r\n\r\n.qk-btn-dots span:nth-child(2) {\r\n  animation-delay: 0.2s;\r\n}\r\n.qk-btn-dots span:nth-child(3) {\r\n  animation-delay: 0.4s;\r\n}\r\n\r\n@keyframes qk-bounce {\r\n  from {\r\n    transform: translateY(0);\r\n    opacity: 0.6;\r\n  }\r\n  to {\r\n    transform: translateY(-4px);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n.qk-btn-bar {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 40px;         /* length of the bar */\r\n  height: 4px;         /* thickness */\r\n  background: rgba(0, 0, 0, 0.1); /* faint track */\r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n}\r\n\r\n.qk-btn-bar::after {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: -40px;         /* start off-screen */\r\n  width: 40px;\r\n  height: 100%;\r\n  background-color: currentColor; /* uses button text color */\r\n  border-radius: 2px;\r\n  animation: qk-bar-fill 1.2s infinite linear;\r\n}\r\n\r\n@keyframes qk-bar-fill {\r\n  from {\r\n    left: -40px;\r\n    width: 40px;\r\n  }\r\n  to {\r\n    left: 100%;\r\n    width: 40px;\r\n  }\r\n}\r\n",
+                    "data": ".qk-btn--primary {\r\n  background-color: #053889;\r\n  border: 1px solid #053889;\r\n  color: #ffffff;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;// smooth transition for hover and active states\r\n\r\n  &:active:not(:disabled) {\r\n    background-color: #053889;\r\n    border-color: #053889;\r\n  }\r\n\r\n  &:disabled {// disabled state styles\r\n    opacity: 0.6;\r\n    cursor: not-allowed;\r\n    pointer-events: none;\r\n  }\r\n}\r\n\r\n.qk-btn--delete{\r\n  background-color: #ed0909;\r\n  border: 1px solid #ed0909;\r\n  color:white;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #440101;// darker blue on hover\r\n    border-color: #440101;\r\n  }\r\n&:active:not(:disabled):not(.qk-btn--loading){\r\n    background-color: #ed0909;\r\n    border-color: #ed0909;\r\n  }\r\n\r\n}\r\n.qk-btn--edit{\r\n  background-color: #f2ff02;\r\n  border: 1px solid #f2ff02;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n  }\r\n\r\n.qk-btn--info{\r\n  background-color: #14b0d3;\r\n  border: 1px solid #14b0d3;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #00d0ff;// darker blue on hover\r\n    border-color: #00d0ff;\r\n  }\r\n\r\n}\r\n\r\n.qk-btn-spinner {\r\n  display: inline-block;\r\n  width: 1rem;\r\n  height: 1rem;\r\n  border: 2px solid transparent;\r\n  border-top: 2px solid currentColor;\r\n  border-radius: 50%;\r\n  animation: qk-btn-spin 1.5s linear infinite;\r\n}\r\n\r\n@keyframes qk-btn-spin {\r\n  0% {\r\n    transform: rotate(0deg);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n@media (prefers-reduced-motion: reduce) {\r\n  .qk-btn {\r\n    transition: none;\r\n  }\r\n.qk-btn-spinner {\r\n   animation: none;\r\n  }\r\n}\r\n.qk-btn--success{\r\n  background-color: #184a0a;\r\n  border: 1px solid #184a0a;\r\n  color:rgb(255, 255, 255);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 2rem;\r\n  \r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #22c55e;// darker blue on hover\r\n    border-color: #22c55e;\r\n  } \r\n}\r\n\r\n.qk-btn--xs {\r\n  padding: 0.25rem 0.5rem;\r\n  font-size: 12px;\r\n}\r\n\r\n.qk-btn--sm {\r\n  padding: 0.375rem 0.75rem;\r\n  font-size: 13px;\r\n}\r\n\r\n.qk-btn--md {\r\n  padding: 0.5rem 1rem;\r\n  font-size: 14px;\r\n}\r\n.qk-btn--lg {\r\n  padding: 0.75rem 1.5rem;\r\n  font-size: 16px;\r\n}\r\n.qk-btn--xl {\r\n  padding: 1rem 2rem;\r\n  font-size: 18px;\r\n}\r\n\r\n.qk-btn.qk-btn--disabled,\r\n.qk-btn.qk-btn--loading {\r\n  pointer-events: none;\r\n  cursor: not-allowed;\r\n}\r\n\r\n\r\n/* Dots Loader */\r\n.qk-btn-dots {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 4px; \r\n}\r\n\r\n.qk-btn-dots span {\r\n  width: 6px;\r\n  height: 6px;\r\n  background-color: currentColor; \r\n  border-radius: 50%; \r\n  display: inline-block; \r\n  animation: qk-bounce 0.6s infinite alternate;\r\n}\r\n\r\n.qk-btn-dots span:nth-child(2) {\r\n  animation-delay: 0.2s;\r\n}\r\n.qk-btn-dots span:nth-child(3) {\r\n  animation-delay: 0.4s;\r\n}\r\n\r\n@keyframes qk-bounce {\r\n  from {\r\n    transform: translateY(0);\r\n    opacity: 0.6;\r\n  }\r\n  to {\r\n    transform: translateY(-4px);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n.qk-btn-bar {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 40px;         \r\n  height: 4px;         \r\n  background: rgba(0, 0, 0, 0.1); \r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n}\r\n\r\n.qk-btn-bar::after {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: -40px;        \r\n  width: 40px;\r\n  height: 100%;\r\n  background-color: currentColor; \r\n  border-radius: 2px;\r\n  animation: qk-bar-fill 1.2s infinite linear;\r\n}\r\n\r\n@keyframes qk-bar-fill {\r\n  from {\r\n    left: -40px;\r\n    width: 40px;\r\n  }\r\n  to {\r\n    left: 100%;\r\n    width: 40px;\r\n  }\r\n}\r\n\r\n.qk-btn--full-width { width: 100%; }\r\n.qk-btn--rounded { border-radius: 9999px; }\r\n.qk-btn--square { border-radius: 0; }\r\n\r\n.qk-btn-content { display: inline-flex; align-items: center; }\r\n.qk-btn-content--hidden { visibility: hidden; }\r\n",
                     "styleUrl": "./button-group.component.scss"
                 }
             ],
@@ -725,7 +725,7 @@
                         "name": "buttonClasses",
                         "type": "string",
                         "returnType": "string",
-                        "line": 126
+                        "line": 119
                     }
                 }
             }
@@ -1776,7 +1776,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  render: () => ({\n    template: `<qk-button-group variant=\"success\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"20\" fill=\"white\" viewBox=\"0 0 24 24\">\n    <path d=\"M20.285 6.709l-11.285 11.292-5.285-5.292 1.414-1.414 3.871 3.878 9.871-9.878z\"/>\n  </svg>\n  </qk-button-group>`,\n  }),\n}"
+                "defaultValue": "{\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"edit\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"info\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"delete\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"default\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M17 10v1.126c.367.095.714.24 1.032.428l.796-.797 1.415 1.415-.797.796c.188.318.333.665.428 1.032H21v2h-1.126c-.095.367-.24.714-.428 1.032l.797.796-1.415 1.415-.796-.797a3.979 3.979 0 0 1-1.032.428V20h-2v-1.126a3.977 3.977 0 0 1-1.032-.428l-.796.797-1.415-1.415.797-.796A3.975 3.975 0 0 1 12.126 16H11v-2h1.126c.095-.367.24-.714.428-1.032l-.797-.796 1.415-1.415.796.797A3.977 3.977 0 0 1 15 11.126V10h2Zm.406 3.578.016.016c.354.358.574.85.578 1.392v.028a2 2 0 0 1-3.409 1.406l-.01-.012a2 2 0 0 1 2.826-2.83ZM5 8a4 4 0 1 1 7.938.703 7.029 7.029 0 0 0-3.235 3.235A4 4 0 0 1 5 8Zm4.29 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h6.101A6.979 6.979 0 0 1 9 15c0-.695.101-1.366.29-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    </div> `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button icon group',\n      },\n    },\n  },\n}"
             },
             {
                 "name": "Buttonsizes",
@@ -1866,17 +1866,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'But Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<ButtonComponent>",
-                "defaultValue": "{\n  title: 'Components/Button',\n  component: ButtonComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\n\n## Features\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\n- Various sizes (xs, sm, md, lg, xl)\n- Loading state with spinner\n- Disabled state\n- Full width option\n- Rounded and square variations\n- Accessibility support with ARIA attributes\n- Event emissions for click, focus, and blur\n- Icon slot support (left and right)\n- Keyboard navigation support\n\n## Usage\n\\`\\`\\`html\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\n  Click me\n</qk-button>\n\\`\\`\\`\n\n## With Icons\n\\`\\`\\`html\n<qk-button variant=\"primary\">\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\n  Save Changes\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\n</qk-button>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: [\n        'primary',\n        'secondary',\n        'success',\n        'danger',\n        'warning',\n        'info',\n        'light',\n        'dark',\n        'outline-primary',\n        'outline-secondary',\n        'outline-success',\n        'outline-danger',\n        'outline-warning',\n        'outline-info',\n        'outline-light',\n        'outline-dark',\n      ] as ButtonVariant[],\n      description: 'The visual style variant of the button',\n    },\n    size: {\n      control: 'select',\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\n      description: 'The size of the button',\n    },\n    type: {\n      control: 'select',\n      options: ['button', 'submit', 'reset'] as ButtonType[],\n      description: 'The HTML type attribute of the button',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the button is disabled',\n    },\n    loading: {\n      control: 'boolean',\n      description: 'Whether the button is in loading state',\n    },\n    hideTextOnLoading: {\n      control: 'boolean',\n      description: 'Whether to hide text content when loading',\n    },\n    fullWidth: {\n      control: 'boolean',\n      description: 'Whether the button should take full width',\n    },\n    rounded: {\n      control: 'boolean',\n      description: 'Whether the button has rounded corners',\n    },\n    square: {\n      control: 'boolean',\n      description: 'Whether the button has no border radius',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes to apply',\n    },\n    ariaLabel: {\n      control: 'text',\n      description: 'ARIA label for accessibility',\n    },\n    testId: {\n      control: 'text',\n      description: 'Test ID for testing purposes',\n    },\n    clicked: {\n      action: 'clicked',\n      description: 'Event emitted when button is clicked',\n    },\n    focused: {\n      action: 'focused',\n      description: 'Event emitted when button receives focus',\n    },\n    blurred: {\n      action: 'blurred',\n      description: 'Event emitted when button loses focus',\n    },\n  },\n  args: {\n    clicked: fn(),\n    focused: fn(),\n    blurred: fn(),\n  },\n}"
+                "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
             },
             {
                 "name": "meta",
@@ -1887,6 +1877,16 @@
                 "deprecationMessage": "",
                 "type": "Meta<ButtonGroupComponent>",
                 "defaultValue": "{\n  title: 'Components/button-group',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n  args: {\n    disabled: false,\n    loading: false,\n    hideTextOnLoading: false,\n    ariaLabel: '',\n    testId: '',\n    clicked: fn(),\n    focused: fn(),\n    blurred: fn(),\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<ButtonComponent>",
+                "defaultValue": "{\n  title: 'Components/Button',\n  component: ButtonComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Button component is a versatile UI element that supports various styles, sizes, and states.\nIt provides comprehensive functionality including loading states, accessibility features, and customization options.\n\n## Features\n- Multiple variants (primary, secondary, success, danger, warning, info, light, dark, and outline versions)\n- Various sizes (xs, sm, md, lg, xl)\n- Loading state with spinner\n- Disabled state\n- Full width option\n- Rounded and square variations\n- Accessibility support with ARIA attributes\n- Event emissions for click, focus, and blur\n- Icon slot support (left and right)\n- Keyboard navigation support\n\n## Usage\n\\`\\`\\`html\n<qk-button variant=\"primary\" size=\"md\" (clicked)=\"handleClick($event)\">\n  Click me\n</qk-button>\n\\`\\`\\`\n\n## With Icons\n\\`\\`\\`html\n<qk-button variant=\"primary\">\n  <svg slot=\"icon-left\" width=\"16\" height=\"16\">...</svg>\n  Save Changes\n  <svg slot=\"icon-right\" width=\"16\" height=\"16\">...</svg>\n</qk-button>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: [\n        'primary',\n        'secondary',\n        'success',\n        'danger',\n        'warning',\n        'info',\n        'light',\n        'dark',\n        'outline-primary',\n        'outline-secondary',\n        'outline-success',\n        'outline-danger',\n        'outline-warning',\n        'outline-info',\n        'outline-light',\n        'outline-dark',\n      ] as ButtonVariant[],\n      description: 'The visual style variant of the button',\n    },\n    size: {\n      control: 'select',\n      options: ['xs', 'sm', 'md', 'lg', 'xl'] as ButtonSize[],\n      description: 'The size of the button',\n    },\n    type: {\n      control: 'select',\n      options: ['button', 'submit', 'reset'] as ButtonType[],\n      description: 'The HTML type attribute of the button',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the button is disabled',\n    },\n    loading: {\n      control: 'boolean',\n      description: 'Whether the button is in loading state',\n    },\n    hideTextOnLoading: {\n      control: 'boolean',\n      description: 'Whether to hide text content when loading',\n    },\n    fullWidth: {\n      control: 'boolean',\n      description: 'Whether the button should take full width',\n    },\n    rounded: {\n      control: 'boolean',\n      description: 'Whether the button has rounded corners',\n    },\n    square: {\n      control: 'boolean',\n      description: 'Whether the button has no border radius',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes to apply',\n    },\n    ariaLabel: {\n      control: 'text',\n      description: 'ARIA label for accessibility',\n    },\n    testId: {\n      control: 'text',\n      description: 'Test ID for testing purposes',\n    },\n    clicked: {\n      action: 'clicked',\n      description: 'Event emitted when button is clicked',\n    },\n    focused: {\n      action: 'focused',\n      description: 'Event emitted when button receives focus',\n    },\n    blurred: {\n      action: 'blurred',\n      description: 'Event emitted when button loses focus',\n    },\n  },\n  args: {\n    clicked: fn(),\n    focused: fn(),\n    blurred: fn(),\n  },\n}"
             },
             {
                 "name": "meta",
@@ -1986,10 +1986,10 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
-                "file": "projects/quanta-kit/src/lib/Button/button.component.ts",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "description": "<p>Supported button sizes</p>\n",
+                "description": "",
                 "kind": 192
             },
             {
@@ -1997,10 +1997,10 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
+                "file": "projects/quanta-kit/src/lib/Button/button.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "description": "",
+                "description": "<p>Supported button sizes</p>\n",
                 "kind": 192
             },
             {
@@ -2018,22 +2018,22 @@
                 "name": "ButtonVariant",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "\"primary\" | \"secondary\" | \"success\" | \"danger\" | \"warning\" | \"info\" | \"light\" | \"dark\" | \"outline-primary\" | \"outline-secondary\" | \"outline-success\" | \"outline-danger\" | \"outline-warning\" | \"outline-info\" | \"outline-light\" | \"outline-dark\"",
-                "file": "projects/quanta-kit/src/lib/Button/button.component.ts",
+                "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"success\"",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "description": "<p>Supported button visual variants</p>\n",
+                "description": "",
                 "kind": 192
             },
             {
                 "name": "ButtonVariant",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"Default\" | \"loading\" | \"success\"",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
+                "rawtype": "\"primary\" | \"secondary\" | \"success\" | \"danger\" | \"warning\" | \"info\" | \"light\" | \"dark\" | \"outline-primary\" | \"outline-secondary\" | \"outline-success\" | \"outline-danger\" | \"outline-warning\" | \"outline-info\" | \"outline-light\" | \"outline-dark\"",
+                "file": "projects/quanta-kit/src/lib/Button/button.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "description": "",
+                "description": "<p>Supported button visual variants</p>\n",
                 "kind": 192
             },
             {
@@ -2073,8 +2073,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonComponent>",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "rawtype": "StoryObj<ButtonGroupComponent>",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2084,8 +2084,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonGroupComponent>",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "rawtype": "StoryObj<ButtonComponent>",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2282,7 +2282,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  render: () => ({\n    template: `<qk-button-group variant=\"success\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"20\" fill=\"white\" viewBox=\"0 0 24 24\">\n    <path d=\"M20.285 6.709l-11.285 11.292-5.285-5.292 1.414-1.414 3.871 3.878 9.871-9.878z\"/>\n  </svg>\n  </qk-button-group>`,\n  }),\n}"
+                    "defaultValue": "{\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"edit\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"info\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"delete\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"default\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M17 10v1.126c.367.095.714.24 1.032.428l.796-.797 1.415 1.415-.797.796c.188.318.333.665.428 1.032H21v2h-1.126c-.095.367-.24.714-.428 1.032l.797.796-1.415 1.415-.796-.797a3.979 3.979 0 0 1-1.032.428V20h-2v-1.126a3.977 3.977 0 0 1-1.032-.428l-.796.797-1.415-1.415.797-.796A3.975 3.975 0 0 1 12.126 16H11v-2h1.126c.095-.367.24-.714.428-1.032l-.797-.796 1.415-1.415.796.797A3.977 3.977 0 0 1 15 11.126V10h2Zm.406 3.578.016.016c.354.358.574.85.578 1.392v.028a2 2 0 0 1-3.409 1.406l-.01-.012a2 2 0 0 1 2.826-2.83ZM5 8a4 4 0 1 1 7.938.703 7.029 7.029 0 0 0-3.235 3.235A4 4 0 0 1 5 8Zm4.29 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h6.101A6.979 6.979 0 0 1 9 15c0-.695.101-1.366.29-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    </div> `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button icon group',\n      },\n    },\n  },\n}"
                 },
                 {
                     "name": "Buttonsizes",
@@ -2302,7 +2302,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'But Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
+                    "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
                 },
                 {
                     "name": "meta",
@@ -2391,6 +2391,30 @@
         "groupedFunctions": {},
         "groupedEnumerations": {},
         "groupedTypeAliases": {
+            "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts": [
+                {
+                    "name": "ButtonSize",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 192
+                },
+                {
+                    "name": "ButtonVariant",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"success\"",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 192
+                }
+            ],
             "projects/quanta-kit/src/lib/Button/button.component.ts": [
                 {
                     "name": "ButtonSize",
@@ -2423,30 +2447,6 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "<p>Supported button visual variants</p>\n",
-                    "kind": 192
-                }
-            ],
-            "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts": [
-                {
-                    "name": "ButtonSize",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 192
-                },
-                {
-                    "name": "ButtonVariant",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"Default\" | \"loading\" | \"success\"",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
                     "kind": 192
                 }
             ],
@@ -2485,19 +2485,6 @@
                     "kind": 192
                 }
             ],
-            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<ButtonComponent>",
-                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
             "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
                 {
                     "name": "Story",
@@ -2505,6 +2492,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<ButtonGroupComponent>",
                     "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Button/button.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<ButtonComponent>",
+                    "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
