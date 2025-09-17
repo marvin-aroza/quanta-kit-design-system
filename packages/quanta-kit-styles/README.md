@@ -20,6 +20,7 @@ Shared CSS module-based styling library for Quanta Kit design system.
 - `src/index.scss`: Entry point that imports all component and global styles.
 
 ## Development
+
 - Edit tokens in `src/_tokens.scss`.
 - Add or update styles in the relevant file in `src/components/` for each component.
 - Add or update global utilities in `src/quanta-kit-styles.module.scss`.
