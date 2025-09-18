@@ -1,17 +1,11 @@
-# Force re-index for GitHub Actions workflow visibility
 name: Publish Packages to npmjs
-
 on:
-  push:
-    branches:
-      - package-release
   workflow_dispatch:
     inputs:
       confirm_publish:
         description: 'Check to confirm you want to publish to npmjs'
         required: true
         type: boolean
-
 jobs:
   build:
     runs-on: ubuntu-latest
