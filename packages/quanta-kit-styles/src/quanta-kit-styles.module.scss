@@ -1,0 +1,31 @@
+@use './_tokens.scss' as *;
+
+:global {
+  :root {
+  --quanta-kit-primary: #{$quanta-kit-primary};
+  --quanta-kit-secondary: #{$quanta-kit-secondary};
+  --quanta-kit-success: #{$quanta-kit-success};
+  --quanta-kit-danger: #{$quanta-kit-danger};
+  --quanta-kit-warning: #{$quanta-kit-warning};
+  --quanta-kit-info: #{$quanta-kit-info};
+  --quanta-kit-light: #{$quanta-kit-light};
+  --quanta-kit-dark: #{$quanta-kit-dark};
+  --quanta-kit-spacing-xs: #{$quanta-kit-spacing-xs};
+  --quanta-kit-spacing-sm: #{$quanta-kit-spacing-sm};
+  --quanta-kit-spacing-md: #{$quanta-kit-spacing-md};
+  --quanta-kit-spacing-lg: #{$quanta-kit-spacing-lg};
+  --quanta-kit-spacing-xl: #{$quanta-kit-spacing-xl};
+  --quanta-kit-font-family: #{$quanta-kit-font-family};
+  --quanta-kit-font-size-base: #{$quanta-kit-font-size-base};
+  --quanta-kit-font-size-lg: #{$quanta-kit-font-size-lg};
+  --quanta-kit-font-size-sm: #{$quanta-kit-font-size-sm};
+  }
+}
+
+.qk-text-primary { color: var(--quanta-kit-primary); }
+.qk-bg-primary { background-color: var(--quanta-kit-primary); }
+.qk-text-secondary { color: var(--quanta-kit-secondary); }
+.qk-bg-secondary { background-color: var(--quanta-kit-secondary); }
+.qk-mt-md { margin-top: var(--quanta-kit-spacing-md); }
+.qk-mb-md { margin-bottom: var(--quanta-kit-spacing-md); }
+.qk-p-md { padding: var(--quanta-kit-spacing-md); }

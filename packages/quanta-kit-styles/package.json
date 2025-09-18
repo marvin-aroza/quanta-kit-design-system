@@ -1,0 +1,14 @@
+{
+  "name": "quanta-kit-styles",
+  "version": "0.1.0",
+  "description": "Shared CSS module-based styling library for Quanta Kit design system.",
+  "main": "dist/quanta-kit-styles.css",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "sass src/index.scss dist/quanta-kit-styles.css --no-source-map"
+  },
+  "keywords": ["design-system", "css", "scss", "css-modules", "quanta-kit"],
+  "author": "marvin-aroza",
+  "license": "MIT"
+}
