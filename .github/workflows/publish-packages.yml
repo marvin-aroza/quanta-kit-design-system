@@ -1,4 +1,5 @@
 
+﻿# Force re-index for GitHub Actions workflow visibility
 name: Publish Packages to npmjs
 
 on:
