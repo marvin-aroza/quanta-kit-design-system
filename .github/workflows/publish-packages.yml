@@ -1,3 +1,4 @@
+
 name: Publish Packages to npmjs
 
 on:
@@ -5,6 +6,11 @@ on:
     branches:
       - package-release
   workflow_dispatch:
+    inputs:
+      confirm_publish:
+        description: 'Check to confirm you want to publish to npmjs'
+        required: true
+        type: boolean
 
 jobs:
   build:
@@ -31,6 +37,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Publish all packages
+        if: ${{ github.event.inputs.confirm_publish == 'true' }}
         run: |
           for dir in packages/*/; do
             cd "$dir"
