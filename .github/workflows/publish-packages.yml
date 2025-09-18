@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,12 +20,8 @@ jobs:
       - run: npm run build
 
   publish:
-    needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: npm-publish
-      url: https://www.npmjs.com/~your-npm-username
-    if: github.ref == 'refs/heads/package-release'
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,6 +29,7 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
       - run: npm ci
+      - run: npm run build
       - name: Publish all packages
         run: |
           for dir in packages/*/; do
