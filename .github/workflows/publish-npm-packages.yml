@@ -1,0 +1,49 @@
+name: Publish Packages to npmjs
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_publish:
+        description: 'Check to confirm you want to publish to npmjs'
+        required: true
+        type: boolean
+      package_type:
+        description: 'Which package(s) to publish: angular, react, vue, all'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - angular
+          - react
+          - vue
+          - all
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
+      - run: npm ci
+      - run: npm run build
+      - name: Publish selected packages
+        if: ${{ github.event.inputs.confirm_publish == 'true' }}
+        run: |
+          if [ "${{ github.event.inputs.package_type }}" = "angular" ]; then
+            cd packages/quanta-kit-angular && npm publish --access public || true
+          elif [ "${{ github.event.inputs.package_type }}" = "react" ]; then
+            cd packages/quanta-kit-react && npm publish --access public || true
+          elif [ "${{ github.event.inputs.package_type }}" = "vue" ]; then
+            cd packages/quanta-kit-vue && npm publish --access public || true
+          else
+            for dir in packages/*/; do
+              cd "$dir"
+              if [ -f package.json ]; then
+                npm publish --access public || true
+              fi
+              cd -
+            done
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
