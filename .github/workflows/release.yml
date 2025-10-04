@@ -226,7 +226,7 @@ jobs:
                   </div>
                   
                   <div class="footer">
-                      <p>Built with ❤️ using Storybook • Updated automatically from main branch</p>
+                      <p>Built with ❤️ using Storybook • Updated automatically from main branch on merge</p>
                   </div>
               </div>
           </body>
