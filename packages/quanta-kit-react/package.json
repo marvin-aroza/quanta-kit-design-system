@@ -1,6 +1,6 @@
 {
-  "name": "quanta-kit-react",
-  "version": "0.1.0",
+  "name": "quanta-kit-design-system-react",
+  "version": "0.0.0",
   "type": "module",
   "description": "Quanta Kit React Component Library",
   "main": "dist/index.js",

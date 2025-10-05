@@ -1,0 +1,60 @@
+name: Publish Multiple Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - quanta-kit-angular
+          - quanta-kit-react
+          - quanta-kit-vue
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
+      - run: npm ci
+      - run: npm run build
+      - name: Bump versions and changelogs with Changesets
+        run: |
+          npx changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish ${{ matrix.package }}
+        id: publish
+        run: |
+          cd packages/${{ matrix.package }}
+          if [ -f package.json ]; then
+            VERSION=$(jq -r .version package.json)
+            npm publish --access public || true
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create Git tag and release
+        if: success()
+        run: |
+          cd packages/${{ matrix.package }}
+          VERSION=$(jq -r .version package.json)
+          TAG="${{ matrix.package }}@${VERSION}"
+          cd ../..
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
+          name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

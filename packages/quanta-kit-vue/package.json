@@ -1,6 +1,6 @@
 {
-  "name": "quanta-kit-vue",
-  "version": "0.1.0",
+  "name": "quanta-kit-design-system-vue",
+  "version": "0.0.0",
   "type": "module",
   "description": "Quanta Kit Vue Component Library",
   "main": "dist/index.umd.js",
