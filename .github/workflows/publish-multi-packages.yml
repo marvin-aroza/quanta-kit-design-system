@@ -33,9 +33,11 @@ jobs:
             VERSION=$(jq -r .version package.json)
             if npm publish --access public; then
               echo "version=$VERSION" >> $GITHUB_OUTPUT
+              echo "package_name=$(jq -r .name package.json)" >> $GITHUB_OUTPUT
               echo "published=true" >> $GITHUB_OUTPUT
             else
               echo "published=false" >> $GITHUB_OUTPUT
+              exit 1
             fi
           fi
         env:
@@ -45,7 +47,8 @@ jobs:
         run: |
           cd packages/${{ matrix.package }}
           VERSION=$(jq -r .version package.json)
-          TAG="${{ matrix.package }}@${VERSION}"
+          NAME=$(jq -r .name package.json)
+          TAG="${NAME}@${VERSION}"
           cd ../..
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -57,8 +60,8 @@ jobs:
         if: steps.publish.outputs.published == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
-          name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
+          tag_name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
+          name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
           draft: false
           prerelease: false
         env:
