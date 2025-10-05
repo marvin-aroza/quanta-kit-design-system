@@ -2,16 +2,21 @@ name: Publish Multiple Packages
 
 on:
   workflow_dispatch:
+    inputs:
+      package:
+        description: 'Select which package(s) to release: react, angular, vue, all'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - react
+          - angular
+          - vue
+          - all
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - quanta-kit-angular
-          - quanta-kit-react
-          - quanta-kit-vue
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,48 +26,68 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Bump versions and changelogs with Changesets
-        run: |
-          npx changeset version
+        run: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish ${{ matrix.package }}
-        id: publish
+      - name: Lint selected packages
         run: |
-          cd packages/${{ matrix.package }}
-          if [ -f package.json ]; then
-            VERSION=$(jq -r .version package.json)
-            if npm publish --access public; then
-              echo "version=$VERSION" >> $GITHUB_OUTPUT
-              echo "package_name=$(jq -r .name package.json)" >> $GITHUB_OUTPUT
-              echo "published=true" >> $GITHUB_OUTPUT
-            else
-              echo "published=false" >> $GITHUB_OUTPUT
-              exit 1
-            fi
+          if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Linting React package..."
+            cd packages/quanta-kit-react
+            npm run lint || exit 1
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Linting Angular package..."
+            cd packages/quanta-kit-angular
+            npm run lint || exit 1
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Linting Vue package..."
+            cd packages/quanta-kit-vue
+            npm run lint || exit 1
+            cd ../..
+          fi
+      - name: Build selected packages
+        run: |
+          if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Building React package..."
+            cd packages/quanta-kit-react
+            npm run build || exit 1
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Building Angular package..."
+            cd packages/quanta-kit-angular
+            npm run build || exit 1
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Building Vue package..."
+            cd packages/quanta-kit-vue
+            npm run build || exit 1
+            cd ../..
+          fi
+      - name: Publish selected packages
+        run: |
+          if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Publishing React package..."
+            cd packages/quanta-kit-react
+            npm publish --access public || echo "React publish failed, continuing..."
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Publishing Angular package..."
+            cd packages/quanta-kit-angular
+            npm publish --access public || echo "Angular publish failed, continuing..."
+            cd ../..
+          fi
+          if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
+            echo "Publishing Vue package..."
+            cd packages/quanta-kit-vue
+            npm publish --access public || echo "Vue publish failed, continuing..."
+            cd ../..
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Create Git tag and release
-        if: steps.publish.outputs.published == 'true'
-        run: |
-          cd packages/${{ matrix.package }}
-          VERSION=$(jq -r .version package.json)
-          NAME=$(jq -r .name package.json)
-          TAG="${NAME}@${VERSION}"
-          cd ../..
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag "$TAG"
-          git push origin "$TAG"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create GitHub Release
-        if: steps.publish.outputs.published == 'true'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
-          name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
