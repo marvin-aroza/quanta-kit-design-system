@@ -31,13 +31,17 @@ jobs:
           cd packages/${{ matrix.package }}
           if [ -f package.json ]; then
             VERSION=$(jq -r .version package.json)
-            npm publish --access public || true
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            if npm publish --access public; then
+              echo "version=$VERSION" >> $GITHUB_OUTPUT
+              echo "published=true" >> $GITHUB_OUTPUT
+            else
+              echo "published=false" >> $GITHUB_OUTPUT
+            fi
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create Git tag and release
-        if: success()
+        if: steps.publish.outputs.published == 'true'
         run: |
           cd packages/${{ matrix.package }}
           VERSION=$(jq -r .version package.json)
@@ -50,7 +54,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        if: steps.publish.outputs.published == 'true'
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
           name: ${{ matrix.package }}@${{ steps.publish.outputs.version }}
