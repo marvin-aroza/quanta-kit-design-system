@@ -1,0 +1,68 @@
+name: Publish Multiple Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - quanta-kit-angular
+          - quanta-kit-react
+          - quanta-kit-vue
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
+      - run: npm ci
+      - run: npm run build
+      - name: Bump versions and changelogs with Changesets
+        run: |
+          npx changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish ${{ matrix.package }}
+        id: publish
+        run: |
+          cd packages/${{ matrix.package }}
+          if [ -f package.json ]; then
+            VERSION=$(jq -r .version package.json)
+            if npm publish --access public; then
+              echo "version=$VERSION" >> $GITHUB_OUTPUT
+              echo "package_name=$(jq -r .name package.json)" >> $GITHUB_OUTPUT
+              echo "published=true" >> $GITHUB_OUTPUT
+            else
+              echo "published=false" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create Git tag and release
+        if: steps.publish.outputs.published == 'true'
+        run: |
+          cd packages/${{ matrix.package }}
+          VERSION=$(jq -r .version package.json)
+          NAME=$(jq -r .name package.json)
+          TAG="${NAME}@${VERSION}"
+          cd ../..
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        if: steps.publish.outputs.published == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
+          name: ${{ steps.publish.outputs.package_name }}@${{ steps.publish.outputs.version }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
