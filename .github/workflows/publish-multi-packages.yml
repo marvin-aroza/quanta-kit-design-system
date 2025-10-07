@@ -24,14 +24,6 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org/'
       - run: npm ci
-      - run: npm run build
-      # Remove Changesets versioning, use semantic-release instead
-      - name: Semantic Release (auto version, changelog, publish)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npx semantic-release
       - name: Lint selected packages
         run: |
           if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
