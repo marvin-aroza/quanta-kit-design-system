@@ -404,245 +404,43 @@
         },
         {
             "name": "ButtonGroupComponent",
-            "id": "component-ButtonGroupComponent-74c13bf9af2c931281e07c6f3b3e9453178effa106e5745f0e1b5164f1f004d464f5fa8ef0c7e5485d7b31c8049c1365d756207ac778e2720f7abe3e59233ee9",
+            "id": "component-ButtonGroupComponent-6c58fd079e8e12fb68bdbb5009eda020a904276ddcd9255d26106931e29c6987b87423cb3256819eeeac201819cf85b268c2f03b12b906527070c506e2f956ea",
             "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-            "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
             "entryComponents": [],
             "inputs": [],
             "outputs": [],
             "providers": [],
-            "selector": "qk-button-group",
+            "selector": "button-group",
             "styleUrls": [
                 "./button-group.component.scss"
             ],
             "styles": [],
-            "template": "<button\n  [type]=\"type\"\n  [disabled]=\"disabled || loading\"\n  [class]=\"buttonClasses\"\n  (click)=\"handleClick($event)\"\n  (focus)=\"handleFocus($event)\"\n  (blur)=\"handleBlur($event)\"\n  [attr.aria-label]=\"ariaLabel\"\n  [attr.aria-pressed]=\"ariaPressed\"\n  [attr.data-testid]=\"testId\"\n>\n  <ng-container *ngIf=\"loading\">\n    <span\n      *ngIf=\"loaderType === 'dots'\"\n      class=\"qk-btn-dots\"\n      aria-hidden=\"true\"\n    >\n      <span></span><span></span><span></span>\n    </span>\n\n    <span\n      *ngIf=\"loaderType === 'bar'\"\n      class=\"qk-btn-bar\"\n      aria-hidden=\"true\"\n    >\n      <span></span><span></span><span></span>\n    </span>\n\n    <span\n      *ngIf=\"loaderType === 'spinner'\"\n      class=\"qk-btn-spinner\"\n      aria-hidden=\"true\"\n    ></span>\n  </ng-container>\n\n  <ng-content select=\"[slot=icon-left]\"></ng-content>\n\n  <span\n    class=\"qk-btn-content\"\n    [class.qk-btn-content--hidden]=\"loading && hideTextOnLoading\"\n  >\n    <ng-content></ng-content>\n  </span>\n\n  <ng-content select=\"[slot=icon-right]\"></ng-content>\n</button>\n",
-            "templateUrl": [],
+            "templateUrl": [
+                "./button-group.component.html"
+            ],
             "viewProviders": [],
             "hostDirectives": [],
             "inputsClass": [
                 {
-                    "name": "ariaLabel",
-                    "defaultValue": "''",
+                    "name": "buttons",
+                    "defaultValue": "[]",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\nARIA label for accessibility",
-                    "description": "<p>ARIA label for accessibility</p>\n",
-                    "line": 93,
-                    "type": "string",
-                    "decorators": []
-                },
-                {
-                    "name": "ariaPressed",
-                    "defaultValue": "null",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nARIA pressed state for toggle buttons",
-                    "description": "<p>ARIA pressed state for toggle buttons</p>\n",
-                    "line": 96,
-                    "type": "boolean | null",
-                    "decorators": []
-                },
-                {
-                    "name": "customClass",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nCustom CSS classes to apply",
-                    "description": "<p>Custom CSS classes to apply</p>\n",
-                    "line": 90,
-                    "type": "string",
-                    "decorators": []
-                },
-                {
-                    "name": "disabled",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether the button is disabled",
-                    "description": "<p>Whether the button is disabled</p>\n",
-                    "line": 81,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "fullWidth",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether the button should take full width",
-                    "description": "<p>Whether the button should take full width</p>\n",
-                    "line": 102,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "hideTextOnLoading",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether to hide text content when loading",
-                    "description": "<p>Whether to hide text content when loading</p>\n",
-                    "line": 87,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "loaderType",
-                    "defaultValue": "'spinner'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 78,
-                    "type": "\"spinner\" | \"dots\" | \"bar\" | \"Loading\"",
-                    "decorators": []
-                },
-                {
-                    "name": "loading",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether the button is in loading state",
-                    "description": "<p>Whether the button is in loading state</p>\n",
-                    "line": 84,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "rounded",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether the button has rounded corners",
-                    "description": "<p>Whether the button has rounded corners</p>\n",
-                    "line": 105,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "size",
-                    "defaultValue": "'md'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nButton size",
-                    "description": "<p>Button size</p>\n",
-                    "line": 73,
-                    "type": "ButtonSize",
-                    "decorators": []
-                },
-                {
-                    "name": "square",
-                    "defaultValue": "false",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nWhether the button has no border radius (square)",
-                    "description": "<p>Whether the button has no border radius (square)</p>\n",
-                    "line": 108,
-                    "type": "boolean",
-                    "decorators": []
-                },
-                {
-                    "name": "testId",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nTest ID for testing purposes",
-                    "description": "<p>Test ID for testing purposes</p>\n",
-                    "line": 99,
-                    "type": "string",
-                    "decorators": []
-                },
-                {
-                    "name": "type",
-                    "defaultValue": "'button'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nButton type attribute",
-                    "description": "<p>Button type attribute</p>\n",
-                    "line": 76,
-                    "type": "\"button\" | \"submit\" | \"reset\"",
-                    "decorators": []
-                },
-                {
-                    "name": "variant",
-                    "defaultValue": "'primary'",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nButton variant/style",
-                    "description": "<p>Button variant/style</p>\n",
-                    "line": 70,
-                    "type": "ButtonVariant",
+                    "line": 12,
+                    "type": "literal type[]",
                     "decorators": []
                 }
             ],
-            "outputsClass": [
-                {
-                    "name": "blurred",
-                    "defaultValue": "new EventEmitter<FocusEvent>()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nBlur event emitter",
-                    "description": "<p>Blur event emitter</p>\n",
-                    "line": 117,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "clicked",
-                    "defaultValue": "new EventEmitter<MouseEvent>()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nClick event emitter",
-                    "description": "<p>Click event emitter</p>\n",
-                    "line": 111,
-                    "type": "EventEmitter"
-                },
-                {
-                    "name": "focused",
-                    "defaultValue": "new EventEmitter<FocusEvent>()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\nFocus event emitter",
-                    "description": "<p>Focus event emitter</p>\n",
-                    "line": 114,
-                    "type": "EventEmitter"
-                }
-            ],
+            "outputsClass": [],
             "propertiesClass": [],
             "methodsClass": [
-                {
-                    "name": "handleBlur",
-                    "args": [
-                        {
-                            "name": "event",
-                            "type": "FocusEvent",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 147,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "event",
-                            "type": "FocusEvent",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
                 {
                     "name": "handleClick",
                     "args": [
                         {
-                            "name": "event",
-                            "type": "MouseEvent",
+                            "name": "btn",
+                            "type": "any",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -650,41 +448,13 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 137,
+                    "line": 14,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "name": "event",
-                            "type": "MouseEvent",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "handleFocus",
-                    "args": [
-                        {
-                            "name": "event",
-                            "type": "FocusEvent",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 143,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "event",
-                            "type": "FocusEvent",
+                            "name": "btn",
+                            "type": "any",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -708,27 +478,17 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { CommonModule } from '@angular/common'; // Import CommonModule for Angular directives\nimport {\n  ChangeDetectionStrategy,\n  Component,\n  EventEmitter,\n  Input,\n  Output,\n} from '@angular/core'; // Import necessary Angular core features\n\nexport type ButtonVariant = 'primary' | 'delete' | 'edit' | 'info' | 'success';\nexport type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';\n\n@Component({\n  selector: 'qk-button-group',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    <button\n      [type]=\"type\"\n      [disabled]=\"disabled || loading\"\n      [class]=\"buttonClasses\"\n      (click)=\"handleClick($event)\"\n      (focus)=\"handleFocus($event)\"\n      (blur)=\"handleBlur($event)\"\n      [attr.aria-label]=\"ariaLabel\"\n      [attr.aria-pressed]=\"ariaPressed\"\n      [attr.data-testid]=\"testId\"\n    >\n      <ng-container *ngIf=\"loading\">\n        <span\n          *ngIf=\"loaderType === 'dots'\"\n          class=\"qk-btn-dots\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'bar'\"\n          class=\"qk-btn-bar\"\n          aria-hidden=\"true\"\n        >\n          <span></span><span></span><span></span>\n        </span>\n\n        <span\n          *ngIf=\"loaderType === 'spinner'\"\n          class=\"qk-btn-spinner\"\n          aria-hidden=\"true\"\n        ></span>\n      </ng-container>\n\n      <ng-content select=\"[slot=icon-left]\"></ng-content>\n\n      <span\n        class=\"qk-btn-content\"\n        [class.qk-btn-content--hidden]=\"loading && hideTextOnLoading\"\n      >\n        <ng-content></ng-content>\n      </span>\n\n      <ng-content select=\"[slot=icon-right]\"></ng-content>\n    </button>\n  `,\n  styleUrls: ['./button-group.component.scss'], // ✅ now SCSS, not CSS\n  changeDetection: ChangeDetectionStrategy.OnPush,\n})\nexport class ButtonGroupComponent {\n  /** Button variant/style */\n  @Input() variant: ButtonVariant = 'primary';\n\n  /** Button size */\n  @Input() size: ButtonSize = 'md';\n\n  /** Button type attribute */\n  @Input() type: 'button' | 'submit' | 'reset' = 'button';\n\n  @Input() loaderType: 'spinner' | 'dots' | 'bar' | 'Loading' = 'spinner';\n\n  /** Whether the button is disabled */\n  @Input() disabled = false;\n\n  /** Whether the button is in loading state */\n  @Input() loading = false;\n\n  /** Whether to hide text content when loading */\n  @Input() hideTextOnLoading = false;\n\n  /** Custom CSS classes to apply */\n  @Input() customClass = '';\n\n  /** ARIA label for accessibility */\n  @Input() ariaLabel = '';\n\n  /** ARIA pressed state for toggle buttons */\n  @Input() ariaPressed: boolean | null = null;\n\n  /** Test ID for testing purposes */\n  @Input() testId = '';\n\n  /** Whether the button should take full width */\n  @Input() fullWidth = false;\n\n  /** Whether the button has rounded corners */\n  @Input() rounded = false;\n\n  /** Whether the button has no border radius (square) */\n  @Input() square = false;\n\n  /** Click event emitter */\n  @Output() clicked = new EventEmitter<MouseEvent>();\n\n  /** Focus event emitter */\n  @Output() focused = new EventEmitter<FocusEvent>();\n\n  /** Blur event emitter */\n  @Output() blurred = new EventEmitter<FocusEvent>();\n\n  get buttonClasses(): string {\n    const classes = [\n      'qk-btn',\n      `qk-btn--${this.variant}`,\n      `qk-btn--${this.size}`,\n    ];\n\n    if (this.loading) classes.push('qk-btn--loading');\n    if (this.disabled) classes.push('qk-btn--disabled');\n    if (this.customClass) classes.push(this.customClass);\n\n    if (this.fullWidth) classes.push('qk-btn--full-width');\n    if (this.rounded) classes.push('qk-btn--rounded');\n    if (this.square) classes.push('qk-btn--square');\n\n    return classes.join(' ');\n  }\n\n  handleClick(event: MouseEvent): void {\n    if (!this.disabled && !this.loading) {\n      this.clicked.emit(event);\n    }\n  }\n\n  handleFocus(event: FocusEvent): void {\n    this.focused.emit(event);\n  }\n\n  handleBlur(event: FocusEvent): void {\n    this.blurred.emit(event);\n  }\n}\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'button-group',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './button-group.component.html',\n  styleUrls: ['./button-group.component.scss']\n})\nexport class ButtonGroupComponent {\n  @Input() buttons: { label: string, variant?: string }[] = [];\n\n  handleClick(btn: any) {\n    alert(`You clicked ${btn.label}`);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".qk-btn--primary {\r\n  background-color: #053889;\r\n  border: 1px solid #053889;\r\n  color: #ffffff;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;// smooth transition for hover and active states\r\n\r\n  &:active:not(:disabled) {\r\n    background-color: #053889;\r\n    border-color: #053889;\r\n  }\r\n\r\n  &:disabled {\r\n    opacity: 0.6;\r\n    cursor: not-allowed;\r\n    pointer-events: none;\r\n  }\r\n}\r\n\r\n.qk-btn--delete{\r\n  background-color: #ed0909;\r\n  border: 1px solid #ed0909;\r\n  color:white;\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n&:disabled {\r\n   opacity: 0.6;\r\n    cursor: not-allowed;\r\n   pointer-events: none;\r\n}\r\n\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #440101;// darker blue on hover\r\n    border-color: #440101;\r\n  }\r\n&:active:not(:disabled):not(.qk-btn--loading){\r\n    background-color: #ed0909;\r\n    border-color: #ed0909;\r\n  }\r\n\r\n}\r\n.qk-btn--edit{\r\n  background-color: #f2ff02;\r\n  border: 1px solid #f2ff02;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n\r\n  }\r\n\r\n.qk-btn--info{\r\n  background-color: #14b0d3;\r\n  border: 1px solid #14b0d3;\r\n  color:rgb(0, 0, 0);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 0.375rem;\r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #00d0ff;// darker blue on hover\r\n    border-color: #00d0ff;\r\n  }\r\n\r\n}\r\n\r\n.qk-btn-spinner {\r\n  display: inline-block;\r\n  width: 1rem;\r\n  height: 1rem;\r\n  border: 2px solid transparent;\r\n  border-top: 2px solid currentColor;\r\n  border-radius: 50%;\r\n  animation: qk-btn-spin 1.5s linear infinite;\r\n}\r\n\r\n@keyframes qk-btn-spin {\r\n  0% {\r\n    transform: rotate(0deg);\r\n  }\r\n  100% {\r\n    transform: rotate(360deg);\r\n  }\r\n}\r\n@media (prefers-reduced-motion: reduce) {\r\n  .qk-btn {\r\n    transition: none;\r\n  }\r\n.qk-btn-spinner {\r\n   animation: none;\r\n  }\r\n\r\n  .qk-btn-dots span,\r\n  .qk-btn-bar::after {\r\n    animation: none;\r\n  }\r\n}\r\n.qk-btn--success{\r\n  background-color: #184a0a;\r\n  border: 1px solid #184a0a;\r\n  color:rgb(255, 255, 255);\r\n  padding: 0.5rem 1rem;\r\n  border-radius: 2rem;\r\n  \r\n  cursor: pointer;  // hand cursor for buttons\r\n  font-size: 14px;\r\n  transition: background-color 0.2s ease, border-color 0.2s ease;\r\n&:hover:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #22c55e;// darker blue on hover\r\n    border-color: #22c55e;\r\n  } \r\n  &:active:not(:disabled):not(.qk-btn--loading) {\r\n    background-color: #166534;\r\n    border-color: #166534;\r\n  }\r\n  &:disabled {\r\n    opacity: 0.6;\r\n    cursor: not-allowed;\r\n    pointer-events: none;\r\n  }\r\n}\r\n\r\n.qk-btn--xs {\r\n  padding: 0.25rem 0.5rem;\r\n  font-size: 12px;\r\n}\r\n\r\n.qk-btn--sm {\r\n  padding: 0.375rem 0.75rem;\r\n  font-size: 13px;\r\n}\r\n\r\n.qk-btn--md {\r\n  padding: 0.5rem 1rem;\r\n  font-size: 14px;\r\n}\r\n.qk-btn--lg {\r\n  padding: 0.75rem 1.5rem;\r\n  font-size: 16px;\r\n}\r\n.qk-btn--xl {\r\n  padding: 1rem 2rem;\r\n  font-size: 18px;\r\n}\r\n\r\n/* Dots Loader */\r\n.qk-btn-dots {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  gap: 4px; \r\n}\r\n\r\n.qk-btn-dots span {\r\n  width: 6px;\r\n  height: 6px;\r\n  background-color: currentColor; \r\n  border-radius: 50%; \r\n  display: inline-block; \r\n  animation: qk-bounce 0.6s infinite alternate;\r\n}\r\n\r\n.qk-btn-dots span:nth-child(2) {\r\n  animation-delay: 0.2s;\r\n}\r\n.qk-btn-dots span:nth-child(3) {\r\n  animation-delay: 0.4s;\r\n}\r\n\r\n@keyframes qk-bounce {\r\n  from {\r\n    transform: translateY(0);\r\n    opacity: 0.6;\r\n  }\r\n  to {\r\n    transform: translateY(-4px);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n.qk-btn-bar {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 40px;         \r\n  height: 4px;         \r\n  background: rgba(0, 0, 0, 0.1); \r\n  border-radius: 2px;\r\n  overflow: hidden;\r\n}\r\n\r\n.qk-btn-bar::after {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: -40px;        \r\n  width: 40px;\r\n  height: 100%;\r\n  background-color: currentColor; \r\n  border-radius: 2px;\r\n  animation: qk-bar-fill 1.2s infinite linear;\r\n}\r\n\r\n@keyframes qk-bar-fill {\r\n  from {\r\n    left: -40px;\r\n    width: 40px;\r\n  }\r\n  to {\r\n    left: 100%;\r\n    width: 40px;\r\n  }\r\n}\r\n\r\n.qk-btn.qk-btn--disabled,\r\n.qk-btn.qk-btn--loading {\r\n  pointer-events: none;\r\n  cursor: not-allowed;\r\n}\r\n\r\n.qk-btn--full-width { width: 100%; }\r\n.qk-btn--rounded { border-radius: 9999px; }\r\n.qk-btn--square { border-radius: 0; }\r\n\r\n.qk-btn-content { display: inline-flex; align-items: center; }\r\n.qk-btn-content--hidden { visibility: hidden; }\r\n",
+                    "data": ".button-group {\r\n  display: flex;\r\n  gap: 8px;\r\n}\r\n\r\n.btn {\r\n  padding: 8px 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  color: white;\r\n}\r\n\r\n.primary { background-color: #053889; }\r\n.edit { background-color: #f2ff02; color: black; }\r\n.delete { background-color: #ed0909; }\r\n",
                     "styleUrl": "./button-group.component.scss"
                 }
             ],
             "stylesData": "",
             "extends": [],
-            "accessors": {
-                "buttonClasses": {
-                    "name": "buttonClasses",
-                    "getSignature": {
-                        "name": "buttonClasses",
-                        "type": "string",
-                        "returnType": "string",
-                        "line": 119
-                    }
-                }
-            }
+            "templateData": "<div class=\"button-group\">\r\n  <button\r\n    *ngFor=\"let btn of buttons\"\r\n    class=\"btn\"\r\n    [ngClass]=\"btn.variant\"\r\n    (click)=\"handleClick(btn)\"\r\n  >\r\n    {{ btn.label }}\r\n  </button>\r\n</div>\r\n"
         },
         {
             "name": "ChipComponent",
@@ -1759,6 +1519,16 @@
                 "defaultValue": "{\n  args: {\n    variant: 'assist',\n    size: 'md',\n    elevation: 'flat',\n  },\n  render: (args) => ({\n    props: args,\n    template: `<qk-chip \n      [variant]=\"variant\" \n      [size]=\"size\" \n      [elevation]=\"elevation\"\n      [disabled]=\"disabled\"\n      (clicked)=\"clicked($event)\">\n      Assist Chip\n    </qk-chip>`,\n  }),\n}"
             },
             {
+                "name": "Basic",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    buttons: [\n      { label: 'Save', variant: 'primary' },\n      { label: 'Edit', variant: 'edit' },\n      { label: 'Delete', variant: 'delete' },\n    ],\n  },\n}"
+            },
+            {
                 "name": "BottomPosition",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1767,26 +1537,6 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    text: 'Tooltip positioned on bottom',\n    position: 'bottom',\n    trigger: 'hover',\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"padding: 50px; text-align: center;\">\n        <qk-tooltip \n          [text]=\"text\" \n          [position]=\"position\" \n          [trigger]=\"trigger\">\n          <button style=\"padding: 8px 16px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\">\n            Bottom Tooltip\n          </button>\n        </qk-tooltip>\n      </div>\n    `,\n  }),\n}"
-            },
-            {
-                "name": "Buttonicons",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"edit\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"info\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"delete\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"default\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M17 10v1.126c.367.095.714.24 1.032.428l.796-.797 1.415 1.415-.797.796c.188.318.333.665.428 1.032H21v2h-1.126c-.095.367-.24.714-.428 1.032l.797.796-1.415 1.415-.796-.797a3.979 3.979 0 0 1-1.032.428V20h-2v-1.126a3.977 3.977 0 0 1-1.032-.428l-.796.797-1.415-1.415.797-.796A3.975 3.975 0 0 1 12.126 16H11v-2h1.126c.095-.367.24-.714.428-1.032l-.797-.796 1.415-1.415.796.797A3.977 3.977 0 0 1 15 11.126V10h2Zm.406 3.578.016.016c.354.358.574.85.578 1.392v.028a2 2 0 0 1-3.409 1.406l-.01-.012a2 2 0 0 1 2.826-2.83ZM5 8a4 4 0 1 1 7.938.703 7.029 7.029 0 0 0-3.235 3.235A4 4 0 0 1 5 8Zm4.29 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h6.101A6.979 6.979 0 0 1 9 15c0-.695.101-1.366.29-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    </div> `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button icon group',\n      },\n    },\n  },\n}"
-            },
-            {
-                "name": "Buttonsizes",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    size: 'xs',\n    disabled: false,\n    loading: false,\n  },\n  render: () => ({\n    template: `\n    <div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group size=\"xs\" variant=\"primary\">Primary</qk-button-group>\n    <qk-button-group size=\"sm\" variant=\"edit\">Edit</qk-button-group>\n    <qk-button-group size=\"md\" variant=\"info\">info</qk-button-group>\n    <qk-button-group size=\"lg\" variant=\"delete\">Delete</qk-button-group>\n    <qk-button-group size=\"xl\" variant=\"default\">Default</qk-button-group>\n     `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button sizes xs, sm, md, lg, xl',\n      },\n    },\n  },\n}"
             },
             {
                 "name": "Default",
@@ -1859,36 +1609,6 @@
                 "defaultValue": "{\n  args: {\n    variant: 'primary',\n    loading: true,\n    size: 'md',\n  },\n  render: (args) => ({\n    props: args,\n    template: `<qk-button \n      [variant]=\"variant\" \n      [size]=\"size\" \n      [loading]=\"loading\">\n      Loading Button\n    </qk-button>`,\n  }),\n}"
             },
             {
-                "name": "Loadingbuttons",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<ButtonGroupComponent>",
-                "defaultValue": "{\n  title: 'Components/Button-group',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n  args: {\n    disabled: false,\n    loading: false,\n    hideTextOnLoading: false,\n    ariaLabel: '',\n    testId: '',\n    clicked: fn(),\n    focused: fn(),\n    blurred: fn(),\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<ChipComponent>",
-                "defaultValue": "{\n  title: 'Components/Chip',\n  component: ChipComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [ChipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Chip component implements Material Design 3 chip variants for compact information display and user interaction.\n\n## Features\n- Four chip variants (assist, filter, input, suggestion)\n- Multiple sizes (sm, md)\n- Elevation options (flat, elevated)\n- Selection states for filter chips\n- Removable functionality for input chips\n- Icon and avatar support\n- Accessibility features with ARIA attributes\n- Keyboard navigation support\n\n## Usage\n\\`\\`\\`html\n<qk-chip variant=\"filter\" [selected]=\"isSelected\" (selectionChange)=\"onSelectionChange($event)\">\n  Filter Option\n</qk-chip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\n      description: 'The type of chip',\n    },\n    size: {\n      control: 'select',\n      options: ['sm', 'md'] as ChipSize[],\n      description: 'The size of the chip',\n    },\n    elevation: {\n      control: 'select',\n      options: ['flat', 'elevated'] as ChipElevation[],\n      description: 'The elevation level of the chip',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the chip is disabled',\n    },\n    selected: {\n      control: 'boolean',\n      description: 'Whether the chip is selected (filter chips only)',\n    },\n    removable: {\n      control: 'boolean',\n      description: 'Whether the chip can be removed (input chips only)',\n    },\n    hasLeadingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a leading icon',\n    },\n    hasTrailingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a trailing icon',\n    },\n    hasAvatar: {\n      control: 'boolean',\n      description: 'Whether the chip has an avatar',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes to apply',\n    },\n    ariaLabel: {\n      control: 'text',\n      description: 'ARIA label for accessibility',\n    },\n    removeAriaLabel: {\n      control: 'text',\n      description: 'ARIA label for the remove button',\n    },\n    testId: {\n      control: 'text',\n      description: 'Test ID for testing purposes',\n    },\n    clicked: {\n      action: 'clicked',\n      description: 'Event emitted when chip is clicked',\n    },\n    removed: {\n      action: 'removed',\n      description: 'Event emitted when chip is removed',\n    },\n    focused: {\n      action: 'focused',\n      description: 'Event emitted when chip receives focus',\n    },\n    blurred: {\n      action: 'blurred',\n      description: 'Event emitted when chip loses focus',\n    },\n    selectionChange: {\n      action: 'selectionChange',\n      description: 'Event emitted when chip selection changes',\n    },\n  },\n  args: {\n    clicked: fn(),\n    removed: fn(),\n    focused: fn(),\n    blurred: fn(),\n    selectionChange: fn(),\n  },\n}"
-            },
-            {
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1907,6 +1627,26 @@
                 "deprecationMessage": "",
                 "type": "Meta<TooltipComponent>",
                 "defaultValue": "{\n  title: 'Components/Tooltip',\n  component: TooltipComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [TooltipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Tooltip component provides contextual information when users hover, focus, or click on an element.\nBased on Material Design 3 guidelines for tooltips.\n\n## Features\n- Multiple positions (top, bottom, left, right)\n- Different trigger types (hover, click, focus)\n- Plain and rich content support\n- Customizable delays and styling\n- Accessibility support with ARIA attributes\n- Keyboard navigation\n\n## Usage\n\\`\\`\\`html\n<qk-tooltip text=\"Helpful information\" position=\"top\">\n  <button>Hover me</button>\n</qk-tooltip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    text: {\n      control: 'text',\n      description: 'Tooltip text content',\n    },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],\n      description: 'Position of the tooltip relative to trigger',\n    },\n    trigger: {\n      control: 'select',\n      options: ['hover', 'click', 'focus'] as TooltipTrigger[],\n      description: 'How the tooltip is triggered',\n    },\n    type: {\n      control: 'select',\n      options: ['plain', 'rich'] as TooltipType[],\n      description: 'Type of tooltip content',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the tooltip is disabled',\n    },\n    showDelay: {\n      control: 'number',\n      description: 'Delay before showing tooltip (ms)',\n    },\n    hideDelay: {\n      control: 'number',\n      description: 'Delay before hiding tooltip (ms)',\n    },\n    persistent: {\n      control: 'boolean',\n      description: 'Whether tooltip stays open until explicitly closed',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes',\n    },\n    maxWidth: {\n      control: 'text',\n      description: 'Maximum width of tooltip',\n    },\n    offset: {\n      control: 'number',\n      description: 'Distance from trigger element in pixels',\n    },\n  },\n  tags: ['autodocs'],\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<ChipComponent>",
+                "defaultValue": "{\n  title: 'Components/Chip',\n  component: ChipComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [ChipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Chip component implements Material Design 3 chip variants for compact information display and user interaction.\n\n## Features\n- Four chip variants (assist, filter, input, suggestion)\n- Multiple sizes (sm, md)\n- Elevation options (flat, elevated)\n- Selection states for filter chips\n- Removable functionality for input chips\n- Icon and avatar support\n- Accessibility features with ARIA attributes\n- Keyboard navigation support\n\n## Usage\n\\`\\`\\`html\n<qk-chip variant=\"filter\" [selected]=\"isSelected\" (selectionChange)=\"onSelectionChange($event)\">\n  Filter Option\n</qk-chip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    variant: {\n      control: 'select',\n      options: ['assist', 'filter', 'input', 'suggestion'] as ChipVariant[],\n      description: 'The type of chip',\n    },\n    size: {\n      control: 'select',\n      options: ['sm', 'md'] as ChipSize[],\n      description: 'The size of the chip',\n    },\n    elevation: {\n      control: 'select',\n      options: ['flat', 'elevated'] as ChipElevation[],\n      description: 'The elevation level of the chip',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the chip is disabled',\n    },\n    selected: {\n      control: 'boolean',\n      description: 'Whether the chip is selected (filter chips only)',\n    },\n    removable: {\n      control: 'boolean',\n      description: 'Whether the chip can be removed (input chips only)',\n    },\n    hasLeadingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a leading icon',\n    },\n    hasTrailingIcon: {\n      control: 'boolean',\n      description: 'Whether the chip has a trailing icon',\n    },\n    hasAvatar: {\n      control: 'boolean',\n      description: 'Whether the chip has an avatar',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes to apply',\n    },\n    ariaLabel: {\n      control: 'text',\n      description: 'ARIA label for accessibility',\n    },\n    removeAriaLabel: {\n      control: 'text',\n      description: 'ARIA label for the remove button',\n    },\n    testId: {\n      control: 'text',\n      description: 'Test ID for testing purposes',\n    },\n    clicked: {\n      action: 'clicked',\n      description: 'Event emitted when chip is clicked',\n    },\n    removed: {\n      action: 'removed',\n      description: 'Event emitted when chip is removed',\n    },\n    focused: {\n      action: 'focused',\n      description: 'Event emitted when chip receives focus',\n    },\n    blurred: {\n      action: 'blurred',\n      description: 'Event emitted when chip loses focus',\n    },\n    selectionChange: {\n      action: 'selectionChange',\n      description: 'Event emitted when chip selection changes',\n    },\n  },\n  args: {\n    clicked: fn(),\n    removed: fn(),\n    focused: fn(),\n    blurred: fn(),\n    selectionChange: fn(),\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<ButtonGroupComponent>",
+                "defaultValue": "{\n  title: 'Components/SimpleButtonGroup',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n}"
             },
             {
                 "name": "Primary",
@@ -1937,16 +1677,6 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  args: {\n    variant: 'secondary',\n    size: 'md',\n  },\n  render: (args) => ({\n    props: args,\n    template: `<qk-button \n      [variant]=\"variant\" \n      [size]=\"size\" \n      [disabled]=\"disabled\" \n      [loading]=\"loading\"\n      (clicked)=\"clicked($event)\">\n      Secondary Button\n    </qk-button>`,\n  }),\n}"
-            },
-            {
-                "name": "Simplebuttons",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    variant: 'primary',\n    disabled: false,\n    loading: false,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n    <div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\">Primary</qk-button-group>\n    <qk-button-group variant=\"edit\">Edit</qk-button-group>\n    <qk-button-group variant=\"info\">info</qk-button-group>\n    <qk-button-group variant=\"delete\">Delete</qk-button-group>\n    <qk-button-group variant=\"default\">Default</qk-button-group>\n    </div>  \n`,\n  }),\n\n  parameters: {\n    docs: {\n      description: {\n        story: 'Simple button group',\n      },\n    },\n  },\n}"
             },
             {
                 "name": "SuggestionChip",
@@ -1986,17 +1716,6 @@
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 192
-            },
-            {
-                "name": "ButtonSize",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
                 "file": "projects/quanta-kit/src/lib/Button/button.component.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -2012,17 +1731,6 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "<p>Supported button types for form submission</p>\n",
-                "kind": 192
-            },
-            {
-                "name": "ButtonVariant",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"success\"",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
                 "kind": 192
             },
             {
@@ -2073,8 +1781,19 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonGroupComponent>",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "rawtype": "StoryObj<ButtonComponent>",
+                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<TooltipComponent>",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2095,19 +1814,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonComponent>",
-                "file": "projects/quanta-kit/src/lib/Button/button.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 183
-            },
-            {
-                "name": "Story",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "StoryObj<TooltipComponent>",
-                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "rawtype": "StoryObj<ButtonGroupComponent>",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2201,6 +1909,28 @@
                     "defaultValue": "{\n  args: {\n    variant: 'suggestion',\n    size: 'md',\n    elevation: 'flat',\n  },\n  render: (args) => ({\n    props: args,\n    template: `<qk-chip \n      [variant]=\"variant\" \n      [size]=\"size\" \n      [elevation]=\"elevation\"\n      [disabled]=\"disabled\"\n      (clicked)=\"clicked($event)\">\n      Suggestion Chip\n    </qk-chip>`,\n  }),\n}"
                 }
             ],
+            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
+                {
+                    "name": "Basic",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    buttons: [\n      { label: 'Save', variant: 'primary' },\n      { label: 'Edit', variant: 'edit' },\n      { label: 'Delete', variant: 'delete' },\n    ],\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<ButtonGroupComponent>",
+                    "defaultValue": "{\n  title: 'Components/SimpleButtonGroup',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n}"
+                }
+            ],
             "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
                 {
                     "name": "BottomPosition",
@@ -2273,58 +2003,6 @@
                     "defaultValue": "{\n  args: {\n    text: 'Tooltip positioned on top',\n    position: 'top',\n    trigger: 'hover',\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"padding: 50px; text-align: center;\">\n        <qk-tooltip \n          [text]=\"text\" \n          [position]=\"position\" \n          [trigger]=\"trigger\">\n          <button style=\"padding: 8px 16px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\">\n            Top Tooltip\n          </button>\n        </qk-tooltip>\n      </div>\n    `,\n  }),\n}"
                 }
             ],
-            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
-                {
-                    "name": "Buttonicons",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "{\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"edit\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"info\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"delete\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    <qk-button-group variant=\"default\"><svg class=\"w-6 h-6 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" viewBox=\"0 0 24 24\">\n  <path fill-rule=\"evenodd\" d=\"M17 10v1.126c.367.095.714.24 1.032.428l.796-.797 1.415 1.415-.797.796c.188.318.333.665.428 1.032H21v2h-1.126c-.095.367-.24.714-.428 1.032l.797.796-1.415 1.415-.796-.797a3.979 3.979 0 0 1-1.032.428V20h-2v-1.126a3.977 3.977 0 0 1-1.032-.428l-.796.797-1.415-1.415.797-.796A3.975 3.975 0 0 1 12.126 16H11v-2h1.126c.095-.367.24-.714.428-1.032l-.797-.796 1.415-1.415.796.797A3.977 3.977 0 0 1 15 11.126V10h2Zm.406 3.578.016.016c.354.358.574.85.578 1.392v.028a2 2 0 0 1-3.409 1.406l-.01-.012a2 2 0 0 1 2.826-2.83ZM5 8a4 4 0 1 1 7.938.703 7.029 7.029 0 0 0-3.235 3.235A4 4 0 0 1 5 8Zm4.29 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h6.101A6.979 6.979 0 0 1 9 15c0-.695.101-1.366.29-2Z\" clip-rule=\"evenodd\"/>\n</svg>\n</qk-button-group>\n    </div> `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button icon group',\n      },\n    },\n  },\n}"
-                },
-                {
-                    "name": "Buttonsizes",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "{\n  args: {\n    size: 'xs',\n    disabled: false,\n    loading: false,\n  },\n  render: () => ({\n    template: `\n    <div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group size=\"xs\" variant=\"primary\">Primary</qk-button-group>\n    <qk-button-group size=\"sm\" variant=\"edit\">Edit</qk-button-group>\n    <qk-button-group size=\"md\" variant=\"info\">info</qk-button-group>\n    <qk-button-group size=\"lg\" variant=\"delete\">Delete</qk-button-group>\n    <qk-button-group size=\"xl\" variant=\"default\">Default</qk-button-group>\n     `,\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Button sizes xs, sm, md, lg, xl',\n      },\n    },\n  },\n}"
-                },
-                {
-                    "name": "Loadingbuttons",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "{\n  args: {\n    loaderType: 'Loading',\n    disabled: false,\n    loading: true,\n  },\n  render: () => ({\n    template: `<div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"spinner\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"dots\"></qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\">Loading</qk-button-group>\n    <qk-button-group [loading]=\"true\" loaderType=\"bar\"></qk-button-group>\n`, // placeholder\n  }),\n  parameters: {\n    docs: {\n      description: {\n        story: 'Loading buttons with spinner, dots and bar loader',\n      },\n    },\n  },\n}"
-                },
-                {
-                    "name": "meta",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Meta<ButtonGroupComponent>",
-                    "defaultValue": "{\n  title: 'Components/Button-group',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n  args: {\n    disabled: false,\n    loading: false,\n    hideTextOnLoading: false,\n    ariaLabel: '',\n    testId: '',\n    clicked: fn(),\n    focused: fn(),\n    blurred: fn(),\n  },\n}"
-                },
-                {
-                    "name": "Simplebuttons",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "{\n  args: {\n    variant: 'primary',\n    disabled: false,\n    loading: false,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n    <div style=\"display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;\">\n    <qk-button-group variant=\"primary\">Primary</qk-button-group>\n    <qk-button-group variant=\"edit\">Edit</qk-button-group>\n    <qk-button-group variant=\"info\">info</qk-button-group>\n    <qk-button-group variant=\"delete\">Delete</qk-button-group>\n    <qk-button-group variant=\"default\">Default</qk-button-group>\n    </div>  \n`,\n  }),\n\n  parameters: {\n    docs: {\n      description: {\n        story: 'Simple button group',\n      },\n    },\n  },\n}"
-                }
-            ],
             "projects/quanta-kit/src/lib/Button/button.stories.ts": [
                 {
                     "name": "Disabled",
@@ -2391,30 +2069,6 @@
         "groupedFunctions": {},
         "groupedEnumerations": {},
         "groupedTypeAliases": {
-            "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts": [
-                {
-                    "name": "ButtonSize",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 192
-                },
-                {
-                    "name": "ButtonVariant",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "\"primary\" | \"delete\" | \"edit\" | \"info\" | \"success\"",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 192
-                }
-            ],
             "projects/quanta-kit/src/lib/Button/button.component.ts": [
                 {
                     "name": "ButtonSize",
@@ -2485,32 +2139,6 @@
                     "kind": 192
                 }
             ],
-            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<ButtonGroupComponent>",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
-            "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<ChipComponent>",
-                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
             "projects/quanta-kit/src/lib/Button/button.stories.ts": [
                 {
                     "name": "Story",
@@ -2531,6 +2159,32 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<TooltipComponent>",
                     "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Chip/chip.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<ChipComponent>",
+                    "file": "projects/quanta-kit/src/lib/Chip/chip.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<ButtonGroupComponent>",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -2576,7 +2230,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 11,
+        "count": 10,
         "status": "low",
         "files": [
             {
@@ -2693,28 +2347,8 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "ButtonGroupComponent",
-                "coveragePercent": 76,
-                "coverageCount": "16/21",
-                "status": "very-good"
-            },
-            {
-                "filePath": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                "type": "type alias",
-                "linktype": "miscellaneous",
-                "linksubtype": "typealias",
-                "name": "ButtonSize",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
-                "type": "type alias",
-                "linktype": "miscellaneous",
-                "linksubtype": "typealias",
-                "name": "ButtonVariant",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {
@@ -2722,27 +2356,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Buttonicons",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Buttonsizes",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Loadingbuttons",
+                "name": "Basic",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2753,16 +2367,6 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "meta",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Simplebuttons",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

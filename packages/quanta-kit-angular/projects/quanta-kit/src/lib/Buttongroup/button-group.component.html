@@ -1,23 +1,10 @@
-<button
-  [type]="type"
-  [disabled]="disabled || loading"
-  [class]="buttonClasses"
-  (click)="handleClick($event)"
-  (focus)="handleFocus($event)"
-  (blur)="handleBlur($event)"
-  [attr.aria-label]="ariaLabel"
-  [attr.aria-pressed]="ariaPressed"
-  [attr.data-testid]="testId"
->
-  <ng-container *ngIf="loading">
-    <span *ngIf="loaderType === 'dots'" class="qk-btn-dots" aria-hidden="true">
-      <span></span><span></span><span></span>
-    </span>
-    <span *ngIf="loaderType === 'bar'" class="qk-btn-bar" aria-hidden="true"></span>
-    <span *ngIf="loaderType === 'spinner'" class="qk-btn-spinner" aria-hidden="true"></span>
-  </ng-container>
-  <span class="qk-btn-content" [class.qk-btn-content--hidden]="loading && hideTextOnLoading">
-    <ng-content></ng-content>
-  </span>
-  <ng-content select="[slot=icon-right]"></ng-content>
-</button>
+<div class="button-group">
+  <button
+    *ngFor="let btn of buttons"
+    class="btn"
+    [ngClass]="btn.variant"
+    (click)="handleClick(btn)"
+  >
+    {{ btn.label }}
+  </button>
+</div>
