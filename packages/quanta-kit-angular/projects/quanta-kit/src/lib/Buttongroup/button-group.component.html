@@ -6,9 +6,6 @@
     [disabled]="btn.loading"
     (click)="handleClick(btn)"
   >
-     <ng-container *ngIf="btn.loading; else normalLabel">
-      Loading...
-    </ng-container>
-    <ng-template #normalLabel>{{ btn.label }}</ng-template>
+     {{ btn.label }}
   </button>
 </div>
