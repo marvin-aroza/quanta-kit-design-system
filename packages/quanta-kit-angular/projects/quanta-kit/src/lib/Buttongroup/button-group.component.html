@@ -2,9 +2,13 @@
   <button
     *ngFor="let btn of buttons"
     class="btn"
-    [ngClass]="btn.variant"
+    [ngClass]="[btn.variant, btn.size ? btn.size : 'medium']"
+    [disabled]="btn.loading"
     (click)="handleClick(btn)"
   >
-    {{ btn.label }}
+     <ng-container *ngIf="btn.loading; else normalLabel">
+      Loading...
+    </ng-container>
+    <ng-template #normalLabel>{{ btn.label }}</ng-template>
   </button>
 </div>

@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./button-group.component.scss'],
 })
 export class ButtonGroupComponent {
-  @Input() buttons: { label: string; variant?: string }[] = [];
+  @Input() buttons: { label: string; variant?: string; size?:string }[] = [];
 
   handleClick(btn: any) {
     alert(`You clicked ${btn.label}`);

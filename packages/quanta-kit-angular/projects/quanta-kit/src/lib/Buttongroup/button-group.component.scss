@@ -1,17 +1,35 @@
 .button-group {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: flex-start; 
 }
 
 .btn {
-  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   color: white;
+  font-weight: 500;
 }
 
 .primary { background-color: #053889; }
 .edit { background-color: #f2ff02; color: black; }
 .delete { background-color: #ed0909; }
+.save { background-color: green; }
+.secondary { background-color: lightblue; }
+.info{ background-color: darkcyan}
 
+.small {
+    font-size: 9px;
+    padding: 7px 14px;
+  }
+
+  .medium {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .large {
+    font-size: 18px;
+    padding: 20px 30px;
+  }

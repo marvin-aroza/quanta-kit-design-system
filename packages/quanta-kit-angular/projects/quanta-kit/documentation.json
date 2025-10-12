@@ -404,7 +404,7 @@
         },
         {
             "name": "ButtonGroupComponent",
-            "id": "component-ButtonGroupComponent-6c58fd079e8e12fb68bdbb5009eda020a904276ddcd9255d26106931e29c6987b87423cb3256819eeeac201819cf85b268c2f03b12b906527070c506e2f956ea",
+            "id": "component-ButtonGroupComponent-bfefd404c98ca40112e8af2e95d727a1e3bae8ba1be9e9ce05e8aa0e452cb568d894b8690c85ef3817c78c1b0abc14b316c63fa25253ee7204cf97e9d4e33ded",
             "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -478,11 +478,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'button-group',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './button-group.component.html',\n  styleUrls: ['./button-group.component.scss']\n})\nexport class ButtonGroupComponent {\n  @Input() buttons: { label: string, variant?: string }[] = [];\n\n  handleClick(btn: any) {\n    alert(`You clicked ${btn.label}`);\n  }\n}\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'button-group',\n  standalone: true,\n  imports: [CommonModule],\n  templateUrl: './button-group.component.html',\n  styleUrls: ['./button-group.component.scss'],\n})\nexport class ButtonGroupComponent {\n  @Input() buttons: { label: string; variant?: string }[] = [];\n\n  handleClick(btn: any) {\n    alert(`You clicked ${btn.label}`);\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".button-group {\r\n  display: flex;\r\n  gap: 8px;\r\n}\r\n\r\n.btn {\r\n  padding: 8px 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  color: white;\r\n}\r\n\r\n.primary { background-color: #053889; }\r\n.edit { background-color: #f2ff02; color: black; }\r\n.delete { background-color: #ed0909; }\r\n",
+                    "data": ".button-group {\r\n  display: flex;\r\n  gap: 8px;\r\n}\r\n\r\n.btn {\r\n  padding: 8px 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  color: white;\r\n}\r\n\r\n.primary { background-color: #053889; }\r\n.edit { background-color: #f2ff02; color: black; }\r\n.delete { background-color: #ed0909; }\r\n\r\n",
                     "styleUrl": "./button-group.component.scss"
                 }
             ],
@@ -1622,11 +1622,11 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<TooltipComponent>",
-                "defaultValue": "{\n  title: 'Components/Tooltip',\n  component: TooltipComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [TooltipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Tooltip component provides contextual information when users hover, focus, or click on an element.\nBased on Material Design 3 guidelines for tooltips.\n\n## Features\n- Multiple positions (top, bottom, left, right)\n- Different trigger types (hover, click, focus)\n- Plain and rich content support\n- Customizable delays and styling\n- Accessibility support with ARIA attributes\n- Keyboard navigation\n\n## Usage\n\\`\\`\\`html\n<qk-tooltip text=\"Helpful information\" position=\"top\">\n  <button>Hover me</button>\n</qk-tooltip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    text: {\n      control: 'text',\n      description: 'Tooltip text content',\n    },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],\n      description: 'Position of the tooltip relative to trigger',\n    },\n    trigger: {\n      control: 'select',\n      options: ['hover', 'click', 'focus'] as TooltipTrigger[],\n      description: 'How the tooltip is triggered',\n    },\n    type: {\n      control: 'select',\n      options: ['plain', 'rich'] as TooltipType[],\n      description: 'Type of tooltip content',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the tooltip is disabled',\n    },\n    showDelay: {\n      control: 'number',\n      description: 'Delay before showing tooltip (ms)',\n    },\n    hideDelay: {\n      control: 'number',\n      description: 'Delay before hiding tooltip (ms)',\n    },\n    persistent: {\n      control: 'boolean',\n      description: 'Whether tooltip stays open until explicitly closed',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes',\n    },\n    maxWidth: {\n      control: 'text',\n      description: 'Maximum width of tooltip',\n    },\n    offset: {\n      control: 'number',\n      description: 'Distance from trigger element in pixels',\n    },\n  },\n  tags: ['autodocs'],\n}"
+                "type": "Meta<ButtonGroupComponent>",
+                "defaultValue": "{\n  title: 'Components/SimpleButtonGroup',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n}"
             },
             {
                 "name": "meta",
@@ -1642,11 +1642,11 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Meta<ButtonGroupComponent>",
-                "defaultValue": "{\n  title: 'Components/SimpleButtonGroup',\n  component: ButtonGroupComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [ButtonGroupComponent],\n    }),\n  ],\n}"
+                "type": "Meta<TooltipComponent>",
+                "defaultValue": "{\n  title: 'Components/Tooltip',\n  component: TooltipComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [TooltipComponent],\n    }),\n  ],\n  parameters: {\n    docs: {\n      description: {\n        component: `\nThe Tooltip component provides contextual information when users hover, focus, or click on an element.\nBased on Material Design 3 guidelines for tooltips.\n\n## Features\n- Multiple positions (top, bottom, left, right)\n- Different trigger types (hover, click, focus)\n- Plain and rich content support\n- Customizable delays and styling\n- Accessibility support with ARIA attributes\n- Keyboard navigation\n\n## Usage\n\\`\\`\\`html\n<qk-tooltip text=\"Helpful information\" position=\"top\">\n  <button>Hover me</button>\n</qk-tooltip>\n\\`\\`\\`\n        `,\n      },\n    },\n  },\n  argTypes: {\n    text: {\n      control: 'text',\n      description: 'Tooltip text content',\n    },\n    position: {\n      control: 'select',\n      options: ['top', 'bottom', 'left', 'right'] as TooltipPosition[],\n      description: 'Position of the tooltip relative to trigger',\n    },\n    trigger: {\n      control: 'select',\n      options: ['hover', 'click', 'focus'] as TooltipTrigger[],\n      description: 'How the tooltip is triggered',\n    },\n    type: {\n      control: 'select',\n      options: ['plain', 'rich'] as TooltipType[],\n      description: 'Type of tooltip content',\n    },\n    disabled: {\n      control: 'boolean',\n      description: 'Whether the tooltip is disabled',\n    },\n    showDelay: {\n      control: 'number',\n      description: 'Delay before showing tooltip (ms)',\n    },\n    hideDelay: {\n      control: 'number',\n      description: 'Delay before hiding tooltip (ms)',\n    },\n    persistent: {\n      control: 'boolean',\n      description: 'Whether tooltip stays open until explicitly closed',\n    },\n    customClass: {\n      control: 'text',\n      description: 'Custom CSS classes',\n    },\n    maxWidth: {\n      control: 'text',\n      description: 'Maximum width of tooltip',\n    },\n    offset: {\n      control: 'number',\n      description: 'Distance from trigger element in pixels',\n    },\n  },\n  tags: ['autodocs'],\n}"
             },
             {
                 "name": "Primary",
@@ -1792,8 +1792,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<TooltipComponent>",
-                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                "rawtype": "StoryObj<ButtonGroupComponent>",
+                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -1814,8 +1814,8 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<ButtonGroupComponent>",
-                "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                "rawtype": "StoryObj<TooltipComponent>",
+                "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -2152,13 +2152,13 @@
                     "kind": 183
                 }
             ],
-            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
+            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
-                    "rawtype": "StoryObj<TooltipComponent>",
-                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
+                    "rawtype": "StoryObj<ButtonGroupComponent>",
+                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -2178,13 +2178,13 @@
                     "kind": 183
                 }
             ],
-            "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts": [
+            "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts": [
                 {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
-                    "rawtype": "StoryObj<ButtonGroupComponent>",
-                    "file": "projects/quanta-kit/src/lib/Buttongroup/button-group.stories.ts",
+                    "rawtype": "StoryObj<TooltipComponent>",
+                    "file": "projects/quanta-kit/src/lib/Tooltip/tooltip.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
