@@ -28,12 +28,12 @@ export const Basic: Story = {
 export const Buttonsize: Story = {
   args: {
     buttons: [
-      { label: 'save', variant: 'save', size:'large' },
-      { label: 'secondary', variant: 'secondary', size:'medium' },
-      { label: 'info', variant: 'info', size:'small' },
-      { label: 'secondary', variant: 'secondary', size:'large' },
-      { label: 'save', variant: 'save', size:'small' },
-      { label: 'info', variant: 'info', size:'large' },
+      { label: 'save', variant: 'save', size: 'large' },
+      { label: 'secondary', variant: 'secondary', size: 'medium' },
+      { label: 'info', variant: 'info', size: 'small' },
+      { label: 'secondary', variant: 'secondary', size: 'large' },
+      { label: 'save', variant: 'save', size: 'small' },
+      { label: 'info', variant: 'info', size: 'large' },
     ],
   },
 };
