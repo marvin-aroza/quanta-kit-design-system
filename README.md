@@ -22,9 +22,11 @@ quanta-kit-design-system/
 
 ## Packages
 
-- `quanta-kit-design-system-react`
-- `quanta-kit-design-system-vue`
-- `quanta-kit-design-system-angular`
+The following are the npm package names for installation/imports. The corresponding repository directories are shown in parentheses:
+
+- `quanta-kit-design-system-react` → `packages/quanta-kit-react`
+- `quanta-kit-design-system-vue` → `packages/quanta-kit-vue`
+- `quanta-kit-design-system-angular` → `packages/quanta-kit-angular`
 
 ## Apps
 
