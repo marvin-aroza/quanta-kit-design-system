@@ -13,7 +13,8 @@
     "build": "npm run build:rollup && npm run build:types",
     "build:rollup": "rollup -c",
     "build:types": "tsc --emitDeclarationOnly --outDir dist",
-    "lint": "eslint src --ext .ts,.tsx --fix",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "check-types": "tsc --noEmit",
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build"

@@ -1,1 +1,24 @@
-{"changelog": "@changesets/changelog-github","commit": false,"fixed": [],"linked": [],"access": "restricted","baseBranch": "main","updateInternalDependencies": "patch","ignore": []}
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    {
+      "repo": "marvin-aroza/quanta-kit-design-system"
+    }
+  ],
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "quanta-kit-angular-docs",
+    "quanta-kit-react-docs", 
+    "quanta-kit-vue-docs"
+  ],
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true,
+    "updateInternalDependents": "always"
+  }
+}
