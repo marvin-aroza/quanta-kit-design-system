@@ -34,19 +34,19 @@ jobs:
           if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting React package..."
             cd packages/quanta-kit-react
-            npm run lint --if-present
+            npm run lint
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting Angular package..."
             cd packages/quanta-kit-angular
-            npm run lint --if-present
+            npm run lint
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting Vue package..."
             cd packages/quanta-kit-vue
-            npm run lint --if-present
+            npm run lint
             cd ../..
           fi
       - name: Build selected packages
