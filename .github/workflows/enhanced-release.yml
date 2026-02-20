@@ -108,9 +108,7 @@ jobs:
     needs: [quality, build]
     permissions:
       contents: write
-      packages: write
       pull-requests: write
-      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
