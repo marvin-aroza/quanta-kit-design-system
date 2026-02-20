@@ -20,7 +20,8 @@
   "scripts": {
     "build": "vite build && npm run build:types",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
-    "lint": "eslint src --ext .ts,.vue --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "check-types": "vue-tsc --noEmit",
     "storybook": "storybook dev -p 6008",
     "build-storybook": "storybook build"

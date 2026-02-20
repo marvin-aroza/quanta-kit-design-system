@@ -14,6 +14,9 @@ on:
           - vue
           - all
 
+permissions:
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -22,66 +25,70 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
           registry-url: 'https://registry.npmjs.org/'
       - run: npm ci
       - name: Lint selected packages
         run: |
+          set -euo pipefail
           if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting React package..."
             cd packages/quanta-kit-react
-            npm run lint || exit 1
+            npm run lint
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting Angular package..."
             cd packages/quanta-kit-angular
-            npm run lint || exit 1
+            npm run lint
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Linting Vue package..."
             cd packages/quanta-kit-vue
-            npm run lint || exit 1
+            npm run lint
             cd ../..
           fi
       - name: Build selected packages
         run: |
+          set -euo pipefail
           if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Building React package..."
             cd packages/quanta-kit-react
-            npm run build || exit 1
+            npm run build
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Building Angular package..."
             cd packages/quanta-kit-angular
-            npm run build || exit 1
+            npm run build
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Building Vue package..."
             cd packages/quanta-kit-vue
-            npm run build || exit 1
+            npm run build
             cd ../..
           fi
       - name: Publish selected packages
         run: |
+          set -euo pipefail
           if [ "${{ github.event.inputs.package }}" = "react" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Publishing React package..."
             cd packages/quanta-kit-react
-            npm publish --access public || echo "React publish failed, continuing..."
+            npm publish --access public
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "angular" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Publishing Angular package..."
             cd packages/quanta-kit-angular
-            npm publish --access public || echo "Angular publish failed, continuing..."
+            npm publish --access public
             cd ../..
           fi
           if [ "${{ github.event.inputs.package }}" = "vue" ] || [ "${{ github.event.inputs.package }}" = "all" ]; then
             echo "Publishing Vue package..."
             cd packages/quanta-kit-vue
-            npm publish --access public || echo "Vue publish failed, continuing..."
+            npm publish --access public
             cd ../..
           fi
         env:
