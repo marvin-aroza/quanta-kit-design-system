@@ -14,7 +14,7 @@ concurrency:
 
 env:
   CI: true
-  NODE_VERSION: 18
+  NODE_VERSION: 20
 
 jobs:
   quality:
@@ -135,6 +135,7 @@ jobs:
             apps/*/dist
             apps/*/storybook-static
           key: build-${{ github.sha }}
+          fail-on-cache-miss: true
 
       - name: Configure Git
         run: |
