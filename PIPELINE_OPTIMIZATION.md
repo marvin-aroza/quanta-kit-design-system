@@ -32,9 +32,9 @@ Includes:
 
 #### 4. **NPM Audit Check**
 
-- Runs `npm audit --audit-level=moderate`
-- Continues on error with warnings
-- **Benefit**: Early detection of security vulnerabilities
+- Runs `npm audit --audit-level=high` (blocking — fails pipeline on high/critical vulnerabilities)
+- Runs `npm audit --audit-level=moderate` (informational — warns on moderate vulnerabilities)
+- **Benefit**: Early detection of security vulnerabilities; high/critical block releases
 
 #### 5. **Outdated Dependencies Check**
 
@@ -56,7 +56,7 @@ Includes:
 
 ### 📊 Job Dependency Graph
 
-```
+```text
 install (runs first, caches node_modules)
   ├─> commit-lint (PR only)
   ├─> security (audit, outdated, depcheck)
@@ -74,6 +74,8 @@ install (runs first, caches node_modules)
 | Total install time           | ~4-6 min | ~1-2 min | 60-70% faster      |
 | Cache hits (subsequent runs) | Partial  | Full     | 90%+ faster        |
 | Parallel execution           | 2 jobs   | 5 jobs   | Better utilization |
+
+> **Note:** These are estimated projections — to be validated after initial workflow runs. Update with real measurements once available.
 
 ### 🎯 Additional Optimizations
 

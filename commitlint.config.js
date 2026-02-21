@@ -37,12 +37,12 @@ const Configuration = {
     "type-case": [2, "always", "lower-case"],
     "type-empty": [2, "never"],
     
-    // Scope validation - ticket numbers
-    "scope-case": [2, "always", "upper-case"], // For ticket numbers like ABC-123
+    // Scope validation
+    "scope-case": [2, "always", ["lower-case", "upper-case", "kebab-case"]], // Allow lowercase (ci), uppercase (ABC-123), and kebab-case (my-scope)
     "scope-empty": [1, "never"], // Warning instead of error if scope is missing
     
-    // Subject validation - lowercase
-    "subject-case": [2, "always", "lower-case"],
+    // Subject validation
+    "subject-case": [2, "never", ["upper-case", "pascal-case"]], // Disallow ALL-CAPS and PascalCase; allows lowercase, sentence-case, and mixed (brand names like CodeRabbit)
     "subject-empty": [2, "never"],
     "subject-full-stop": [2, "never", "."],
     "subject-max-length": [2, "always", 72],
