@@ -55,6 +55,7 @@ jobs:
     name: Validate Commit Messages
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    needs: install
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
