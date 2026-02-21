@@ -78,9 +78,10 @@ turbo run build --filter=quanta-kit-design-system-angular
 ## Versioning and Release
 
 - Changesets is the release/versioning source of truth.
-- Main release workflow: `.github/workflows/enhanced-release.yml`.
-- Legacy Storybook Pages workflow is manual-only: `.github/workflows/release.yml`.
-- Manual package publishing utility: `.github/workflows/publish-multi-packages.yml`.
+- Automated release workflow: `.github/workflows/enhanced-release.yml`
+  - Runs on every push to `main` and pull requests
+  - Includes quality checks, security audits, and automated publishing
+  - See `PIPELINE_OPTIMIZATION.md` for performance details
 
 ## Development Flow
 
