@@ -7,19 +7,22 @@
     "next-dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "node -e \"console.log('lint skipped: TS parser removed during hard vulnerability reduction')\"",
-    "lint:fix": "npm run lint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "next": "16.1.6",
-    "quanta-kit-react": "file:../../packages/quanta-kit-react",
+    "quanta-kit-design-system-react": "0.0.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^8.46.2",
     "@types/node": "^25",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
     "open": "^11.0.0",
     "typescript": "~5.9.3"
   }

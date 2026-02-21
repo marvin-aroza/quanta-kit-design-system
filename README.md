@@ -36,7 +36,7 @@ The following are the npm package names for installation/imports. The correspond
 
 ## Prerequisites
 
-- Node.js `>=18`
+- Node.js `>=20.19`
 - npm `11.x`
 
 ## Quick Start

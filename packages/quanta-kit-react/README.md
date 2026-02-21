@@ -5,13 +5,13 @@ A modern React component library built with TypeScript, providing reusable UI co
 ## Installation
 
 ```bash
-npm install quanta-kit-react
+npm install quanta-kit-design-system-react
 ```
 
 ## Usage
 
 ```tsx
-import { Button } from "quanta-kit-react";
+import { Button } from "quanta-kit-design-system-react";
 
 function App() {
   return (

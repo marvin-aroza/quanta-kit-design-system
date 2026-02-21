@@ -5,7 +5,7 @@ A comprehensive Vue 3 component library built with TypeScript and modern develop
 ## Installation
 
 ```bash
-npm install quanta-kit-vue
+npm install quanta-kit-design-system-vue
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ npm install quanta-kit-vue
 </template>
 
 <script setup lang="ts">
-import { Button } from "quanta-kit-vue";
+import { Button } from "quanta-kit-design-system-vue";
 
 const handleClick = () => {
   console.log("Button clicked!");
@@ -32,10 +32,10 @@ const handleClick = () => {
 
 ```typescript
 // Import specific components
-import { Button } from "quanta-kit-vue";
+import { Button } from "quanta-kit-design-system-vue";
 
 // Import component types
-import type { ButtonProps, ButtonVariant } from "quanta-kit-vue";
+import type { ButtonProps, ButtonVariant } from "quanta-kit-design-system-vue";
 ```
 
 ## Components

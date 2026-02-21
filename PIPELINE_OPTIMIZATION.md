@@ -124,11 +124,10 @@ env:
 
 ### 🎬 Next Steps
 
-1. Commit and push these changes
-2. Monitor first workflow run for timing improvements
-3. Review security/outdated warnings when they appear
-4. Consider adding workflow_dispatch for manual triggers
-5. Optional: Add matrix strategy for testing multiple Node versions
+1. Monitor first workflow run for timing improvements
+2. Review security/outdated warnings when they appear
+3. Consider adding workflow_dispatch for manual triggers
+4. Optional: Add matrix strategy for testing multiple Node versions
 
 ---
 

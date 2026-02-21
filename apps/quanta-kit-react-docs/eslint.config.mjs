@@ -1,4 +1,6 @@
 import js from "@eslint/js";
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
   {
@@ -12,20 +14,27 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ["**/*.{js,jsx}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
+      parser: tsParser,
       parserOptions: { ecmaFeatures: { jsx: true } },
       globals: {
-        window: "readonly",
-        document: "readonly",
-        alert: "readonly",
+        ...globals.browser,
         React: "readonly",
       },
     },
     rules: {
       "no-unused-vars": "off",
+    },
+  },
+  {
+    files: ["**/*.{config,conf}.{js,mjs,cjs,ts}", "scripts/**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
   },
 ];
