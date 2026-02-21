@@ -24,7 +24,7 @@
 ### For Library Users
 
 ```bash
-npm install quanta-kit-angular
+npm install quanta-kit-design-system-angular
 ```
 
 ### For Development
@@ -53,7 +53,7 @@ Storybook will be available at `http://localhost:6006`.
 ## 🚀 Quick Start
 
 ```typescript
-import { ButtonComponent } from "quanta-kit-angular";
+import { ButtonComponent } from "quanta-kit-design-system-angular";
 
 @Component({
   template: ` <qk-button variant="primary" size="medium"> Click me! </qk-button> `,

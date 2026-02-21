@@ -32,6 +32,7 @@
   - `quanta-kit-design-system-angular`
 - Workspace apps should depend on package versions compatible with Changesets internal dependency checks.
 - Keep root and workspace Node compatibility aligned with tooling constraints (`Node >= 20.19`).
+- Dependabot groups dependencies by framework stack (React/Vue/Angular/tooling) for controlled upgrades.
 
 ## Quality Gates
 
@@ -40,3 +41,6 @@
   - `npm run check-types`
   - `npm run build`
   - `npm run changeset:status -- --since=origin/main` (PRs)
+  - Markdown lint
+  - Tarball integrity validation
+  - Runtime smoke checks from packed artifacts

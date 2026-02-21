@@ -2,6 +2,22 @@
   "name": "quanta-kit-design-system-angular",
   "version": "0.0.3",
   "type": "module",
+  "main": "dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs",
+  "module": "dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs",
+  "types": "dist/quanta-kit/types/quanta-kit-design-system-angular.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/quanta-kit/types/quanta-kit-design-system-angular.d.ts",
+      "import": "./dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs",
+      "default": "./dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs"
+    }
+  },
+  "files": [
+    "dist/quanta-kit"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "ng": "ng",
     "build": "ng-packagr -p projects/quanta-kit/ng-package.json && npm run sync-dist-version",

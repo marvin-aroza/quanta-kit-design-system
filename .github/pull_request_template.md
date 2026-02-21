@@ -13,7 +13,7 @@
 ## Release Notes
 
 - [ ] Changeset added (package-impacting changes)
-- [ ] Empty changeset added (non-release change, if required by policy)
+- [ ] Empty changeset added + `no-release` label applied (non-release change, if required by policy)
 - [ ] No changeset needed (explain):
 
 ## Risk and Rollback

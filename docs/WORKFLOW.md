@@ -31,7 +31,7 @@ npm run validate:pr
 ## Changeset Rules
 
 - Package-affecting changes: add a normal changeset.
-- Non-release changes (docs/config/chore only): add an empty changeset when CI requires it.
+- Non-release changes (docs/config/chore only): add an empty changeset and apply the `no-release` label on the PR.
 
 ## Release Channels
 
@@ -48,3 +48,5 @@ npm run validate:pr
 - Docs apps are integration/demo surfaces, not the primary correctness layer.
 - Prefer adding tests close to package source (`packages/*`) rather than only in docs apps.
 - CI includes smoke-package install checks from packed artifacts.
+- CI includes tarball integrity checks and runtime smoke tests for React/Vue/Angular packages.
+- CI includes markdown lint checks for docs quality.

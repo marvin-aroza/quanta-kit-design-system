@@ -45,7 +45,19 @@ Trusted Publisher for this repository and workflow in npm settings.
 ## Changeset Rules
 
 - Normal package changes must include a non-empty changeset.
-- Non-release changes may use an empty changeset when PR policy requires one.
+- Non-release changes may use an empty changeset only when the PR has the `no-release` label.
+
+## SemVer Policy
+
+- `patch`: bug fixes, internal refactors, non-breaking style/a11y tweaks, packaging-only fixes.
+- `minor`: backward-compatible new components/props/events/slots/features.
+- `major`: any breaking API or behavior changes (renames, removals, defaults that break consumers).
+
+Examples:
+
+- `patch`: fix `Button` focus style or packaging export path.
+- `minor`: add `Tooltip` component or new optional `variant` prop.
+- `major`: remove `Button` prop, rename export, change default behavior that breaks existing apps.
 
 ## Commands
 

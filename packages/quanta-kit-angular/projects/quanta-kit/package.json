@@ -1,5 +1,5 @@
 {
-  "name": "quanta-kit",
+  "name": "quanta-kit-design-system-angular",
   "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^21.1.5",

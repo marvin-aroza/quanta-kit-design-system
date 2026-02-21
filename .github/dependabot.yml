@@ -1,0 +1,49 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      react-stack:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react*"
+          - "@storybook/react*"
+          - "next"
+      vue-stack:
+        patterns:
+          - "vue"
+          - "@vue/*"
+          - "@vitejs/plugin-vue"
+          - "eslint-plugin-vue"
+          - "vue-eslint-parser"
+          - "@storybook/vue*"
+      angular-stack:
+        patterns:
+          - "@angular/*"
+          - "ng-packagr"
+          - "karma*"
+          - "@storybook/angular"
+      tooling:
+        patterns:
+          - "typescript"
+          - "eslint"
+          - "@typescript-eslint/*"
+          - "prettier"
+          - "turbo"
+          - "@changesets/*"
+          - "commitlint*"
+          - "@commitlint/*"
+          - "storybook"
+          - "@storybook/*"
+          - "vite"
+          - "rollup*"
+    ignore:
+      - dependency-name: "node"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

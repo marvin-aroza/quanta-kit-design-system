@@ -107,3 +107,5 @@ npm run release
 - Architecture and boundaries: `docs/ARCHITECTURE.md`
 - Release channels and npm tags: `docs/RELEASE_POLICY.md`
 - Release rollback runbook: `docs/ROLLBACK.md`
+- Repository settings checklist: `docs/REPOSITORY_SETTINGS.md`
+- Automated dependency update policy: `.github/dependabot.yml`
