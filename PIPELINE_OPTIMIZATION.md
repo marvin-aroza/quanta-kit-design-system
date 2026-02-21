@@ -3,6 +3,7 @@
 ## Changes Made to GitHub Actions Workflows
 
 > Note: This document predates the workflow split into:
+>
 > - `.github/workflows/ci.yml`
 > - `.github/workflows/release.yml`
 > - `.github/workflows/deploy-storybook.yml`
