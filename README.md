@@ -24,20 +24,20 @@ quanta-kit-design-system/
 
 The following are the npm package names for installation/imports. The corresponding repository directories are shown in parentheses:
 
-- `quanta-kit-design-system-react` → `packages/quanta-kit-react`
-- `quanta-kit-design-system-vue` → `packages/quanta-kit-vue`
-- `quanta-kit-design-system-angular` → `packages/quanta-kit-angular`
+- `quanta-kit-design-system-react` -> `packages/quanta-kit-react`
+- `quanta-kit-design-system-vue` -> `packages/quanta-kit-vue`
+- `quanta-kit-design-system-angular` -> `packages/quanta-kit-angular`
 
 ## Apps
 
 - `quanta-kit-react-docs` (Next.js)
-- `quanta-kit-vue-docs` (Vue CLI)
+- `quanta-kit-vue-docs` (Vite)
 - `quanta-kit-angular-docs` (Angular CLI)
 
 ## Prerequisites
 
 - Node.js `>=18`
-- npm `10.x`
+- npm `11.x`
 
 ## Quick Start
 

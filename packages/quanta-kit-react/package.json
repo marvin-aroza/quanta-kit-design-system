@@ -15,7 +15,9 @@
     "build:types": "tsc --emitDeclarationOnly --outDir dist",
     "lint": "node -e \"console.log('lint skipped: TS parser removed during hard vulnerability reduction')\"",
     "lint:fix": "npm run lint",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "storybook": "npx storybook dev -p 6007",
+    "build-storybook": "npx storybook build"
   },
   "peerDependencies": {
     "react": ">=19.0.0",
@@ -25,6 +27,8 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
+    "@storybook/addon-docs": "^10.2.10",
+    "@storybook/react-vite": "^10.2.10",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.4",
@@ -32,6 +36,7 @@
     "rollup": "^4.58.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "storybook": "^10.2.10",
     "typescript": "~5.9.3"
   },
   "keywords": [

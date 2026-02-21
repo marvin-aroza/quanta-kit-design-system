@@ -44,6 +44,7 @@
   "workspaces": [
     "apps/quanta-kit-react-docs",
     "apps/quanta-kit-vue-docs",
+    "apps/quanta-kit-angular-docs",
     "packages/*"
   ]
 }
