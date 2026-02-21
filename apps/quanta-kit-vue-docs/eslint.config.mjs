@@ -1,21 +1,30 @@
-import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
+import globals from "globals";
+import vueParser from "vue-eslint-parser";
+import tsParser from "@typescript-eslint/parser";
+import pluginVue from "eslint-plugin-vue";
 
 export default [
   {
     ignores: ["node_modules/**", "dist/**", "build/**"],
   },
-  ...compat.extends("plugin:vue/vue3-essential", "eslint:recommended"),
+  js.configs.recommended,
+  ...pluginVue.configs["flat/recommended"],
+  {
+    files: ["**/*.{js,ts,vue}"],
+    languageOptions: {
+      parser: vueParser,
+      parserOptions: {
+        parser: tsParser,
+        sourceType: "module",
+        ecmaVersion: "latest",
+        extraFileExtensions: [".vue"],
+      },
+      globals: {
+        ...globals.browser,
+      },
+    },
+  },
   {
     files: ["**/*.js"],
     languageOptions: {

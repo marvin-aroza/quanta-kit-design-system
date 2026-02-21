@@ -15,11 +15,56 @@ concurrency:
 env:
   CI: true
   NODE_VERSION: 20
+  CACHE_VERSION: v1
 
 jobs:
-  quality:
-    name: Quality Checks
+  # Single install job to cache dependencies
+  install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Verify installation
+        run: |
+          npm list --depth=0 2>&1 || {
+            EXIT_CODE=$?
+            echo "::warning::npm list exited with code $EXIT_CODE (extraneous/peer dependency warnings are expected in monorepos)"
+            # Only fail if node_modules is truly missing
+            if [ ! -d "node_modules" ]; then
+              echo "::error::node_modules directory is missing"
+              exit 1
+            fi
+          }
+
+  # Validate commit messages for PRs
+  commit-lint:
+    name: Validate Commit Messages
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: install
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,10 +75,95 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
+
+      - name: Validate commit messages
+        run: npx commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.event.pull_request.head.sha }} --verbose
+
+  # Security and dependency checks
+  security:
+    name: Security & Dependency Checks
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
+
+      - name: Run runtime vulnerability audit (blocking)
+        run: |
+          echo "::group::NPM Audit (runtime only)"
+          npm run audit:runtime
+          echo "::endgroup::"
+
+      - name: Run full dependency audit (informational)
+        run: |
+          echo "::group::NPM Audit (all dependencies)"
+          npm run audit || echo "::warning::Full audit reported issues (including dev/tooling dependencies)"
+          echo "::endgroup::"
+        continue-on-error: true
+
+      - name: Check for outdated packages
+        run: |
+          echo "::group::Outdated Packages"
+          npm outdated --long || echo "::notice::Some packages have updates available"
+          echo "::endgroup::"
+        continue-on-error: true
+
+      - name: Check for unused dependencies
+        run: |
+          echo "::group::Dependency Check"
+          npx depcheck --ignores="@types/*,eslint-*,prettier,husky,@commitlint/*,turbo,@changesets/*" || echo "::notice::Review suggested"
+          echo "::endgroup::"
+        continue-on-error: true
+
+  quality:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
 
       - name: Lint
         run: npm run lint
@@ -44,7 +174,7 @@ jobs:
   build:
     name: Build Packages
     runs-on: ubuntu-latest
-    needs: quality
+    needs: [install, quality]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,10 +183,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
 
       - name: Build packages
         run: npm run build
@@ -78,6 +214,7 @@ jobs:
     name: Changeset Status
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    needs: install
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -89,10 +226,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
 
       - name: Check changeset status
         run: |
@@ -105,7 +248,7 @@ jobs:
     name: Release and Publish
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [quality, build]
+    needs: [install, quality, build, security]
     permissions:
       contents: write
       pull-requests: write
@@ -120,11 +263,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Restore node_modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            apps/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
+          fail-on-cache-miss: true
 
       - name: Restore build artifacts
         uses: actions/cache/restore@v4
@@ -146,8 +295,8 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          title: "Release new versions"
-          commit: "Version packages"
+          title: "chore(release): version packages"
+          commit: "chore(release): version packages"
           publish: npm run release
           version: npm run version-packages
           createGithubReleases: true

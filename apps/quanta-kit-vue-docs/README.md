@@ -2,28 +2,34 @@
 
 ## Project setup
 
-```
+```bash
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Start development server
 
-```
-npm run serve
+```bash
+npm run dev
 ```
 
-### Compiles and minifies for production
+### Build for production
 
-```
+```bash
 npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
 ```
 
 ### Lints and fixes files
 
-```
+```bash
 npm run lint
 ```
 
 ### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Vite Configuration Reference](https://vite.dev/config/).

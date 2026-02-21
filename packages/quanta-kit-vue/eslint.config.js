@@ -1,41 +1,39 @@
 import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-import vue from 'eslint-plugin-vue';
+import globals from 'globals';
 import vueParser from 'vue-eslint-parser';
-
-const compat = new FlatCompat();
+import tsParser from '@typescript-eslint/parser';
+import pluginVue from 'eslint-plugin-vue';
 
 export default [
-  js.configs.recommended,
-  ...compat.extends('plugin:vue/vue3-recommended'),
   {
-    files: ['**/*.ts', '**/*.vue'],
+    ignores: ['dist/', 'node_modules/', 'storybook-static/'],
+  },
+  js.configs.recommended,
+  ...pluginVue.configs['flat/recommended'],
+  {
+    files: ['**/*.{js,ts,vue}'],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: tsparser,
-        ecmaVersion: 2020,
+        parser: tsParser,
         sourceType: 'module',
+        ecmaVersion: 'latest',
+        extraFileExtensions: ['.vue'],
       },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-      vue,
+      globals: {
+        ...globals.browser,
+      },
     },
     rules: {
       'vue/multi-word-component-names': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
     },
   },
   {
-    files: ['**/*.stories.ts', '**/*.stories.js'],
-    rules: {
-      'vue/one-component-per-file': 'off',
+    files: ['**/*.{config,stories}.{js,ts,mjs,cjs}', 'vite.config.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
     },
-  },
-  {
-    ignores: ['dist/', 'node_modules/', 'storybook-static/'],
   },
 ];

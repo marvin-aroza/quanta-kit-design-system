@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Button as QkButton } from 'quanta-kit-vue'
+import { Button as QkButton } from 'quanta-kit-design-system-vue'
 
 export default {
   name: 'App',
