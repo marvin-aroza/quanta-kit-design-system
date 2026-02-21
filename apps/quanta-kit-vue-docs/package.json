@@ -9,8 +9,7 @@
     "lint:fix": "eslint . --ext .js,.vue,.ts --fix"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13",
+    "vue": "^3.5.0",
     "quanta-kit-vue": "file:../../packages/quanta-kit-vue"
   },
   "devDependencies": {
