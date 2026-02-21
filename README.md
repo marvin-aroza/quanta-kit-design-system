@@ -55,6 +55,7 @@ npm run lint
 npm run lint:fix
 npm run check-types
 npm run test
+npm run validate
 
 # storybook
 npm run storybook
@@ -78,10 +79,12 @@ turbo run build --filter=quanta-kit-design-system-angular
 ## Versioning and Release
 
 - Changesets is the release/versioning source of truth.
-- Automated release workflow: `.github/workflows/enhanced-release.yml`
-  - Runs on every push to `main` and pull requests
-  - Includes quality checks, security audits, and automated publishing
-  - See `PIPELINE_OPTIMIZATION.md` for performance details
+- Workflow split by concern:
+  - CI checks: `.github/workflows/ci.yml`
+  - Package publishing: `.github/workflows/release.yml`
+  - Storybook deployment: `.github/workflows/deploy-storybook.yml`
+- Channel policy and branch mapping: `docs/RELEASE_POLICY.md`
+- Tag-triggered package publish is supported (see `docs/RELEASE_POLICY.md`)
 
 ## Development Flow
 
@@ -98,5 +101,8 @@ npm run release
 
 ## Notes
 
-- Lint scripts are check-only. Use `npm run lint:fix` for auto-fixes.
+- Lint scripts run ESLint. Use `npm run lint:fix` for auto-fixes where enabled.
 - Docs apps consume local workspace packages during development.
+- Contributor workflow docs: `docs/WORKFLOW.md`
+- Architecture and boundaries: `docs/ARCHITECTURE.md`
+- Release channels and npm tags: `docs/RELEASE_POLICY.md`

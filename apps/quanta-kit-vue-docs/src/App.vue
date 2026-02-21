@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img
+      alt="Vue logo"
+      src="./assets/logo.png"
+    >
     
     <h1>Quanta Kit Vue Documentation</h1>
     <p>Welcome to the Quanta Kit Vue component library documentation.</p>
@@ -9,29 +12,54 @@
       <h2>Button Component Examples</h2>
       
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem;">
-        <QkButton variant="primary" @click="handlePrimaryClick">
+        <QkButton
+          variant="primary"
+          @click="handlePrimaryClick"
+        >
           Primary Button
         </QkButton>
-        <QkButton variant="secondary" @click="handleSecondaryClick">
+        <QkButton
+          variant="secondary"
+          @click="handleSecondaryClick"
+        >
           Secondary Button
         </QkButton>
-        <QkButton variant="outline" @click="handleOutlineClick">
+        <QkButton
+          variant="outline"
+          @click="handleOutlineClick"
+        >
           Outline Button
         </QkButton>
-        <QkButton variant="ghost" @click="handleGhostClick">
+        <QkButton
+          variant="ghost"
+          @click="handleGhostClick"
+        >
           Ghost Button
         </QkButton>
       </div>
       
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem;">
-        <QkButton size="small">Small Button</QkButton>
-        <QkButton size="medium">Medium Button</QkButton>
-        <QkButton size="large">Large Button</QkButton>
+        <QkButton size="small">
+          Small Button
+        </QkButton>
+        <QkButton size="medium">
+          Medium Button
+        </QkButton>
+        <QkButton size="large">
+          Large Button
+        </QkButton>
       </div>
       
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <QkButton disabled>Disabled Button</QkButton>
-        <QkButton variant="primary" type="submit">Submit Button</QkButton>
+        <QkButton disabled>
+          Disabled Button
+        </QkButton>
+        <QkButton
+          variant="primary"
+          type="submit"
+        >
+          Submit Button
+        </QkButton>
       </div>
     </section>
   </div>

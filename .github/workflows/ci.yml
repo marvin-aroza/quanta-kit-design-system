@@ -1,24 +1,41 @@
-name: Enhanced Changesets Release
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, next, beta, "alpha/**", "rc/**"]
+    paths:
+      - ".github/workflows/**"
+      - ".changeset/**"
+      - "apps/**"
+      - "packages/**"
+      - "docs/**"
+      - "package.json"
+      - "package-lock.json"
+      - "turbo.json"
+      - "README.md"
   pull_request:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - ".github/workflows/**"
+      - ".changeset/**"
+      - "apps/**"
+      - "packages/**"
+      - "docs/**"
+      - "package.json"
+      - "package-lock.json"
+      - "turbo.json"
+      - "README.md"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   CI: true
-  NODE_VERSION: 20
+  NODE_VERSION: "20.19.0"
   CACHE_VERSION: v1
 
 jobs:
-  # Single install job to cache dependencies
   install:
     name: Install Dependencies
     runs-on: ubuntu-latest
@@ -52,14 +69,12 @@ jobs:
           npm list --depth=0 2>&1 || {
             EXIT_CODE=$?
             echo "::warning::npm list exited with code $EXIT_CODE (extraneous/peer dependency warnings are expected in monorepos)"
-            # Only fail if node_modules is truly missing
             if [ ! -d "node_modules" ]; then
               echo "::error::node_modules directory is missing"
               exit 1
             fi
           }
 
-  # Validate commit messages for PRs
   commit-lint:
     name: Validate Commit Messages
     runs-on: ubuntu-latest
@@ -89,7 +104,6 @@ jobs:
       - name: Validate commit messages
         run: npx commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.event.pull_request.head.sha }} --verbose
 
-  # Security and dependency checks
   security:
     name: Security & Dependency Checks
     runs-on: ubuntu-latest
@@ -200,16 +214,6 @@ jobs:
       - name: Build Storybooks
         run: npm run build-storybook
 
-      - name: Cache build artifacts
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/storybook-static
-            apps/*/dist
-            apps/*/storybook-static
-          key: build-${{ github.sha }}
-
   changeset-status:
     name: Changeset Status
     runs-on: ubuntu-latest
@@ -243,68 +247,3 @@ jobs:
           git fetch origin main:main
           npm run changeset:status -- --since=origin/main
           echo "::endgroup::"
-
-  release:
-    name: Release and Publish
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: [install, quality, build, security]
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            apps/*/node_modules
-          key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
-          fail-on-cache-miss: true
-
-      - name: Restore build artifacts
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            packages/*/dist
-            packages/*/storybook-static
-            apps/*/dist
-            apps/*/storybook-static
-          key: build-${{ github.sha }}
-          fail-on-cache-miss: true
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Create release pull request or publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          title: "chore(release): version packages"
-          commit: "chore(release): version packages"
-          publish: npm run release
-          version: npm run version-packages
-          createGithubReleases: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Release summary
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          echo "::notice title=Packages Published::The following packages were published: ${{ steps.changesets.outputs.publishedPackages }}"
