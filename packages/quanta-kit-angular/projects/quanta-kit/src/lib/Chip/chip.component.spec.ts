@@ -281,8 +281,12 @@ describe('ChipComponent', () => {
     component.removed.subscribe(() => (eventEmitted = true));
 
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-    Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
-    Object.defineProperty(mockEvent, 'stopPropagation', { value: jest.fn() });
+    Object.defineProperty(mockEvent, 'preventDefault', {
+      value: jasmine.createSpy('preventDefault'),
+    });
+    Object.defineProperty(mockEvent, 'stopPropagation', {
+      value: jasmine.createSpy('stopPropagation'),
+    });
 
     component.handleRemoveKeydown(mockEvent);
 
@@ -297,8 +301,12 @@ describe('ChipComponent', () => {
     component.removed.subscribe(() => (eventEmitted = true));
 
     const mockEvent = new KeyboardEvent('keydown', { key: ' ' });
-    Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
-    Object.defineProperty(mockEvent, 'stopPropagation', { value: jest.fn() });
+    Object.defineProperty(mockEvent, 'preventDefault', {
+      value: jasmine.createSpy('preventDefault'),
+    });
+    Object.defineProperty(mockEvent, 'stopPropagation', {
+      value: jasmine.createSpy('stopPropagation'),
+    });
 
     component.handleRemoveKeydown(mockEvent);
 
@@ -323,7 +331,9 @@ describe('ChipComponent', () => {
     component.clicked.subscribe(() => (eventEmitted = true));
 
     const mockEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-    Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
+    Object.defineProperty(mockEvent, 'preventDefault', {
+      value: jasmine.createSpy('preventDefault'),
+    });
 
     component.handleKeydown(mockEvent);
 
@@ -338,7 +348,9 @@ describe('ChipComponent', () => {
     component.clicked.subscribe(() => (eventEmitted = true));
 
     const mockEvent = new KeyboardEvent('keydown', { key: ' ' });
-    Object.defineProperty(mockEvent, 'preventDefault', { value: jest.fn() });
+    Object.defineProperty(mockEvent, 'preventDefault', {
+      value: jasmine.createSpy('preventDefault'),
+    });
 
     component.handleKeydown(mockEvent);
 
@@ -404,8 +416,8 @@ describe('ChipComponent', () => {
     removeButton.classList.add('qk-chip__remove-button');
     const mockEvent = {
       target: removeButton,
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
+      preventDefault: jasmine.createSpy('preventDefault'),
+      stopPropagation: jasmine.createSpy('stopPropagation'),
     } as any;
 
     component.handleClick(mockEvent);
@@ -424,12 +436,14 @@ describe('ChipComponent', () => {
     const chipElement = document.createElement('div');
     const mockEvent = {
       target: chipElement,
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
+      preventDefault: jasmine.createSpy('preventDefault'),
+      stopPropagation: jasmine.createSpy('stopPropagation'),
     } as any;
 
     // Mock closest to return null (not a remove button)
-    chipElement.closest = jest.fn().mockReturnValue(null);
+    chipElement.closest = jasmine
+      .createSpy('closest')
+      .and.returnValue(null) as any;
 
     component.handleClick(mockEvent);
 
@@ -443,8 +457,8 @@ describe('ChipComponent', () => {
 
     const mockEvent = {
       target: document.createElement('div'),
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
+      preventDefault: jasmine.createSpy('preventDefault'),
+      stopPropagation: jasmine.createSpy('stopPropagation'),
     } as any;
 
     component.handleClick(mockEvent);

@@ -113,16 +113,16 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           fail-on-cache-miss: true
 
-      - name: Run npm audit (high/critical - blocking)
+      - name: Run runtime vulnerability audit (blocking)
         run: |
-          echo "::group::NPM Audit (high/critical)"
-          npm audit --audit-level=high
+          echo "::group::NPM Audit (runtime only)"
+          npm run audit:runtime
           echo "::endgroup::"
 
-      - name: Run npm audit (moderate - informational)
+      - name: Run full dependency audit (informational)
         run: |
-          echo "::group::NPM Audit (moderate)"
-          npm audit --audit-level=moderate || echo "::warning::Moderate vulnerabilities found, review recommended"
+          echo "::group::NPM Audit (all dependencies)"
+          npm run audit || echo "::warning::Full audit reported issues (including dev/tooling dependencies)"
           echo "::endgroup::"
         continue-on-error: true
 

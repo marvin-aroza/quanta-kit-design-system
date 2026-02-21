@@ -1,5 +1,9 @@
 import type { StorybookConfig } from "@storybook/vue3-vite";
-import { resolve } from "path";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function getAbsolutePath(value: string): any {
   return resolve(__dirname, "..", "..", "..", "node_modules", value);
@@ -7,11 +11,7 @@ function getAbsolutePath(value: string): any {
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    getAbsolutePath("@storybook/addon-docs"),
-    getAbsolutePath("@storybook/addon-controls"),
-    getAbsolutePath("@storybook/addon-actions"),
-  ],
+  addons: [getAbsolutePath("@storybook/addon-docs")],
   framework: {
     name: getAbsolutePath("@storybook/vue3-vite"),
     options: {},

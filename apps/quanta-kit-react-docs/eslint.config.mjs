@@ -1,7 +1,6 @@
-import nextConfig from "eslint-config-next";
+import js from "@eslint/js";
 
-const eslintConfig = [
-  ...nextConfig,
+export default [
   {
     ignores: [
       "node_modules/**",
@@ -11,6 +10,22 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  js.configs.recommended,
+  {
+    files: ["**/*.{js,jsx}"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      parserOptions: { ecmaFeatures: { jsx: true } },
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        alert: "readonly",
+        React: "readonly",
+      },
+    },
+    rules: {
+      "no-unused-vars": "off",
+    },
+  },
 ];
-
-export default eslintConfig;

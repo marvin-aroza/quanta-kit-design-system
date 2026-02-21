@@ -34,15 +34,7 @@
           "options": {
             "configDir": "projects/quanta-kit/.storybook",
             "browserTarget": "quanta-kit:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-p",
-              "projects/quanta-kit/tsconfig.lib.json",
-              "-e",
-              "json",
-              "-d",
-              "projects/quanta-kit"
-            ],
+            "compodoc": false,
             "port": 6006
           }
         },
@@ -51,15 +43,7 @@
           "options": {
             "configDir": "projects/quanta-kit/.storybook",
             "browserTarget": "quanta-kit:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-p",
-              "projects/quanta-kit/tsconfig.lib.json",
-              "-e",
-              "json",
-              "-d",
-              "projects/quanta-kit"
-            ],
+            "compodoc": false,
             "outputDir": "storybook-static"
           }
         }

@@ -134,12 +134,12 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-### 4. Jest Setup File (projects/quanta-kit/.storybook/test-setup.ts)
+### 4. Angular Test Setup File (projects/quanta-kit/src/test.ts)
 
 ```typescript
-import "jest-preset-angular/setup-jest";
+import 'zone.js/testing';
 
-// Configure Jest environment for Angular/Storybook tests
+// Configure Angular/Karma test environment
 Object.defineProperty(window, "CSS", { value: null });
 Object.defineProperty(window, "getComputedStyle", {
   value: () => {
@@ -281,8 +281,8 @@ find coverage/ -type f -name "*.info" -o -name "*.html"
 # Test LCOV parsing
 grep "LF:\|LH:" coverage/storybook/lcov.info
 
-# Validate Jest configuration
-npx jest --showConfig
+# Validate Angular/Karma configuration
+npx ng test quanta-kit --watch=false --browsers=ChromeHeadless
 ```
 
 ## 📚 Best Practices

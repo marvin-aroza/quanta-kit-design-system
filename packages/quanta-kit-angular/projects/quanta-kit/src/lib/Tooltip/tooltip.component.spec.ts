@@ -95,7 +95,7 @@ describe('TooltipComponent', () => {
   });
 
   it('should warn for plain tooltips without text', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const consoleSpy = spyOn(console, 'warn');
     component.text = '';
     component.type = 'plain';
 
@@ -104,29 +104,26 @@ describe('TooltipComponent', () => {
     expect(consoleSpy).toHaveBeenCalledWith(
       'qk-tooltip: text is required for plain tooltips',
     );
-    consoleSpy.mockRestore();
   });
 
   it('should not warn for rich tooltips without text', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const consoleSpy = spyOn(console, 'warn');
     component.text = '';
     component.type = 'rich';
 
     component.ngOnInit();
 
     expect(consoleSpy).not.toHaveBeenCalled();
-    consoleSpy.mockRestore();
   });
 
   it('should not warn for plain tooltips with text', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    const consoleSpy = spyOn(console, 'warn');
     component.text = 'Some text';
     component.type = 'plain';
 
     component.ngOnInit();
 
     expect(consoleSpy).not.toHaveBeenCalled();
-    consoleSpy.mockRestore();
   });
 
   it('should show tooltip when show() is called', () => {
