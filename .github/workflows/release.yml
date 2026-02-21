@@ -38,11 +38,12 @@ env:
 jobs:
   stable:
     name: Stable Release (latest)
-    if: startsWith(github.ref, 'refs/heads/') && (github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable'))
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable')
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -86,10 +87,11 @@ jobs:
 
   prerelease:
     name: Prerelease
-    if: startsWith(github.ref, 'refs/heads/') && (github.ref != 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel != 'stable'))
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/') && github.ref != 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel != 'stable')
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -142,6 +144,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -207,7 +210,22 @@ jobs:
             exit 1
           fi
 
+      - name: Check if version is already published
+        id: exists
+        run: |
+          set +e
+          npm view "${{ steps.meta.outputs.package }}@${{ steps.meta.outputs.version }}" version > /tmp/published_version.txt 2>/dev/null
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::${{ steps.meta.outputs.package }}@${{ steps.meta.outputs.version }} already exists on npm. Skipping publish."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish tagged package
+        if: steps.exists.outputs.published == 'false'
         working-directory: ${{ steps.meta.outputs.publish_dir }}
         run: npm publish --tag ${{ steps.meta.outputs.dist_tag }} --access public --provenance
         env:

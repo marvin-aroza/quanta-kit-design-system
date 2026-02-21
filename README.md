@@ -106,3 +106,4 @@ npm run release
 - Contributor workflow docs: `docs/WORKFLOW.md`
 - Architecture and boundaries: `docs/ARCHITECTURE.md`
 - Release channels and npm tags: `docs/RELEASE_POLICY.md`
+- Release rollback runbook: `docs/ROLLBACK.md`

@@ -40,9 +40,11 @@ npm run validate:pr
   - `.github/workflows/ci.yml`
   - `.github/workflows/release.yml`
   - `.github/workflows/deploy-storybook.yml`
+  - `.github/workflows/release-dry-run.yml`
 
 ## Testing Strategy
 
 - Package-level tests should validate component behavior and regressions.
 - Docs apps are integration/demo surfaces, not the primary correctness layer.
 - Prefer adding tests close to package source (`packages/*`) rather than only in docs apps.
+- CI includes smoke-package install checks from packed artifacts.

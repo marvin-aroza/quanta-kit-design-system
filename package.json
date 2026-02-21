@@ -10,6 +10,7 @@
     "storybook": "turbo run storybook",
     "build-storybook": "turbo run build-storybook",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "validate": "npm run lint && npm run check-types && npm run build",
     "validate:pr": "npm run validate && npm run changeset:status -- --since=origin/main",

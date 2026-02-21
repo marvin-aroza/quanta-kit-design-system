@@ -27,6 +27,7 @@ This repository publishes three independent packages:
 - CI checks: `.github/workflows/ci.yml`
 - Package publishing: `.github/workflows/release.yml`
 - Storybook deployment: `.github/workflows/deploy-storybook.yml`
+- Release simulation: `.github/workflows/release-dry-run.yml`
 
 ## Changesets PR Auto-Merge
 
@@ -34,6 +35,12 @@ The stable release workflow enables auto-merge for the Changesets version PR.
 To make this work, repository settings must allow auto-merge on pull requests.
 If branch protection requires approvals from specific reviewers, the bot PR will
 still wait for those requirements unless you explicitly relax them.
+
+## Trusted Publishing Readiness
+
+Release jobs request `id-token: write` and publish with `--provenance`.
+To use full npm trusted publishing (no `NPM_TOKEN` secret), configure npm
+Trusted Publisher for this repository and workflow in npm settings.
 
 ## Changeset Rules
 
@@ -84,3 +91,7 @@ npm run changeset:pre:enter:next
 npm run changeset:pre:enter:rc
 npm run changeset:pre:exit
 ```
+
+## Recovery
+
+Rollback procedures are documented in `docs/ROLLBACK.md`.
