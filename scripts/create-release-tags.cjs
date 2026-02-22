@@ -5,21 +5,41 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const root = process.cwd();
-const packages = [
-  "packages/quanta-kit-react/package.json",
-  "packages/quanta-kit-vue/package.json",
-  "packages/quanta-kit-angular/package.json",
-];
+const packageMap = {
+  react: "packages/quanta-kit-react/package.json",
+  vue: "packages/quanta-kit-vue/package.json",
+  angular: "packages/quanta-kit-angular/package.json",
+};
+let packages = Object.values(packageMap);
 
 const args = new Set(process.argv.slice(2));
 const dryRun = !args.has("--push");
 const remoteArg = process.argv.find((arg) => arg.startsWith("--remote="));
 const remote = remoteArg ? remoteArg.split("=")[1] : "origin";
+const packagesArg = process.argv.find((arg) => arg.startsWith("--packages="));
 if (!/^[A-Za-z0-9._/-]+$/.test(remote) || remote.startsWith("-")) {
   console.error(
     `Invalid --remote value: "${remote}". Allowed characters: letters, digits, ., _, /, -`
   );
   process.exit(1);
+}
+
+if (packagesArg) {
+  const requested = packagesArg
+    .split("=")[1]
+    .split(",")
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+  const invalid = requested.filter((name) => !packageMap[name]);
+  if (invalid.length > 0) {
+    console.error(`Invalid --packages value(s): ${invalid.join(", ")}`);
+    process.exit(1);
+  }
+  packages = [...new Set(requested)].map((name) => packageMap[name]);
+  if (packages.length === 0) {
+    console.log("No packages selected for tag generation.");
+    process.exit(0);
+  }
 }
 
 function run(command) {
