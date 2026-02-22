@@ -62,7 +62,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
@@ -104,7 +104,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -130,7 +130,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -182,7 +182,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -211,7 +211,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -237,7 +237,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -297,7 +297,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -333,7 +333,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -369,7 +369,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -424,7 +424,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
