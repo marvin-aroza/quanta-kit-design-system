@@ -11,10 +11,10 @@ This repository publishes three independent packages:
 ## Channels and Dist-Tags
 
 - `main` branch: stable releases, npm tag `latest`
-- `next` branch: prerelease snapshots, npm tag `next`
-- `beta` branch: prerelease snapshots, npm tag `beta`
-- `alpha/*` branches: prerelease snapshots, npm tag `alpha`
-- `rc/*` branches: prerelease snapshots, npm tag `rc`
+- `next` branch: pre-release snapshots, npm tag `next`
+- `beta` branch: pre-release snapshots, npm tag `beta`
+- `alpha/*` branches: pre-release snapshots, npm tag `alpha`
+- `rc/*` branches: pre-release snapshots, npm tag `rc`
 - manual dispatch: supports `stable`, `next`, `beta`, `alpha`, `rc`, `canary`
 - package tag push:
   - `quanta-kit-design-system-react@<version>`
@@ -67,7 +67,7 @@ Stable:
 npm run release
 ```
 
-Prerelease snapshots:
+Pre-release snapshots:
 
 ```bash
 npm run release:next

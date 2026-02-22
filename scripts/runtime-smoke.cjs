@@ -88,6 +88,7 @@ function run(command, cwd = root, inherit = false) {
 
 let tarball;
 let tempDir;
+let exitCode = 0;
 try {
   const packJson = JSON.parse(run(`npm pack --workspace=${workspace} --json`));
   const filename = packJson?.[0]?.filename;
@@ -109,7 +110,7 @@ try {
   console.log(`Runtime smoke passed for ${workspace}`);
 } catch (error) {
   console.error(error.message);
-  process.exit(1);
+  exitCode = 1;
 } finally {
   try {
     if (tempDir) {
@@ -125,4 +126,7 @@ try {
   } catch {
     // no-op
   }
+}
+if (exitCode !== 0) {
+  process.exit(exitCode);
 }

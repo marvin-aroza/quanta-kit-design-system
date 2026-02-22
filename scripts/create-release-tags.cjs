@@ -64,10 +64,14 @@ for (const pkgPath of packages) {
 }
 
 const uniqueTags = [...new Set(releaseTags)];
+const localExistingTags = uniqueTags.filter((tag) => hasLocalTag(tag));
+const remoteExistingTags = uniqueTags.filter((tag) => hasRemoteTag(tag));
 const existingTags = uniqueTags.filter(
-  (tag) => hasLocalTag(tag) || hasRemoteTag(tag)
+  (tag) => localExistingTags.includes(tag) || remoteExistingTags.includes(tag)
 );
-const missingTags = uniqueTags.filter((tag) => !existingTags.includes(tag));
+const missingTags = dryRun
+  ? uniqueTags.filter((tag) => !existingTags.includes(tag))
+  : uniqueTags.filter((tag) => !remoteExistingTags.includes(tag));
 
 if (existingTags.length > 0) {
   console.log("Skipping existing tags:");
@@ -92,10 +96,12 @@ if (dryRun) {
 }
 
 for (const tag of missingTags) {
-  execSync(`git tag -a "${tag}" -m "release: ${tag}"`, {
-    cwd: root,
-    stdio: "inherit",
-  });
+  if (!localExistingTags.includes(tag)) {
+    execSync(`git tag -a "${tag}" -m "release: ${tag}"`, {
+      cwd: root,
+      stdio: "inherit",
+    });
+  }
 }
 
 for (const tag of missingTags) {
