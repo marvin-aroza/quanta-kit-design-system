@@ -1,5 +1,14 @@
 # quanta-kit-design-system-angular
 
+## 0.0.4
+
+### Patch Changes
+
+- [#75](https://github.com/marvin-aroza/quanta-kit-design-system/pull/75) [`5ea31fc`](https://github.com/marvin-aroza/quanta-kit-design-system/commit/5ea31fcb8b29bf3584c1ab95681cc51d1903d438) Thanks [@marvin-aroza](https://github.com/marvin-aroza)! - Harden package release metadata and CI packaging checks across React, Vue, and Angular.
+  - React: fix CJS entrypoint packaging under ESM package type.
+  - Vue: enforce tarball/runtime smoke checks in CI.
+  - Angular: avoid mutating source metadata during build and align package naming/exports with publish output.
+
 ## 0.0.3
 
 ### Patch Changes

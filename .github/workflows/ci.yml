@@ -62,7 +62,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
@@ -104,7 +104,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -130,7 +130,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -182,7 +182,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -211,7 +211,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -237,7 +237,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -263,14 +263,14 @@ jobs:
         run: node scripts/pack-workspaces.cjs
 
       - name: Upload Storybook artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: storybook-static
           path: artifacts/storybook
           if-no-files-found: error
 
       - name: Upload npm tarball artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: npm-tarballs
           path: artifacts/npm-tarballs
@@ -297,7 +297,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -333,7 +333,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -369,7 +369,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -387,7 +387,7 @@ jobs:
   changeset-policy:
     name: Changeset Policy
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: install
     steps:
       - name: Checkout repository
@@ -409,7 +409,7 @@ jobs:
   changeset-status:
     name: Changeset Status
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: install
     steps:
       - name: Checkout repository
@@ -424,7 +424,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Restore node_modules cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
