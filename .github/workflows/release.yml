@@ -193,11 +193,13 @@ jobs:
           if [[ "$VER" == *"-next."* ]]; then DIST_TAG="next"; fi
           if [[ "$VER" == *"-canary."* ]]; then DIST_TAG="canary"; fi
 
-          echo "package=$PKG" >> "$GITHUB_OUTPUT"
-          echo "version=$VER" >> "$GITHUB_OUTPUT"
-          echo "workspace=$WORKSPACE" >> "$GITHUB_OUTPUT"
-          echo "publish_dir=$PUBLISH_DIR" >> "$GITHUB_OUTPUT"
-          echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+          {
+            echo "package=$PKG"
+            echo "version=$VER"
+            echo "workspace=$WORKSPACE"
+            echo "publish_dir=$PUBLISH_DIR"
+            echo "dist_tag=$DIST_TAG"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Build tagged workspace
         run: npm run build --workspace=${{ steps.meta.outputs.workspace }}
@@ -258,17 +260,17 @@ jobs:
           }
 
           CHANNEL="latest"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
             CHANNEL="${{ github.event.inputs.channel }}"
-          elif [ "${{ github.ref }}" = "refs/heads/next" ]; then
+          elif [ "$GITHUB_REF" = "refs/heads/next" ]; then
             CHANNEL="next"
-          elif [ "${{ github.ref }}" = "refs/heads/beta" ]; then
+          elif [ "$GITHUB_REF" = "refs/heads/beta" ]; then
             CHANNEL="beta"
-          elif [[ "${{ github.ref }}" == refs/heads/alpha/* ]]; then
+          elif [[ "$GITHUB_REF" == refs/heads/alpha/* ]]; then
             CHANNEL="alpha"
-          elif [[ "${{ github.ref }}" == refs/heads/rc/* ]]; then
+          elif [[ "$GITHUB_REF" == refs/heads/rc/* ]]; then
             CHANNEL="rc"
-          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
             TAG="${GITHUB_REF#refs/tags/}"
             PKG="${TAG%@*}"
             VER="${TAG#*@}"
