@@ -52,34 +52,41 @@ const pkgVersion = workspacePkg.version;
 
 console.log(`Smoke install: ${pkgName}@${pkgVersion} (workspace ${workspace})`);
 
-const packJsonRaw = run(`npm pack --workspace=${workspace} --json`);
-const packJson = JSON.parse(packJsonRaw);
-if (!Array.isArray(packJson) || packJson.length === 0 || !packJson[0].filename) {
-  console.error("Could not determine packed tarball filename.");
-  process.exit(1);
-}
-
-const tarball = path.join(root, packJson[0].filename);
-if (!fs.existsSync(tarball)) {
-  console.error(`Tarball not found: ${tarball}`);
-  process.exit(1);
-}
-
-const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "qk-smoke-"));
+let tarball;
+let tempDir;
 try {
+  const packJsonRaw = run(`npm pack --workspace=${workspace} --json`);
+  const packJson = JSON.parse(packJsonRaw);
+  if (!Array.isArray(packJson) || packJson.length === 0 || !packJson[0].filename) {
+    throw new Error("Could not determine packed tarball filename.");
+  }
+
+  tarball = path.join(root, packJson[0].filename);
+  if (!fs.existsSync(tarball)) {
+    throw new Error(`Tarball not found: ${tarball}`);
+  }
+
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "qk-smoke-"));
   runInherit("npm init -y", tempDir);
   runInherit(`npm install "${tarball}" --ignore-scripts --no-audit --prefer-offline`, tempDir);
   runInherit(`npm ls ${pkgName}`, tempDir);
 
   console.log(`Smoke install passed: ${pkgName}`);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
 } finally {
   try {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    if (tempDir) {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   } catch {
     // no-op
   }
   try {
-    fs.rmSync(tarball, { force: true });
+    if (tarball) {
+      fs.rmSync(tarball, { force: true });
+    }
   } catch {
     // no-op
   }

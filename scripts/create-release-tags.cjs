@@ -15,6 +15,12 @@ const args = new Set(process.argv.slice(2));
 const dryRun = !args.has("--push");
 const remoteArg = process.argv.find((arg) => arg.startsWith("--remote="));
 const remote = remoteArg ? remoteArg.split("=")[1] : "origin";
+if (!/^[A-Za-z0-9._/-]+$/.test(remote) || remote.startsWith("-")) {
+  console.error(
+    `Invalid --remote value: "${remote}". Allowed characters: letters, digits, ., _, /, -`
+  );
+  process.exit(1);
+}
 
 function run(command) {
   return execSync(command, { cwd: root, stdio: ["ignore", "pipe", "pipe"] })
@@ -43,7 +49,13 @@ for (const pkgPath of packages) {
     console.error(`Missing package file: ${pkgPath}`);
     process.exit(1);
   }
-  const pkg = JSON.parse(fs.readFileSync(abs, "utf8"));
+  let pkg;
+  try {
+    pkg = JSON.parse(fs.readFileSync(abs, "utf8"));
+  } catch (error) {
+    console.error(`Invalid JSON in ${pkgPath}: ${error.message}`);
+    process.exit(1);
+  }
   if (!pkg.name || !pkg.version) {
     console.error(`Invalid package metadata in ${pkgPath}`);
     process.exit(1);

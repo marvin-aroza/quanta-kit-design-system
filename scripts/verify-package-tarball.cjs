@@ -59,56 +59,61 @@ function existsInTar(entries, filePath) {
   return entries.includes(filePath);
 }
 
-const packJson = JSON.parse(run(`npm pack --workspace=${workspace} --json`));
-const filename = packJson?.[0]?.filename;
-if (!filename) {
-  console.error("Could not resolve tarball filename from npm pack output.");
-  process.exit(1);
-}
-
-const tarball = path.join(root, filename);
-const listOutput = run(`tar -tf "${tarball}"`);
-const entries = listOutput.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-
-const pkgJsonRaw = run(`tar -xOf "${tarball}" package/package.json`);
-const pkgJson = JSON.parse(pkgJsonRaw);
-
-if (pkgJson.name !== meta.packageName) {
-  console.error(`Unexpected package name in tarball: ${pkgJson.name} (expected ${meta.packageName})`);
-  process.exit(1);
-}
-
-for (const key of meta.requiredEntrypoints) {
-  if (!pkgJson[key]) {
-    console.error(`Missing required package.json field: ${key}`);
-    process.exit(1);
+let tarball;
+try {
+  const packJson = JSON.parse(run(`npm pack --workspace=${workspace} --json`));
+  const filename = packJson?.[0]?.filename;
+  if (!filename) {
+    throw new Error("Could not resolve tarball filename from npm pack output.");
   }
-  const entryPath = `package/${String(pkgJson[key]).replace(/^\.?\//, "")}`;
-  if (!existsInTar(entries, entryPath)) {
-    console.error(`Entrypoint target missing from tarball: ${entryPath}`);
-    process.exit(1);
-  }
-}
 
-for (const requiredFile of meta.requiredFiles) {
-  if (!existsInTar(entries, requiredFile)) {
-    console.error(`Required file missing from tarball: ${requiredFile}`);
-    process.exit(1);
-  }
-}
+  tarball = path.join(root, filename);
+  const listOutput = run(`tar -tf "${tarball}"`);
+  const entries = listOutput.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
 
-if (pkgJson.exports && pkgJson.exports["."]) {
-  const exportRoot = pkgJson.exports["."];
-  const exportPaths = Object.values(exportRoot).map((value) =>
-    `package/${String(value).replace(/^\.?\//, "")}`
-  );
-  for (const exportPath of exportPaths) {
-    if (!existsInTar(entries, exportPath)) {
-      console.error(`Missing exports target in tarball: ${exportPath}`);
-      process.exit(1);
+  const pkgJsonRaw = run(`tar -xOf "${tarball}" package/package.json`);
+  const pkgJson = JSON.parse(pkgJsonRaw);
+
+  if (pkgJson.name !== meta.packageName) {
+    throw new Error(
+      `Unexpected package name in tarball: ${pkgJson.name} (expected ${meta.packageName})`
+    );
+  }
+
+  for (const key of meta.requiredEntrypoints) {
+    if (!pkgJson[key]) {
+      throw new Error(`Missing required package.json field: ${key}`);
+    }
+    const entryPath = `package/${String(pkgJson[key]).replace(/^\.?\//, "")}`;
+    if (!existsInTar(entries, entryPath)) {
+      throw new Error(`Entrypoint target missing from tarball: ${entryPath}`);
     }
   }
-}
 
-fs.rmSync(tarball, { force: true });
-console.log(`Tarball integrity passed for ${workspace}`);
+  for (const requiredFile of meta.requiredFiles) {
+    if (!existsInTar(entries, requiredFile)) {
+      throw new Error(`Required file missing from tarball: ${requiredFile}`);
+    }
+  }
+
+  if (pkgJson.exports && pkgJson.exports["."]) {
+    const exportRoot = pkgJson.exports["."];
+    const exportPaths = Object.values(exportRoot).map((value) =>
+      `package/${String(value).replace(/^\.?\//, "")}`
+    );
+    for (const exportPath of exportPaths) {
+      if (!existsInTar(entries, exportPath)) {
+        throw new Error(`Missing exports target in tarball: ${exportPath}`);
+      }
+    }
+  }
+
+  console.log(`Tarball integrity passed for ${workspace}`);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+} finally {
+  if (tarball) {
+    fs.rmSync(tarball, { force: true });
+  }
+}

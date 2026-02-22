@@ -18,7 +18,7 @@ permissions:
 
 concurrency:
   group: storybook-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   NODE_VERSION: "20.19.0"
@@ -51,6 +51,24 @@ jobs:
           cp -R packages/quanta-kit-react/storybook-static/. site/storybook/react/
           cp -R packages/quanta-kit-vue/storybook-static/. site/storybook/vue/
           cp -R packages/quanta-kit-angular/storybook-static/. site/storybook/angular/
+          cat > site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Quanta Kit Storybooks</title>
+            </head>
+            <body>
+              <h1>Quanta Kit Storybooks</h1>
+              <ul>
+                <li><a href="./storybook/react/">React</a></li>
+                <li><a href="./storybook/vue/">Vue</a></li>
+                <li><a href="./storybook/angular/">Angular</a></li>
+              </ul>
+            </body>
+          </html>
+          HTML
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

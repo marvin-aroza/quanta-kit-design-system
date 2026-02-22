@@ -94,7 +94,7 @@ npm run release:tags
 npm run release:tags:push
 ```
 
-Pre mode (optional coordinated prerelease train):
+Pre mode (optional coordinated pre-release train):
 
 ```bash
 npm run changeset:pre:enter:alpha

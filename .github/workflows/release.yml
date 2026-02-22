@@ -40,6 +40,8 @@ jobs:
     name: Stable Release (latest)
     if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable')
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     permissions:
       contents: write
       pull-requests: write
@@ -237,7 +239,7 @@ jobs:
     name: Verify Published Release
     runs-on: ubuntu-latest
     needs: [stable, prerelease, tag-release]
-    if: always() && (needs.stable.result == 'success' || needs.prerelease.result == 'success' || needs.tag-release.result == 'success')
+    if: always() && (needs.tag-release.result == 'success' || needs.prerelease.result == 'success' || (needs.stable.result == 'success' && needs.stable.outputs.published == 'true'))
     steps:
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -284,12 +286,19 @@ jobs:
             exit 0
           fi
 
+          VERIFIED_COUNT=0
           for PKG in quanta-kit-design-system-react quanta-kit-design-system-vue quanta-kit-design-system-angular; do
             TAGGED_VERSION=$(npm view "$PKG" dist-tags.$CHANNEL)
             if [ -z "$TAGGED_VERSION" ]; then
-              echo "::error::Missing dist-tag '$CHANNEL' for package $PKG"
-              exit 1
+              echo "::warning::Missing dist-tag '$CHANNEL' for package $PKG (possibly unchanged in this release)"
+              continue
             fi
             verify_install "$PKG" "$TAGGED_VERSION"
             echo "::notice::$PKG dist-tag '$CHANNEL' -> $TAGGED_VERSION"
+            VERIFIED_COUNT=$((VERIFIED_COUNT + 1))
           done
+
+          if [ "$VERIFIED_COUNT" -eq 0 ]; then
+            echo "::error::No packages were found for dist-tag '$CHANNEL'."
+            exit 1
+          fi

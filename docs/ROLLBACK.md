@@ -47,7 +47,8 @@ npm deprecate <pkg>@<bad-version> "Deprecated due to release issue. Use <good-ve
 
 ## Unpublish
 
-Use only if policy and npm constraints allow it; this is usually disruptive.
+Use only if policy and npm constraints allow it (for example, within npm's
+72-hour window and only when no dependents exist); this is usually disruptive.
 
 ## Git and Tag Hygiene
 

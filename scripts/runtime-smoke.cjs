@@ -86,16 +86,17 @@ function run(command, cwd = root, inherit = false) {
   return result.toString().trim();
 }
 
-const packJson = JSON.parse(run(`npm pack --workspace=${workspace} --json`));
-const filename = packJson?.[0]?.filename;
-if (!filename) {
-  console.error("Could not resolve tarball filename from npm pack output.");
-  process.exit(1);
-}
-
-const tarball = path.join(root, filename);
-const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "qk-runtime-"));
+let tarball;
+let tempDir;
 try {
+  const packJson = JSON.parse(run(`npm pack --workspace=${workspace} --json`));
+  const filename = packJson?.[0]?.filename;
+  if (!filename) {
+    throw new Error("Could not resolve tarball filename from npm pack output.");
+  }
+
+  tarball = path.join(root, filename);
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "qk-runtime-"));
   run("npm init -y", tempDir, true);
   run(`npm install "${tarball}" --ignore-scripts --no-audit --prefer-offline`, tempDir, true);
   if (target.peers.length > 0) {
@@ -106,14 +107,21 @@ try {
   fs.writeFileSync(smokeScriptPath, target.script.trimStart(), "utf8");
   run("node smoke.mjs", tempDir, true);
   console.log(`Runtime smoke passed for ${workspace}`);
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
 } finally {
   try {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    if (tempDir) {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   } catch {
     // no-op
   }
   try {
-    fs.rmSync(tarball, { force: true });
+    if (tarball) {
+      fs.rmSync(tarball, { force: true });
+    }
   } catch {
     // no-op
   }
