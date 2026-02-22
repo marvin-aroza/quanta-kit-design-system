@@ -44,9 +44,10 @@
     "smoke:runtime:angular": "node scripts/runtime-smoke.cjs --workspace=quanta-kit-design-system-angular",
     "pack:workspaces": "node scripts/pack-workspaces.cjs",
     "version-packages": "changeset version && npm run update-lockfile",
-    "update-lockfile": "npm install --package-lock-only"
+    "update-lockfile": "npm install --package-lock-only --workspaces --include-workspace-root --ignore-scripts"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@changesets/cli": "^2.29.8",
     "@changesets/changelog-github": "^0.5.2",
     "@commitlint/cli": "^20.4.2",
