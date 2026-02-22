@@ -43,6 +43,8 @@ updates:
           - "rollup*"
     ignore:
       - dependency-name: "node"
+      - dependency-name: "eslint"
+      - dependency-name: "rollup"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
