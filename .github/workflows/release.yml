@@ -53,8 +53,13 @@ jobs:
 
       - name: Validate inputs and release ref
         id: meta
+        env:
+          INPUT_PACKAGE: ${{ github.event.inputs.package }}
+          INPUT_RELEASE_TAG: ${{ github.event.inputs.release_tag }}
+          INPUT_NPM_TAG: ${{ github.event.inputs.npm_tag }}
+          INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
-          SELECTED="${{ github.event.inputs.package }}"
+          SELECTED="$INPUT_PACKAGE"
           case "$SELECTED" in
             all|quanta-kit-design-system-react|quanta-kit-design-system-vue|quanta-kit-design-system-angular) ;;
             *)
@@ -63,7 +68,7 @@ jobs:
               ;;
           esac
 
-          TAG_INPUT="${{ github.event.inputs.release_tag }}"
+          TAG_INPUT="$INPUT_RELEASE_TAG"
           TAG="${TAG_INPUT#refs/tags/}"
           if ! git rev-parse --verify "refs/tags/$TAG" >/dev/null 2>&1; then
             echo "::error::Release tag not found: $TAG_INPUT"
@@ -77,7 +82,7 @@ jobs:
             exit 1
           fi
 
-          DIST_TAG="${{ github.event.inputs.npm_tag }}"
+          DIST_TAG="$INPUT_NPM_TAG"
           if [ "$DIST_TAG" = "stable" ]; then
             DIST_TAG="latest"
           fi
@@ -90,7 +95,7 @@ jobs:
             echo "tag=$TAG"
             echo "dist_tag=$DIST_TAG"
             echo "package=$SELECTED"
-            echo "dry_run=${{ github.event.inputs.dry_run }}"
+            echo "dry_run=$INPUT_DRY_RUN"
           } >> "$GITHUB_OUTPUT"
 
   publish-dry-run:
@@ -109,7 +114,9 @@ jobs:
           fetch-depth: 0
 
       - name: Checkout selected release tag
-        run: git checkout "refs/tags/${{ needs.validate.outputs.tag }}"
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+        run: git checkout "refs/tags/$RELEASE_TAG"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -123,18 +130,31 @@ jobs:
       - name: Publish selected package(s)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          SELECTED_INPUT: ${{ needs.validate.outputs.package }}
+          DIST_TAG_INPUT: ${{ needs.validate.outputs.dist_tag }}
+          RELEASE_TAG_INPUT: ${{ needs.validate.outputs.tag }}
         run: |
-          SELECTED="${{ needs.validate.outputs.package }}"
-          DIST_TAG="${{ needs.validate.outputs.dist_tag }}"
+          SELECTED="$SELECTED_INPUT"
+          DIST_TAG="$DIST_TAG_INPUT"
+          RELEASE_TAG="$RELEASE_TAG_INPUT"
           RESULTS_FILE="release-results.txt"
+          FAILURE_COUNT=0
           : > "$RESULTS_FILE"
 
           publish_one() {
             PKG_NAME="$1"
             WORKSPACE="$2"
             PUBLISH_DIR="$3"
-            echo "::group::Publish $PKG_NAME from ${{ needs.validate.outputs.tag }} (dry-run)"
-            npm run build --workspace="$WORKSPACE"
+            echo "::group::Publish $PKG_NAME from $RELEASE_TAG (dry-run)"
+
+            if ! npm run build --workspace="$WORKSPACE"; then
+              echo "::error::Build failed for workspace $WORKSPACE"
+              echo "${PKG_NAME} | failed-build | ${DIST_TAG}" >> "$RESULTS_FILE"
+              FAILURE_COUNT=$((FAILURE_COUNT + 1))
+              echo "::endgroup::"
+              return 0
+            fi
+
             VERSION=$(node -p "require('./${PUBLISH_DIR}/package.json').version")
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
@@ -144,8 +164,13 @@ jobs:
               return 0
             fi
 
-            (cd "$PUBLISH_DIR" && npm publish --tag "$DIST_TAG" --access public --provenance --dry-run)
-            echo "${PKG_NAME}@${VERSION} | dry-run-ok | ${DIST_TAG}" >> "$RESULTS_FILE"
+            if (cd "$PUBLISH_DIR" && npm publish --tag "$DIST_TAG" --access public --provenance --dry-run); then
+              echo "${PKG_NAME}@${VERSION} | dry-run-ok | ${DIST_TAG}" >> "$RESULTS_FILE"
+            else
+              echo "::error::Dry-run publish failed for ${PKG_NAME}@${VERSION}"
+              echo "${PKG_NAME}@${VERSION} | failed-dry-run | ${DIST_TAG}" >> "$RESULTS_FILE"
+              FAILURE_COUNT=$((FAILURE_COUNT + 1))
+            fi
             echo "::endgroup::"
           }
 
@@ -159,13 +184,22 @@ jobs:
             publish_one "quanta-kit-design-system-angular" "quanta-kit-design-system-angular" "packages/quanta-kit-angular"
           fi
 
+          if [ "$FAILURE_COUNT" -gt 0 ]; then
+            echo "::error::$FAILURE_COUNT package operation(s) failed during dry-run."
+            exit 1
+          fi
+
       - name: Publish summary
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          RELEASE_PACKAGE: ${{ needs.validate.outputs.package }}
+          RELEASE_DIST_TAG: ${{ needs.validate.outputs.dist_tag }}
         run: |
           {
             echo "## Manual Release Summary (Dry Run)"
-            echo "- Tag: \`${{ needs.validate.outputs.tag }}\`"
-            echo "- Package selection: \`${{ needs.validate.outputs.package }}\`"
-            echo "- npm dist-tag: \`${{ needs.validate.outputs.dist_tag }}\`"
+            echo "- Tag: \`$RELEASE_TAG\`"
+            echo "- Package selection: \`$RELEASE_PACKAGE\`"
+            echo "- npm dist-tag: \`$RELEASE_DIST_TAG\`"
             echo ""
             echo "### Results"
             cat release-results.txt
@@ -195,7 +229,9 @@ jobs:
           fetch-depth: 0
 
       - name: Checkout selected release tag
-        run: git checkout "refs/tags/${{ needs.validate.outputs.tag }}"
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+        run: git checkout "refs/tags/$RELEASE_TAG"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -209,18 +245,31 @@ jobs:
       - name: Publish selected package(s)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          SELECTED_INPUT: ${{ needs.validate.outputs.package }}
+          DIST_TAG_INPUT: ${{ needs.validate.outputs.dist_tag }}
+          RELEASE_TAG_INPUT: ${{ needs.validate.outputs.tag }}
         run: |
-          SELECTED="${{ needs.validate.outputs.package }}"
-          DIST_TAG="${{ needs.validate.outputs.dist_tag }}"
+          SELECTED="$SELECTED_INPUT"
+          DIST_TAG="$DIST_TAG_INPUT"
+          RELEASE_TAG="$RELEASE_TAG_INPUT"
           RESULTS_FILE="release-results.txt"
+          FAILURE_COUNT=0
           : > "$RESULTS_FILE"
 
           publish_one() {
             PKG_NAME="$1"
             WORKSPACE="$2"
             PUBLISH_DIR="$3"
-            echo "::group::Publish $PKG_NAME from ${{ needs.validate.outputs.tag }}"
-            npm run build --workspace="$WORKSPACE"
+            echo "::group::Publish $PKG_NAME from $RELEASE_TAG"
+
+            if ! npm run build --workspace="$WORKSPACE"; then
+              echo "::error::Build failed for workspace $WORKSPACE"
+              echo "${PKG_NAME} | failed-build | ${DIST_TAG}" >> "$RESULTS_FILE"
+              FAILURE_COUNT=$((FAILURE_COUNT + 1))
+              echo "::endgroup::"
+              return 0
+            fi
+
             VERSION=$(node -p "require('./${PUBLISH_DIR}/package.json').version")
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
@@ -230,8 +279,13 @@ jobs:
               return 0
             fi
 
-            (cd "$PUBLISH_DIR" && npm publish --tag "$DIST_TAG" --access public --provenance)
-            echo "${PKG_NAME}@${VERSION} | published | ${DIST_TAG}" >> "$RESULTS_FILE"
+            if (cd "$PUBLISH_DIR" && npm publish --tag "$DIST_TAG" --access public --provenance); then
+              echo "${PKG_NAME}@${VERSION} | published | ${DIST_TAG}" >> "$RESULTS_FILE"
+            else
+              echo "::error::Publish failed for ${PKG_NAME}@${VERSION}"
+              echo "${PKG_NAME}@${VERSION} | failed-publish | ${DIST_TAG}" >> "$RESULTS_FILE"
+              FAILURE_COUNT=$((FAILURE_COUNT + 1))
+            fi
             echo "::endgroup::"
           }
 
@@ -245,13 +299,22 @@ jobs:
             publish_one "quanta-kit-design-system-angular" "quanta-kit-design-system-angular" "packages/quanta-kit-angular"
           fi
 
+          if [ "$FAILURE_COUNT" -gt 0 ]; then
+            echo "::error::$FAILURE_COUNT package operation(s) failed during publish."
+            exit 1
+          fi
+
       - name: Publish summary
+        env:
+          RELEASE_TAG: ${{ needs.validate.outputs.tag }}
+          RELEASE_PACKAGE: ${{ needs.validate.outputs.package }}
+          RELEASE_DIST_TAG: ${{ needs.validate.outputs.dist_tag }}
         run: |
           {
             echo "## Manual Release Summary"
-            echo "- Tag: \`${{ needs.validate.outputs.tag }}\`"
-            echo "- Package selection: \`${{ needs.validate.outputs.package }}\`"
-            echo "- npm dist-tag: \`${{ needs.validate.outputs.dist_tag }}\`"
+            echo "- Tag: \`$RELEASE_TAG\`"
+            echo "- Package selection: \`$RELEASE_PACKAGE\`"
+            echo "- npm dist-tag: \`$RELEASE_DIST_TAG\`"
             echo ""
             echo "### Results"
             cat release-results.txt
