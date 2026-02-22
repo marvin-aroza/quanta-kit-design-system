@@ -263,14 +263,14 @@ jobs:
         run: node scripts/pack-workspaces.cjs
 
       - name: Upload Storybook artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: storybook-static
           path: artifacts/storybook
           if-no-files-found: error
 
       - name: Upload npm tarball artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: npm-tarballs
           path: artifacts/npm-tarballs
