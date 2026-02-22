@@ -78,15 +78,12 @@ turbo run build --filter=quanta-kit-design-system-angular
 
 ## Versioning and Release
 
-- Changesets is the release/versioning source of truth.
-- Workflow split by concern:
-  - CI checks: `.github/workflows/ci.yml`
-  - Package publishing: `.github/workflows/release.yml`
-  - Storybook deployment: `.github/workflows/deploy-storybook.yml`
-- Channel policy and branch mapping: `docs/RELEASE_POLICY.md`
-- Tag-triggered package publish is supported (see `docs/RELEASE_POLICY.md`)
+- Changesets is the versioning source of truth.
+- Merging to `main` generates package tags (no automatic npm publish).
+- npm publishing is manual from selected tag via `.github/workflows/release.yml`.
+- Full operator runbook: `docs/RELEASE_PROCESS.md`.
 
-## Development Flow
+## Changeset Authoring
 
 ```bash
 # create changeset for package-impacting changes
@@ -94,9 +91,6 @@ npm run changeset
 
 # version packages from changesets
 npm run version-packages
-
-# publish (used by CI)
-npm run release
 ```
 
 ## Notes
@@ -105,7 +99,6 @@ npm run release
 - Docs apps consume local workspace packages during development.
 - Contributor workflow docs: `docs/WORKFLOW.md`
 - Architecture and boundaries: `docs/ARCHITECTURE.md`
-- Release channels and npm tags: `docs/RELEASE_POLICY.md`
 - Release rollback runbook: `docs/ROLLBACK.md`
 - Repository settings checklist: `docs/REPOSITORY_SETTINGS.md`
 - Automated dependency update policy: `.github/dependabot.yml`
