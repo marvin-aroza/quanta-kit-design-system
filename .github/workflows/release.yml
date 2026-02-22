@@ -1,0 +1,312 @@
+name: Release Packages
+
+on:
+  push:
+    branches:
+      - main
+      - next
+      - beta
+      - "alpha/**"
+      - "rc/**"
+    tags:
+      - "quanta-kit-design-system-react@*"
+      - "quanta-kit-design-system-vue@*"
+      - "quanta-kit-design-system-angular@*"
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: "Release channel"
+        required: true
+        default: "stable"
+        type: choice
+        options:
+          - stable
+          - next
+          - beta
+          - alpha
+          - rc
+          - canary
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20.19.0"
+  CI: true
+
+jobs:
+  stable:
+    name: Stable Release (latest)
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable')
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release pull request or publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          title: "chore(release): version packages"
+          commit: "chore(release): version packages"
+          publish: npm run release
+          version: npm run version-packages
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Enable auto-merge for release PR
+        if: steps.changesets.outputs.hasChangesets == 'true' && steps.changesets.outputs.pullRequestNumber != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.changesets.outputs.pullRequestNumber }} --auto --squash --delete-branch
+
+  prerelease:
+    name: Prerelease
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/') && github.ref != 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.channel != 'stable')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Resolve channel
+        id: channel
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            CHANNEL="${{ github.event.inputs.channel }}"
+          elif [ "${GITHUB_REF#refs/heads/}" = "next" ]; then
+            CHANNEL="next"
+          elif [ "${GITHUB_REF#refs/heads/}" = "beta" ]; then
+            CHANNEL="beta"
+          elif [[ "${GITHUB_REF#refs/heads/}" == alpha/* ]]; then
+            CHANNEL="alpha"
+          elif [[ "${GITHUB_REF#refs/heads/}" == rc/* ]]; then
+            CHANNEL="rc"
+          else
+            CHANNEL="canary"
+          fi
+          echo "name=$CHANNEL" >> "$GITHUB_OUTPUT"
+
+      - name: Publish prerelease packages
+        run: |
+          case "${{ steps.channel.outputs.name }}" in
+            next) npm run release:next ;;
+            beta) npm run release:beta ;;
+            alpha) npm run release:alpha ;;
+            rc) npm run release:rc ;;
+            canary) npm run release:canary ;;
+            *) echo "::error::Unsupported channel: ${{ steps.channel.outputs.name }}" && exit 1 ;;
+          esac
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  tag-release:
+    name: Publish Tagged Package
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Resolve tag metadata
+        id: meta
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          PKG="${TAG%@*}"
+          VER="${TAG#*@}"
+
+          if ! [[ "$VER" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Invalid version segment in tag: $VER"
+            exit 1
+          fi
+
+          case "$PKG" in
+            quanta-kit-design-system-react)
+              WORKSPACE="quanta-kit-design-system-react"
+              PUBLISH_DIR="packages/quanta-kit-react"
+              ;;
+            quanta-kit-design-system-vue)
+              WORKSPACE="quanta-kit-design-system-vue"
+              PUBLISH_DIR="packages/quanta-kit-vue"
+              ;;
+            quanta-kit-design-system-angular)
+              WORKSPACE="quanta-kit-design-system-angular"
+              PUBLISH_DIR="packages/quanta-kit-angular"
+              ;;
+            *)
+              echo "::error::Unsupported tag package: $PKG"
+              exit 1
+              ;;
+          esac
+
+          DIST_TAG="latest"
+          if [[ "$VER" =~ -alpha([.-]|$) ]]; then DIST_TAG="alpha"; fi
+          if [[ "$VER" =~ -beta([.-]|$) ]]; then DIST_TAG="beta"; fi
+          if [[ "$VER" =~ -rc([.-]|$) ]]; then DIST_TAG="rc"; fi
+          if [[ "$VER" =~ -next([.-]|$) ]]; then DIST_TAG="next"; fi
+          if [[ "$VER" =~ -canary([.-]|$) ]]; then DIST_TAG="canary"; fi
+
+          {
+            echo "package=$PKG"
+            echo "version=$VER"
+            echo "workspace=$WORKSPACE"
+            echo "publish_dir=$PUBLISH_DIR"
+            echo "dist_tag=$DIST_TAG"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build tagged workspace
+        run: npm run build --workspace=${{ steps.meta.outputs.workspace }}
+
+      - name: Verify tagged version matches package.json
+        run: |
+          ACTUAL=$(node -p "require('./${{ steps.meta.outputs.publish_dir }}/package.json').version")
+          if [ "$ACTUAL" != "${{ steps.meta.outputs.version }}" ]; then
+            echo "::error::Tag version (${{ steps.meta.outputs.version }}) does not match package.json ($ACTUAL)"
+            exit 1
+          fi
+
+      - name: Check if version is already published
+        id: exists
+        run: |
+          set +e
+          npm view "${{ steps.meta.outputs.package }}@${{ steps.meta.outputs.version }}" version > /tmp/published_version.txt 2>/dev/null
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::${{ steps.meta.outputs.package }}@${{ steps.meta.outputs.version }} already exists on npm. Skipping publish."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish tagged package
+        if: steps.exists.outputs.published == 'false'
+        working-directory: ${{ steps.meta.outputs.publish_dir }}
+        run: npm publish --tag ${{ steps.meta.outputs.dist_tag }} --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  verify-release:
+    name: Verify Published Release
+    runs-on: ubuntu-latest
+    needs: [stable, prerelease, tag-release]
+    if: always() && (needs.tag-release.result == 'success' || needs.prerelease.result == 'success' || (needs.stable.result == 'success' && needs.stable.outputs.published == 'true'))
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify npm publication state
+        run: |
+          verify_install() {
+            PKG="$1"
+            VERSION="$2"
+            TMP_DIR=$(mktemp -d)
+            cd "$TMP_DIR"
+            npm init -y >/dev/null 2>&1
+            npm install "${PKG}@${VERSION}" --ignore-scripts --no-audit --prefer-offline >/dev/null 2>&1
+            npm ls "$PKG" >/dev/null 2>&1
+            cd - >/dev/null 2>&1
+            rm -rf "$TMP_DIR"
+          }
+
+          CHANNEL="latest"
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            CHANNEL="${{ github.event.inputs.channel }}"
+            if [ "$CHANNEL" = "stable" ]; then
+              CHANNEL="latest"
+            fi
+          elif [ "$GITHUB_REF" = "refs/heads/next" ]; then
+            CHANNEL="next"
+          elif [ "$GITHUB_REF" = "refs/heads/beta" ]; then
+            CHANNEL="beta"
+          elif [[ "$GITHUB_REF" == refs/heads/alpha/* ]]; then
+            CHANNEL="alpha"
+          elif [[ "$GITHUB_REF" == refs/heads/rc/* ]]; then
+            CHANNEL="rc"
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+            PKG="${TAG%@*}"
+            VER="${TAG#*@}"
+            ACTUAL=$(npm view "${PKG}@${VER}" version)
+            if [ "$ACTUAL" != "$VER" ]; then
+              echo "::error::Tagged publish verification failed for ${PKG}@${VER}"
+              exit 1
+            fi
+            verify_install "$PKG" "$VER"
+            echo "::notice::Tagged publish verified for ${PKG}@${VER}"
+            exit 0
+          fi
+
+          VERIFIED_COUNT=0
+          for PKG in quanta-kit-design-system-react quanta-kit-design-system-vue quanta-kit-design-system-angular; do
+            TAGGED_VERSION=$(npm view "$PKG" dist-tags.$CHANNEL)
+            if [ -z "$TAGGED_VERSION" ]; then
+              echo "::warning::Missing dist-tag '$CHANNEL' for package $PKG (possibly unchanged in this release)"
+              continue
+            fi
+            verify_install "$PKG" "$TAGGED_VERSION"
+            echo "::notice::$PKG dist-tag '$CHANNEL' -> $TAGGED_VERSION"
+            VERIFIED_COUNT=$((VERIFIED_COUNT + 1))
+          done
+
+          if [ "$VERIFIED_COUNT" -eq 0 ]; then
+            echo "::error::No packages were found for dist-tag '$CHANNEL'."
+            exit 1
+          fi

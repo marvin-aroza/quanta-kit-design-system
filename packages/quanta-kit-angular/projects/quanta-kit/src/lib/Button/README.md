@@ -22,7 +22,7 @@ A comprehensive, accessible, and customizable button component for Angular appli
 The button component is part of the Quanta Kit Angular library. Import it from the main package:
 
 ```typescript
-import { ButtonComponent } from "quanta-kit-angular";
+import { ButtonComponent } from "quanta-kit-design-system-angular";
 ```
 
 ## Basic Usage

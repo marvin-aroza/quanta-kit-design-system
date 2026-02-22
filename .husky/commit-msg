@@ -1,5 +1,9 @@
-# Validate commit message with commitlint
-echo "📝 Validating commit message..."
-npx --no-install commitlint --edit $1
+echo "Validating commit message..."
+npx --no-install commitlint --edit "$1"
+STATUS=$?
 
-echo "✅ Commit message is valid!"
+if [ $STATUS -ne 0 ]; then
+  exit $STATUS
+fi
+
+echo "Commit message is valid."
