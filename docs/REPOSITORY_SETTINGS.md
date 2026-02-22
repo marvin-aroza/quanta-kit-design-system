@@ -34,14 +34,19 @@ Set required checks to include at least:
 - `Runtime Smoke`
 - `Changeset Policy` (PRs)
 - `Changeset Status` (PRs)
+- `actionlint`
 
-## Auto-Merge
+## Release Environment And Secrets
 
-Enable repository setting:
+Create a protected environment for manual real publishes:
 
-- Allow auto-merge
+- Environment name: `npm-release`
+- Add required reviewers for approvals
+- Restrict deployment branches to `main` (recommended)
 
-This is required for release PR auto-merge in `.github/workflows/release.yml`.
+Required secret:
+
+- `NPM_TOKEN`: npm token with publish permissions for all target packages
 
 ## Labels
 
