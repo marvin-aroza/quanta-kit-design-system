@@ -263,14 +263,14 @@ jobs:
         run: node scripts/pack-workspaces.cjs
 
       - name: Upload Storybook artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: storybook-static
           path: artifacts/storybook
           if-no-files-found: error
 
       - name: Upload npm tarball artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: npm-tarballs
           path: artifacts/npm-tarballs
@@ -387,7 +387,7 @@ jobs:
   changeset-policy:
     name: Changeset Policy
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: install
     steps:
       - name: Checkout repository
@@ -409,7 +409,7 @@ jobs:
   changeset-status:
     name: Changeset Status
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     needs: install
     steps:
       - name: Checkout repository
