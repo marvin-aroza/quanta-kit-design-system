@@ -43,8 +43,14 @@ updates:
           - "rollup*"
     ignore:
       - dependency-name: "node"
+        update-types:
+          - "version-update:semver-major"
       - dependency-name: "eslint"
-      - dependency-name: "rollup"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "rollup*"
+        update-types:
+          - "version-update:semver-major"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
