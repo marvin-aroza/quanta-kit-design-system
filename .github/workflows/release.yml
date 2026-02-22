@@ -194,11 +194,11 @@ jobs:
           esac
 
           DIST_TAG="latest"
-          if [[ "$VER" == *"-alpha."* ]]; then DIST_TAG="alpha"; fi
-          if [[ "$VER" == *"-beta."* ]]; then DIST_TAG="beta"; fi
-          if [[ "$VER" == *"-rc."* ]]; then DIST_TAG="rc"; fi
-          if [[ "$VER" == *"-next."* ]]; then DIST_TAG="next"; fi
-          if [[ "$VER" == *"-canary."* ]]; then DIST_TAG="canary"; fi
+          if [[ "$VER" =~ -alpha([.-]|$) ]]; then DIST_TAG="alpha"; fi
+          if [[ "$VER" =~ -beta([.-]|$) ]]; then DIST_TAG="beta"; fi
+          if [[ "$VER" =~ -rc([.-]|$) ]]; then DIST_TAG="rc"; fi
+          if [[ "$VER" =~ -next([.-]|$) ]]; then DIST_TAG="next"; fi
+          if [[ "$VER" =~ -canary([.-]|$) ]]; then DIST_TAG="canary"; fi
 
           {
             echo "package=$PKG"
@@ -269,6 +269,9 @@ jobs:
           CHANNEL="latest"
           if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
             CHANNEL="${{ github.event.inputs.channel }}"
+            if [ "$CHANNEL" = "stable" ]; then
+              CHANNEL="latest"
+            fi
           elif [ "$GITHUB_REF" = "refs/heads/next" ]; then
             CHANNEL="next"
           elif [ "$GITHUB_REF" = "refs/heads/beta" ]; then
