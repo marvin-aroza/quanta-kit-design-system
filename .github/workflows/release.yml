@@ -86,10 +86,12 @@ jobs:
             exit 1
           fi
 
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "dist_tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
-          echo "package=$SELECTED" >> "$GITHUB_OUTPUT"
-          echo "dry_run=${{ github.event.inputs.dry_run }}" >> "$GITHUB_OUTPUT"
+          {
+            echo "tag=$TAG"
+            echo "dist_tag=$DIST_TAG"
+            echo "package=$SELECTED"
+            echo "dry_run=${{ github.event.inputs.dry_run }}"
+          } >> "$GITHUB_OUTPUT"
 
   publish-dry-run:
     name: Publish From Tag (Dry Run)

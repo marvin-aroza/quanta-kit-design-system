@@ -93,10 +93,11 @@ jobs:
         env:
           REMOTE_NAME: ${{ github.event.inputs.remote || 'origin' }}
         run: |
+          PACKAGE_SCOPE="${{ steps.scope.outputs.packages }}"
           if [ "${{ steps.scope.outputs.packages }}" = "all" ]; then
-            node scripts/create-release-tags.cjs --push --remote=$REMOTE_NAME
+            node scripts/create-release-tags.cjs --push --remote="$REMOTE_NAME"
           else
-            node scripts/create-release-tags.cjs --push --remote=$REMOTE_NAME --packages=${{ steps.scope.outputs.packages }}
+            node scripts/create-release-tags.cjs --push --remote="$REMOTE_NAME" --packages="$PACKAGE_SCOPE"
           fi
 
       - name: Summarize skipped run
