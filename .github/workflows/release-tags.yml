@@ -1,0 +1,104 @@
+name: Generate Release Tags
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      remote:
+        description: "Git remote to push tags to"
+        required: true
+        default: "origin"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-tags-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20.19.0"
+  CI: true
+
+jobs:
+  tag:
+    name: Create Missing Package Tags
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Resolve package scope
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "packages=all" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || [ -z "$BEFORE" ]; then
+            BEFORE=$(git rev-parse "${AFTER}^" 2>/dev/null || true)
+          fi
+
+          if [ -z "$BEFORE" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "packages=all" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BEFORE" "$AFTER")
+          WANT_REACT=false
+          WANT_VUE=false
+          WANT_ANGULAR=false
+          while IFS= read -r file; do
+            case "$file" in
+              packages/quanta-kit-react/*) WANT_REACT=true ;;
+              packages/quanta-kit-vue/*) WANT_VUE=true ;;
+              packages/quanta-kit-angular/*) WANT_ANGULAR=true ;;
+            esac
+          done <<EOF
+          $CHANGED_FILES
+          EOF
+
+          PACKAGE_SCOPE=""
+          if [ "$WANT_REACT" = "true" ]; then PACKAGE_SCOPE="${PACKAGE_SCOPE}react,"; fi
+          if [ "$WANT_VUE" = "true" ]; then PACKAGE_SCOPE="${PACKAGE_SCOPE}vue,"; fi
+          if [ "$WANT_ANGULAR" = "true" ]; then PACKAGE_SCOPE="${PACKAGE_SCOPE}angular,"; fi
+          PACKAGE_SCOPE="${PACKAGE_SCOPE%,}"
+
+          if [ -z "$PACKAGE_SCOPE" ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "packages=" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "packages=$PACKAGE_SCOPE" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create and push missing tags
+        if: steps.scope.outputs.has_changes == 'true'
+        env:
+          REMOTE_NAME: ${{ github.event.inputs.remote || 'origin' }}
+        run: |
+          if [ "${{ steps.scope.outputs.packages }}" = "all" ]; then
+            node scripts/create-release-tags.cjs --push --remote=$REMOTE_NAME
+          else
+            node scripts/create-release-tags.cjs --push --remote=$REMOTE_NAME --packages=${{ steps.scope.outputs.packages }}
+          fi
+
+      - name: Summarize skipped run
+        if: steps.scope.outputs.has_changes != 'true'
+        run: echo "No package workspace changes detected on this push. Skipping tag generation."

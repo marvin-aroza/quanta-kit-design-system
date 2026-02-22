@@ -33,14 +33,14 @@ npm run validate:pr
 - Package-affecting changes: add a normal changeset.
 - Non-release changes (docs/config/chore only): add an empty changeset and apply the `no-release` label on the PR.
 
-## Release Channels
+## Release Process
 
-- Stable and prerelease channel policy is documented in `docs/RELEASE_POLICY.md`.
-- Release automation is split by concern:
+- Release operations are split by concern:
   - `.github/workflows/ci.yml`
-  - `.github/workflows/release.yml`
-  - `.github/workflows/deploy-storybook.yml`
-  - `.github/workflows/release-dry-run.yml`
+  - `.github/workflows/release-tags.yml` (creates tags on merge to `main`)
+  - `.github/workflows/release.yml` (manual package publish from selected tag)
+  - `.github/workflows/deploy-storybook.yml` (manual docs deployment)
+- End-to-end manual release steps are documented in `docs/RELEASE_PROCESS.md`.
 
 ## Testing Strategy
 
