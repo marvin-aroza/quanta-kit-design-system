@@ -1,5 +1,15 @@
 # quanta-kit-design-system-angular
 
+## 0.1.0
+
+### Minor Changes
+
+- [#92](https://github.com/marvin-aroza/quanta-kit-design-system/pull/92) [`d6b8925`](https://github.com/marvin-aroza/quanta-kit-design-system/commit/d6b8925873f1e0856d73e48235af35bb1b099cf1) Thanks [@marvin-aroza](https://github.com/marvin-aroza)! - test
+
+### Patch Changes
+
+- [#90](https://github.com/marvin-aroza/quanta-kit-design-system/pull/90) [`a1f0894`](https://github.com/marvin-aroza/quanta-kit-design-system/commit/a1f0894a82f237b14d4f44b0d1bd0d73b8a64933) Thanks [@marvin-aroza](https://github.com/marvin-aroza)! - Improve Angular button loading-state rendering with explicit spinner markup.
+
 ## 0.0.4
 
 ### Patch Changes
