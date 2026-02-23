@@ -56,8 +56,9 @@ Behavior:
 2. Installs dependencies.
 3. Builds selected package(s).
 4. Checks if `<name>@<version>` already exists on npm.
-5. Publishes only missing versions with selected dist-tag.
-6. If `stable` is provided, it maps to npm `latest`.
+5. If version is missing, publishes it with selected dist-tag.
+6. If version already exists, it updates/creates the selected dist-tag to point to that version.
+7. If `stable` is provided, it maps to npm `latest`.
 
 ## Standard Release Flow (Recommended)
 
@@ -68,6 +69,17 @@ Behavior:
 5. Validate output/logs.
 6. Re-run with identical inputs and `dry_run=false`.
 7. Verify published package/version and dist-tag on npm.
+
+## Promote Same Version (Beta To Stable)
+
+If a version was first published on `beta` and later needs stable:
+
+1. Run `Manual Package Release` again with the same `release_tag`.
+2. Keep `package` the same.
+3. Set `npm_tag=stable` (maps to `latest`).
+4. Set `dry_run=false`.
+
+The workflow will not republish the tarball. It will promote npm dist-tags so `latest` points to that existing version.
 
 ## Pre-Merge Gate (Workflow Safety)
 

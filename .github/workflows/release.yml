@@ -158,8 +158,18 @@ jobs:
             VERSION=$(node -p "require('./${PUBLISH_DIR}/package.json').version")
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
-              echo "::notice::${PKG_NAME}@${VERSION} already exists on npm. Skipping."
-              echo "${PKG_NAME}@${VERSION} | skipped-existing | ${DIST_TAG}" >> "$RESULTS_FILE"
+              CURRENT_TAG_TARGET=$(npm view "$PKG_NAME" "dist-tags.${DIST_TAG}" 2>/dev/null || true)
+              if [ "$CURRENT_TAG_TARGET" = "$VERSION" ]; then
+                echo "::notice::${PKG_NAME}@${VERSION} already exists and dist-tag '$DIST_TAG' already points to it."
+                echo "${PKG_NAME}@${VERSION} | dry-run-already-tagged | ${DIST_TAG}" >> "$RESULTS_FILE"
+              else
+                if [ -n "$CURRENT_TAG_TARGET" ]; then
+                  echo "::notice::${PKG_NAME}@${VERSION} already exists; dry-run would move dist-tag '$DIST_TAG' from ${CURRENT_TAG_TARGET} to ${VERSION}."
+                else
+                  echo "::notice::${PKG_NAME}@${VERSION} already exists; dry-run would create dist-tag '$DIST_TAG' -> ${VERSION}."
+                fi
+                echo "${PKG_NAME}@${VERSION} | dry-run-promote-tag | ${DIST_TAG}" >> "$RESULTS_FILE"
+              fi
               echo "::endgroup::"
               return 0
             fi
@@ -273,8 +283,24 @@ jobs:
             VERSION=$(node -p "require('./${PUBLISH_DIR}/package.json').version")
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
-              echo "::notice::${PKG_NAME}@${VERSION} already exists on npm. Skipping."
-              echo "${PKG_NAME}@${VERSION} | skipped-existing | ${DIST_TAG}" >> "$RESULTS_FILE"
+              CURRENT_TAG_TARGET=$(npm view "$PKG_NAME" "dist-tags.${DIST_TAG}" 2>/dev/null || true)
+              if [ "$CURRENT_TAG_TARGET" = "$VERSION" ]; then
+                echo "::notice::${PKG_NAME}@${VERSION} already exists and dist-tag '$DIST_TAG' already points to it."
+                echo "${PKG_NAME}@${VERSION} | already-tagged | ${DIST_TAG}" >> "$RESULTS_FILE"
+              else
+                if npm dist-tag add "${PKG_NAME}@${VERSION}" "$DIST_TAG"; then
+                  if [ -n "$CURRENT_TAG_TARGET" ]; then
+                    echo "::notice::Moved dist-tag '$DIST_TAG' from ${CURRENT_TAG_TARGET} to ${PKG_NAME}@${VERSION}."
+                  else
+                    echo "::notice::Created dist-tag '$DIST_TAG' for ${PKG_NAME}@${VERSION}."
+                  fi
+                  echo "${PKG_NAME}@${VERSION} | promoted-tag | ${DIST_TAG}" >> "$RESULTS_FILE"
+                else
+                  echo "::error::Failed to set dist-tag '$DIST_TAG' for ${PKG_NAME}@${VERSION}"
+                  echo "${PKG_NAME}@${VERSION} | failed-promote-tag | ${DIST_TAG}" >> "$RESULTS_FILE"
+                  FAILURE_COUNT=$((FAILURE_COUNT + 1))
+                fi
+              fi
               echo "::endgroup::"
               return 0
             fi
