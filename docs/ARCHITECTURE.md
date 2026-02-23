@@ -23,7 +23,6 @@
   - CI checks: `.github/workflows/ci.yml`
   - release tag generation on `main`: `.github/workflows/release-tags.yml`
   - manual npm publishing from selected tag: `.github/workflows/release.yml`
-  - manual Storybook publishing to GitHub Pages: `.github/workflows/deploy-storybook.yml`
 
 ## Dependency Policy
 
