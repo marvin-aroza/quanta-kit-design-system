@@ -1,6 +1,15 @@
 {
   "name": "quanta-kit-design-system-angular",
   "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marvin-aroza/quanta-kit-design-system",
+    "directory": "packages/quanta-kit-angular"
+  },
+  "bugs": {
+    "url": "https://github.com/marvin-aroza/quanta-kit-design-system/issues"
+  },
+  "homepage": "https://github.com/marvin-aroza/quanta-kit-design-system/tree/main/packages/quanta-kit-angular#readme",
   "peerDependencies": {
     "@angular/common": "^21.1.5",
     "@angular/core": "^21.1.5"

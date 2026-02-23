@@ -18,6 +18,15 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marvin-aroza/quanta-kit-design-system",
+    "directory": "packages/quanta-kit-angular"
+  },
+  "bugs": {
+    "url": "https://github.com/marvin-aroza/quanta-kit-design-system/issues"
+  },
+  "homepage": "https://github.com/marvin-aroza/quanta-kit-design-system/tree/main/packages/quanta-kit-angular#readme",
   "scripts": {
     "ng": "ng",
     "build": "ng-packagr -p projects/quanta-kit/ng-package.json && npm run sync-dist-version",
