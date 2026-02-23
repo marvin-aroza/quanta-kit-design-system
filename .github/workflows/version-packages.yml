@@ -76,7 +76,7 @@ jobs:
         if: steps.detect_changesets.outputs.has_non_empty_changesets == 'true'
         uses: changesets/action@v1
         with:
-          version: npm run version-packages && npm run update-lockfile
+          version: npm run version-packages
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
           createGithubReleases: false

@@ -43,7 +43,7 @@
     "smoke:runtime:vue": "node scripts/runtime-smoke.cjs --workspace=quanta-kit-design-system-vue",
     "smoke:runtime:angular": "node scripts/runtime-smoke.cjs --workspace=quanta-kit-design-system-angular",
     "pack:workspaces": "node scripts/pack-workspaces.cjs",
-    "version-packages": "changeset version",
+    "version-packages": "changeset version && npm run update-lockfile",
     "update-lockfile": "npm install --package-lock-only --workspaces --include-workspace-root --ignore-scripts"
   },
   "devDependencies": {
