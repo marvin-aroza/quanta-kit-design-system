@@ -21,6 +21,7 @@
 - Docs-only or infra-only PRs can use an empty changeset if no package release is intended.
 - Release and deployment workflows are intentionally separated:
   - CI checks: `.github/workflows/ci.yml`
+  - version PR automation on `main`: `.github/workflows/version-packages.yml`
   - release tag generation on `main`: `.github/workflows/release-tags.yml`
   - manual npm publishing from selected tag: `.github/workflows/release.yml`
 

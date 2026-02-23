@@ -1,0 +1,95 @@
+name: Version Packages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".changeset/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: version-packages-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20.19.0"
+  CI: true
+
+jobs:
+  version:
+    name: Create Or Update Version PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect non-empty changesets
+        id: detect_changesets
+        run: |
+          HAS_NON_EMPTY="false"
+          for file in .changeset/*.md; do
+            if [ ! -f "$file" ] || [ "$file" = ".changeset/README.md" ]; then
+              continue
+            fi
+
+            FRONTMATTER=$(awk '
+              BEGIN { in_block=0; marker_count=0 }
+              /^---[[:space:]]*$/ {
+                marker_count++
+                if (marker_count == 1) { in_block=1; next }
+                if (marker_count == 2) { exit }
+              }
+              in_block { print }
+            ' "$file")
+
+            if [ -n "$(printf "%s" "$FRONTMATTER" | tr -d "[:space:]")" ]; then
+              HAS_NON_EMPTY="true"
+              break
+            fi
+          done
+
+          echo "has_non_empty_changesets=$HAS_NON_EMPTY" >> "$GITHUB_OUTPUT"
+
+      - name: Skip when no releasable changesets exist
+        if: steps.detect_changesets.outputs.has_non_empty_changesets != 'true'
+        run: echo "::notice::No non-empty changesets found. Skipping version PR."
+
+      - name: Setup Node.js
+        if: steps.detect_changesets.outputs.has_non_empty_changesets == 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        if: steps.detect_changesets.outputs.has_non_empty_changesets == 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Create version PR from changesets
+        id: changesets
+        if: steps.detect_changesets.outputs.has_non_empty_changesets == 'true'
+        uses: changesets/action@v1
+        with:
+          version: npm run version-packages && npm run update-lockfile
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          createGithubReleases: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summarize result
+        if: steps.detect_changesets.outputs.has_non_empty_changesets == 'true'
+        env:
+          HAS_CHANGESETS: ${{ steps.changesets.outputs.hasChangesets }}
+        run: |
+          if [ "$HAS_CHANGESETS" = "true" ]; then
+            echo "Changesets detected. Version PR created or updated."
+          else
+            echo "No pending changesets. No version PR needed."
+          fi

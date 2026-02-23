@@ -32,11 +32,14 @@ npm run validate:pr
 
 - Package-affecting changes: add a normal changeset.
 - Non-release changes (docs/config/chore only): add an empty changeset and apply the `no-release` label on the PR.
+- `changeset-release/*` PRs are bot-generated version PRs; changeset checks are skipped for these branches.
+- `Version Packages` runs only when at least one non-empty changeset exists on `main`.
 
 ## Release Process
 
 - Release operations are split by concern:
   - `.github/workflows/ci.yml`
+  - `.github/workflows/version-packages.yml` (creates/updates version PR from pending changesets)
   - `.github/workflows/release-tags.yml` (creates tags on merge to `main`)
   - `.github/workflows/release.yml` (manual package publish from selected tag)
 - End-to-end manual release steps are documented in `docs/RELEASE_PROCESS.md`.

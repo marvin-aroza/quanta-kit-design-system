@@ -5,7 +5,6 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type ChipVariant = 'assist' | 'filter' | 'input' | 'suggestion';
 export type ChipSize = 'sm' | 'md';
@@ -14,7 +13,6 @@ export type ChipElevation = 'flat' | 'elevated';
 @Component({
   selector: 'qk-chip',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './chip.component.html',
   styleUrls: ['./chip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
