@@ -1,6 +1,6 @@
 {
   "name": "quanta-kit-design-system-angular",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs",
   "module": "dist/quanta-kit/fesm2022/quanta-kit-design-system-angular.mjs",
