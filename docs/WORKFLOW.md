@@ -39,7 +39,6 @@ npm run validate:pr
   - `.github/workflows/ci.yml`
   - `.github/workflows/release-tags.yml` (creates tags on merge to `main`)
   - `.github/workflows/release.yml` (manual package publish from selected tag)
-  - `.github/workflows/deploy-storybook.yml` (manual docs deployment)
 - End-to-end manual release steps are documented in `docs/RELEASE_PROCESS.md`.
 
 ## Testing Strategy

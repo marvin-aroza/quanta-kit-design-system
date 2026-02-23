@@ -53,10 +53,3 @@ Required secret:
 Create and use this label:
 
 - `no-release`: required when using an empty changeset.
-
-## GitHub Pages
-
-For Storybook deployment workflow:
-
-- Pages source: GitHub Actions
-- Environment: `github-pages`

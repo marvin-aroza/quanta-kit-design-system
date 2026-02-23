@@ -12,7 +12,6 @@ Related workflows:
 
 - Tag generation: `.github/workflows/release-tags.yml`
 - Manual publish: `.github/workflows/release.yml`
-- Docs deploy (manual only): `.github/workflows/deploy-storybook.yml`
 
 ## Versioning Model
 
@@ -90,7 +89,6 @@ Before merging workflow or release-related changes:
 2. Ensure no actionlint warnings/errors remain for:
    - `.github/workflows/release.yml`
    - `.github/workflows/release-tags.yml`
-   - `.github/workflows/deploy-storybook.yml`
 
 ## Operator Readiness Checklist
 
