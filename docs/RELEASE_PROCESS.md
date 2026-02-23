@@ -35,12 +35,13 @@ When code is merged to `main`:
 1. `Version Packages` workflow runs.
 2. If non-empty changesets exist, it opens/updates a `chore(release): version packages` PR.
 3. Empty changesets (`--- ---`) are ignored by this workflow.
-4. When that version PR is merged, `Generate Release Tags` runs and reconciles missing tags:
+4. The version step retries transient GitHub changelog API errors automatically.
+5. When that version PR is merged, `Generate Release Tags` runs and reconciles missing tags:
    - `quanta-kit-design-system-react@<version>`
    - `quanta-kit-design-system-vue@<version>`
    - `quanta-kit-design-system-angular@<version>`
-5. It checks all package versions and pushes only tags that are missing on remote.
-6. No npm publish happens in these steps.
+6. It checks all package versions and pushes only tags that are missing on remote.
+7. No npm publish happens in these steps.
 
 ## Manual Publish Runbook
 
