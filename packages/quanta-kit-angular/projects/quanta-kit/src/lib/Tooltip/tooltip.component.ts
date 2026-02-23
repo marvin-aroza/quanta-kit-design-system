@@ -3,7 +3,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  HostListener,
   ViewChild,
   ElementRef,
   OnDestroy,
@@ -11,10 +10,7 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   signal,
-  computed,
-  effect,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type TooltipPosition =
   | 'top'
@@ -35,7 +31,6 @@ export type TooltipType = 'plain' | 'rich';
 @Component({
   selector: 'qk-tooltip',
   standalone: true,
-  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],

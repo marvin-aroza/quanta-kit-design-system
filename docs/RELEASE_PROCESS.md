@@ -5,11 +5,13 @@
 This repository uses manual package publishing with automatic tag generation.
 
 - Merging to `main` does not publish packages.
+- Merging to `main` creates or updates a release version PR from pending changesets.
 - Merging to `main` generates missing package tags.
 - Publishing to npm is done manually from a selected git tag.
 
 Related workflows:
 
+- Version PR automation: `.github/workflows/version-packages.yml`
 - Tag generation: `.github/workflows/release-tags.yml`
 - Manual publish: `.github/workflows/release.yml`
 
@@ -30,13 +32,15 @@ Recommended rule:
 
 When code is merged to `main`:
 
-1. `Generate Release Tags` workflow runs.
-2. It inspects package versions and creates missing tags:
+1. `Version Packages` workflow runs.
+2. If non-empty changesets exist, it opens/updates a `chore(release): version packages` PR.
+3. Empty changesets (`--- ---`) are ignored by this workflow.
+4. When that version PR is merged, `Generate Release Tags` runs and creates missing tags:
    - `quanta-kit-design-system-react@<version>`
    - `quanta-kit-design-system-vue@<version>`
    - `quanta-kit-design-system-angular@<version>`
-3. It pushes those tags to remote.
-4. No npm publish happens in this step.
+5. It pushes those tags to remote.
+6. No npm publish happens in these steps.
 
 ## Manual Publish Runbook
 
@@ -62,12 +66,14 @@ Behavior:
 ## Standard Release Flow (Recommended)
 
 1. Merge change to `main`.
-2. Wait for `Generate Release Tags` workflow to finish.
-3. Open `Manual Package Release`.
-4. First run with `dry_run=true`.
-5. Validate output/logs.
-6. Re-run with identical inputs and `dry_run=false`.
-7. Verify published package/version and dist-tag on npm.
+2. Wait for `Version Packages` workflow to create/update the release PR.
+3. Merge the `chore(release): version packages` PR.
+4. Wait for `Generate Release Tags` workflow to finish.
+5. Open `Manual Package Release`.
+6. First run with `dry_run=true`.
+7. Validate output/logs.
+8. Re-run with identical inputs and `dry_run=false`.
+9. Verify published package/version and dist-tag on npm.
 
 ## Promote Same Version (Beta To Stable)
 
@@ -87,6 +93,7 @@ Before merging workflow or release-related changes:
 
 1. Ensure CI `Workflow Lint` is green.
 2. Ensure no actionlint warnings/errors remain for:
+   - `.github/workflows/version-packages.yml`
    - `.github/workflows/release.yml`
    - `.github/workflows/release-tags.yml`
 
@@ -122,8 +129,8 @@ npm view quanta-kit-design-system-angular@0.0.4 version
 
 Use this checklist per release:
 
-- [ ] Package version(s) bumped correctly in package `package.json`.
 - [ ] Merge to `main` completed.
+- [ ] `Version Packages` workflow succeeded and release PR is merged.
 - [ ] `Generate Release Tags` workflow succeeded.
 - [ ] Correct `release_tag` selected.
 - [ ] Correct `package` selected (`all` vs single package).

@@ -79,7 +79,8 @@ turbo run build --filter=quanta-kit-design-system-angular
 ## Versioning and Release
 
 - Changesets is the versioning source of truth.
-- Merging to `main` generates package tags (no automatic npm publish).
+- Merging to `main` creates/updates a version PR from pending changesets.
+- Merging the version PR generates package tags (no automatic npm publish).
 - npm publishing is manual from selected tag via `.github/workflows/release.yml`.
 - Full operator runbook: `docs/RELEASE_PROCESS.md`.
 
