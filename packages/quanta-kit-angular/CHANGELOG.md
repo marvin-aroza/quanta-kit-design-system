@@ -1,5 +1,11 @@
 # quanta-kit-design-system-angular
 
+## 0.1.1
+
+### Patch Changes
+
+- [`e0512ff`](https://github.com/marvin-aroza/quanta-kit-design-system/commit/e0512ff292cd11f627c34f0c3f2a429007a8e847) Thanks [@marvin-aroza](https://github.com/marvin-aroza)! - Add repository metadata to Angular package manifests to satisfy npm provenance validation during publish.
+
 ## 0.1.0
 
 ### Minor Changes
