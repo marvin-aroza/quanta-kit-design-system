@@ -159,6 +159,9 @@ jobs:
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
               CURRENT_TAG_TARGET=$(npm view "$PKG_NAME" "dist-tags.${DIST_TAG}" 2>/dev/null || true)
+              if [ "$CURRENT_TAG_TARGET" = "undefined" ]; then
+                CURRENT_TAG_TARGET=""
+              fi
               if [ "$CURRENT_TAG_TARGET" = "$VERSION" ]; then
                 echo "::notice::${PKG_NAME}@${VERSION} already exists and dist-tag '$DIST_TAG' already points to it."
                 echo "${PKG_NAME}@${VERSION} | dry-run-already-tagged | ${DIST_TAG}" >> "$RESULTS_FILE"
@@ -284,6 +287,9 @@ jobs:
 
             if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
               CURRENT_TAG_TARGET=$(npm view "$PKG_NAME" "dist-tags.${DIST_TAG}" 2>/dev/null || true)
+              if [ "$CURRENT_TAG_TARGET" = "undefined" ]; then
+                CURRENT_TAG_TARGET=""
+              fi
               if [ "$CURRENT_TAG_TARGET" = "$VERSION" ]; then
                 echo "::notice::${PKG_NAME}@${VERSION} already exists and dist-tag '$DIST_TAG' already points to it."
                 echo "${PKG_NAME}@${VERSION} | already-tagged | ${DIST_TAG}" >> "$RESULTS_FILE"

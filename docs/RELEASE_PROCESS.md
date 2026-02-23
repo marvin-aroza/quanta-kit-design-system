@@ -77,7 +77,8 @@ If a version was first published on `beta` and later needs stable:
 1. Run `Manual Package Release` again with the same `release_tag`.
 2. Keep `package` the same.
 3. Set `npm_tag=stable` (maps to `latest`).
-4. Set `dry_run=false`.
+4. Set `dry_run=true` and validate `dry-run-promote-tag` or `dry-run-already-tagged` output.
+5. Re-run with the same inputs and set `dry_run=false`.
 
 The workflow will not republish the tarball. It will promote npm dist-tags so `latest` points to that existing version.
 

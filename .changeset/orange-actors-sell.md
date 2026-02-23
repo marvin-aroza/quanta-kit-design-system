@@ -1,5 +1,5 @@
 ---
-"quanta-kit-design-system-angular": minor
+"quanta-kit-design-system-angular": patch
 ---
 
-release test
+Improve Angular button loading-state rendering with explicit spinner markup.
