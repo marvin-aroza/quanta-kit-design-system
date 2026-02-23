@@ -6,7 +6,6 @@ import {
   HostBinding,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 /** Supported button visual variants */
 export type ButtonVariant =
@@ -46,7 +45,6 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 @Component({
   selector: 'qk-button',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
