@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "quanta-kit-design-system-vue": "0.0.4",
-    "vue": "^3.5.28"
+    "vue": "^3.5.29"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.46.2",
