@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "quanta-kit-design-system-vue": "0.0.4",
-    "vue": "^3.5.28"
+    "vue": "^3.5.30"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.46.2",
-    "@vitejs/plugin-vue": "^6.0.4",
+    "@vitejs/plugin-vue": "^6.0.5",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "^10.5.1",
     "globals": "^17.3.0",
