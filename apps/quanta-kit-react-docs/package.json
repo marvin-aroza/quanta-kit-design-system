@@ -17,11 +17,11 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.46.2",
+    "@typescript-eslint/parser": "^8.57.0",
     "@types/node": "^25",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "globals": "^17.3.0",
     "open": "^11.0.0",
     "typescript": "~5.9.3"
